@@ -9,5 +9,6 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         //ROYI WAS HERE
         //Amit was here
+        //yarin was here
     }
 }
