@@ -14,5 +14,7 @@ class MainActivity : AppCompatActivity() {
         //amit2
         //royi 3
         //royi 4
+        //stam
+        //hara
     }
 }
