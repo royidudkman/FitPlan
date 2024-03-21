@@ -9,6 +9,5 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         //AMIT AVRAHAMI
         //amittmtmt
-        //amit was here
     }
 }
