@@ -3,38 +3,69 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".UI.login_register.LoginFragment"
+    android:gravity="center"
+    android:background="@color/black"
     android:orientation="vertical">
 
     <com.google.android.material.textfield.TextInputLayout
+        style="Widget.Material3.TextInputLayout.OutlinedBox	"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_weight="1"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginBottom="10dp"
+        android:background="@color/black"
+        app:boxStrokeColor="@color/white"
+        app:hintTextColor="@color/green"
+        app:endIconMode="custom"
+        app:endIconDrawable="@drawable/user_check_alt_svgrepo_com"
+        app:endIconTint="@color/white"
+        android:textColorHint="@color/white"
         android:id="@+id/emailTextInput">
 
         <com.google.android.material.textfield.TextInputEditText
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
+            android:background="@drawable/stroke_green"
+            android:textColor="@color/green"
             android:hint="Enter email" />
     </com.google.android.material.textfield.TextInputLayout>
 
+
+
     <com.google.android.material.textfield.TextInputLayout
+        style="Widget.Material3.TextInputLayout.OutlinedBox	"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_weight="1"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginBottom="10dp"
+        android:textColorHint="@color/white"
+        app:hintTextColor="@color/green"
+        app:endIconMode="custom"
+        app:endIconDrawable="@drawable/password_svgrepo_com"
+        app:endIconTint="@color/white"
+        android:background="@color/black"
         android:id="@+id/passwordTextInput">
 
         <com.google.android.material.textfield.TextInputEditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:textColor="@color/green"
+            android:background="@drawable/stroke_green"
             android:hint="Enter password" />
     </com.google.android.material.textfield.TextInputLayout>
 
-    <Button
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/login_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="ok"
-        android:id="@+id/login_btn"/>
+        android:layout_margin="16dp"
+        android:backgroundTint="@color/green"
+        android:text="Login"/>
+
 
 
 </LinearLayout>

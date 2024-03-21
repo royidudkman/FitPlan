@@ -17,13 +17,20 @@
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"
         android:layout_marginBottom="10dp"
-        android:background="@color/white"
-        android:textColorHint="@color/green"
+        android:background="@color/black"
+        app:boxStrokeColor="@color/white"
+        app:hintTextColor="@color/green"
+        app:endIconMode="custom"
+        app:endIconDrawable="@drawable/user_check_alt_svgrepo_com"
+        app:endIconTint="@color/white"
+        android:textColorHint="@color/white"
         android:id="@+id/emailTextInput">
 
         <com.google.android.material.textfield.TextInputEditText
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
+            android:background="@drawable/stroke_green"
+            android:textColor="@color/green"
             android:hint="Enter email" />
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -36,13 +43,19 @@
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"
         android:layout_marginBottom="10dp"
-        android:textColorHint="@color/green"
-        android:background="@color/white"
+        android:textColorHint="@color/white"
+        app:hintTextColor="@color/green"
+        app:endIconMode="custom"
+        app:endIconDrawable="@drawable/password_svgrepo_com"
+        app:endIconTint="@color/white"
+        android:background="@color/black"
         android:id="@+id/passwordTextInput">
 
         <com.google.android.material.textfield.TextInputEditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:textColor="@color/green"
+            android:background="@drawable/stroke_green"
             android:hint="Enter password" />
     </com.google.android.material.textfield.TextInputLayout>
 
