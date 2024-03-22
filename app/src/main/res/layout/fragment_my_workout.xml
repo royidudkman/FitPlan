@@ -51,6 +51,12 @@
         android:layout_height="wrap_content"
         android:layout_weight="0.25"
         android:text="Social"/>
+    <Button
+        android:id="@+id/myworkout_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="0.25"
+        android:text="My Workout"/>
 
 
     </LinearLayout>

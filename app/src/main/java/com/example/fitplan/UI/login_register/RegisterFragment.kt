@@ -29,6 +29,7 @@ class RegisterFragment : Fragment() {
     ): View? {
         _binding = FragmentRegisterBinding.inflate(inflater, container, false)
 
+        binding.passwordTextInput.isHelperTextEnabled = false
         binding.registerBtn.setOnClickListener{
             RegisterFunc()
         }
@@ -47,7 +48,9 @@ class RegisterFragment : Fragment() {
         val navController = NavHostFragment.findNavController(this)
 
         if (TextUtils.isEmpty(email) || TextUtils.isEmpty(password)) {
-            // TODO Show message
+            binding.passwordTextInput.isHelperTextEnabled = true
+            binding.passwordTextInput.helperText = "Please enter both email and password"
+            return
         }
 
         mAuth.createUserWithEmailAndPassword(email, password)
@@ -62,7 +65,8 @@ class RegisterFragment : Fragment() {
                         navController.navigate(R.id.action_registerFragment_to_loginFragment)
                     } else {
                         // If sign in fails, display a message to the user.
-                        //TODO Show message
+                        binding.passwordTextInput.isHelperTextEnabled = true
+                        binding.passwordTextInput.helperText =  "Register failed. Email already taken"
                     }
                 })
     }

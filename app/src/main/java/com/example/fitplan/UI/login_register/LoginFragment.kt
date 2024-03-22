@@ -36,6 +36,7 @@ class LoginFragment : Fragment() {
             navController.navigate(R.id.action_loginFragment_to_registerFragment)
         }
 
+        binding.passwordTextInput.isHelperTextEnabled = false
         binding.loginBtn.setOnClickListener {
             LoginFunc()
         }
@@ -59,7 +60,9 @@ class LoginFragment : Fragment() {
         val navController = NavHostFragment.findNavController(this)
 
         if (TextUtils.isEmpty(email) || TextUtils.isEmpty(password)) {
-            //TODO show "Please enter both email and password"
+            binding.passwordTextInput.isHelperTextEnabled = true
+            binding.passwordTextInput.helperText = "Please enter both email and password"
+            return
         }
 
         mAuth.signInWithEmailAndPassword(email, password)
@@ -72,11 +75,13 @@ class LoginFragment : Fragment() {
                     if (user != null) {
                         navController.navigate(R.id.action_loginFragment_to_myWorkoutFragment)
                     } else {
-                        //TODO show "User does not exist"
+                        binding.passwordTextInput.isHelperTextEnabled = true
+                        binding.passwordTextInput.helperText ="User does not exist"
                     }
                 } else {
                     // If sign in fails, display a message to the user.
-                    //TODO show  "Login failed. Please check your credentials."
+                    binding.passwordTextInput.isHelperTextEnabled = true
+                    binding.passwordTextInput.helperText =  "Login failed. Please check your credentials."
                 }
             }
     }
