@@ -16,7 +16,9 @@ data class Exercise(
     val description : String,
 
     @ColumnInfo(name = "image")
-    val image : String?) : Parcelable{
+    val image : Int)
+
+    : Parcelable {
         @PrimaryKey(autoGenerate = true)
         var id : Int = 0
     }
