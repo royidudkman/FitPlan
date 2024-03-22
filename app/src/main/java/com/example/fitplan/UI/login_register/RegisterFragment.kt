@@ -33,9 +33,6 @@ class RegisterFragment : Fragment() {
             RegisterFunc()
         }
 
-
-
-
         return binding.root
     }
 

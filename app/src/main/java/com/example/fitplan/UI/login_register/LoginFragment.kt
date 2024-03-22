@@ -11,10 +11,7 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.NavHostFragment
 import com.example.fitplan.R
 import com.example.fitplan.databinding.FragmentLoginBinding
-import com.google.android.gms.tasks.OnCompleteListener
-import com.google.firebase.auth.AuthResult
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.FirebaseUser
 
 class LoginFragment : Fragment() {
 
@@ -34,9 +31,13 @@ class LoginFragment : Fragment() {
     ): View? {
         _binding = FragmentLoginBinding.inflate(inflater, container, false)
 
-        binding.loginBtn.setOnClickListener {
+        binding.registerBtn.setOnClickListener {
             val navController = NavHostFragment.findNavController(this)
             navController.navigate(R.id.action_loginFragment_to_registerFragment)
+        }
+
+        binding.loginBtn.setOnClickListener {
+            LoginFunc()
         }
 
         return binding.root
@@ -47,9 +48,36 @@ class LoginFragment : Fragment() {
     }
 
 
-
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    fun LoginFunc() {
+        val email = binding.emailTextInput.editText?.text.toString().trim()
+        val password = binding.passwordTextInput.editText?.text.toString().trim()
+        val navController = NavHostFragment.findNavController(this)
+
+        if (TextUtils.isEmpty(email) || TextUtils.isEmpty(password)) {
+            //TODO show "Please enter both email and password"
+        }
+
+        mAuth.signInWithEmailAndPassword(email, password)
+            .addOnCompleteListener(
+                requireActivity()) { task ->
+                if (task.isSuccessful) {
+                    // Sign in success, update UI with the signed-in user's information
+                    Toast.makeText(requireContext(), "Successful Login", Toast.LENGTH_LONG).show()
+                    val user = mAuth.currentUser
+                    if (user != null) {
+                        navController.navigate(R.id.action_loginFragment_to_myWorkoutFragment)
+                    } else {
+                        //TODO show "User does not exist"
+                    }
+                } else {
+                    // If sign in fails, display a message to the user.
+                    //TODO show  "Login failed. Please check your credentials."
+                }
+            }
     }
 }
