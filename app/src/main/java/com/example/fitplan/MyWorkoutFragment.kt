@@ -15,8 +15,8 @@ class MyWorkoutFragment : Fragment() {
     private var _binding: FragmentMyWorkoutBinding? = null
     private val binding get() = _binding!!
 
-    //private val _mAuth: FirebaseAuth by lazy { FirebaseAuth.getInstance() }
-    //private val mAuth get() = _mAuth
+    private val _mAuth: FirebaseAuth by lazy { FirebaseAuth.getInstance() }
+    private val mAuth get() = _mAuth
 
     override fun onCreateView(
         inflater: LayoutInflater,
