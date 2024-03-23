@@ -17,16 +17,16 @@ class ExercisesViewModel(application: Application) : AndroidViewModel(applicatio
     private val _chosenExercise = MutableLiveData<Exercise>()
     val chosenExercise : LiveData<Exercise> get() = _chosenExercise
 
-    fun setItem(exercise: Exercise){
+    fun setExercise(exercise: Exercise){
         _chosenExercise.value = exercise
     }
 
-    fun addItem(exercise: Exercise){
+    fun addExercise(exercise: Exercise){
         viewModelScope.launch{
             repository.addExercise(exercise)
         }
     }
-    fun deleteItem(exercise: Exercise){
+    fun deleteExercise(exercise: Exercise){
         viewModelScope.launch{
             repository.deleteExercise(exercise)
         }

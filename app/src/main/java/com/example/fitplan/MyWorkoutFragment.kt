@@ -1,6 +1,5 @@
 package com.example.fitplan
 
-import ExerciseAdapter
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -9,9 +8,8 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.NavHostFragment
-import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.fitplan.databinding.FragmentLoginBinding
+import com.example.fitplan.adapters.MyExerciseAdapter
 import com.example.fitplan.databinding.FragmentMyWorkoutBinding
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.auth.FirebaseAuth
@@ -47,18 +45,18 @@ class MyWorkoutFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         requireActivity().findViewById<BottomNavigationView>(R.id.bottom_navigation).visibility = View.VISIBLE
 
-        viewModel.exercises?.observe(viewLifecycleOwner){
+        viewModel.exercises?.observe(viewLifecycleOwner){exercises ->
 
-            binding.recycler.adapter = ExerciseAdapter(it, object : ExerciseAdapter.ExerciseListener {
+            binding.recycler.adapter = MyExerciseAdapter(exercises, object : MyExerciseAdapter.ExerciseListener {
                 override fun onExerciseClicked(index: Int) {
-                    viewModel.setItem(it[index])
+                    viewModel.setExercise(exercises[index])
                     //findNavController().navigate(R.id.action_allItemsFragment_to_detailItemFragment)
                 }
 
                 override fun onExerciseLongClicked(index: Int) {
-                    Toast.makeText(requireContext(),"${it[index]}", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(requireContext(),"${exercises[index]}", Toast.LENGTH_SHORT).show()
                 }
-            })
+            }, viewModel)
             binding.recycler.layoutManager = LinearLayoutManager(requireContext())
 
         }

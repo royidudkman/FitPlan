@@ -1,6 +1,5 @@
 package com.example.fitplan
 
-import ExerciseAdapter
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -9,7 +8,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.fitplan.databinding.FragmentMyWorkoutBinding
+import com.example.fitplan.adapters.PlanExerciseAdapter
 import com.example.fitplan.databinding.FragmentPlanWorkoutBinding
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.auth.FirebaseAuth
@@ -41,7 +40,7 @@ class PlanWorkoutFragment : Fragment() {
         val exerciseData = ExercisesData()
 
         val allExercises = exerciseData.exercisesByBodyPart.values.flatten()
-        binding.recycler.adapter = ExerciseAdapter(allExercises, object : ExerciseAdapter.ExerciseListener {
+        binding.recycler.adapter = PlanExerciseAdapter(allExercises, object : PlanExerciseAdapter.ExerciseListener {
             override fun onExerciseClicked(index: Int) {
                 // Handle exercise item clicked
             }
@@ -49,7 +48,7 @@ class PlanWorkoutFragment : Fragment() {
             override fun onExerciseLongClicked(index: Int) {
                 Toast.makeText(requireContext(), "${allExercises[index]}", Toast.LENGTH_SHORT).show()
             }
-        })
+        }, viewModel)
         binding.recycler.layoutManager = LinearLayoutManager(requireContext())
     }
 
