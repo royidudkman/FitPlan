@@ -22,43 +22,6 @@
         android:id="@+id/recycler"
         android:layout_weight="1"/>
 
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
 
-    <Button
-        android:id="@+id/profile_btn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_weight="0.25"
-        android:text="Profile"/>
-    <Button
-        android:id="@+id/run_btn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_weight="0.25"
-        android:text="Run"/>
-    <Button
-        android:id="@+id/planWorkout_btn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_weight="0.25"
-        android:text="Plan Workout"/>
-    <Button
-        android:id="@+id/social_btn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_weight="0.25"
-        android:text="Social"/>
-    <Button
-        android:id="@+id/myworkout_btn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_weight="0.25"
-        android:text="My Workout"/>
-
-
-    </LinearLayout>
 
 </LinearLayout>

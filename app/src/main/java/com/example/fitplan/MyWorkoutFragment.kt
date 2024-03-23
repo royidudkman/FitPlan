@@ -32,6 +32,9 @@ class MyWorkoutFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         _binding = FragmentMyWorkoutBinding.inflate(inflater, container, false)
+        val bottomNavigationMenuView = requireActivity().findViewById<BottomNavigationView>(R.id.bottom_navigation)
+        bottomNavigationMenuView.visibility = View.VISIBLE
+
         binding.planWorkoutBtn.setOnClickListener {
             val navController = NavHostFragment.findNavController(this)
             navController.navigate(R.id.action_myWorkoutFragment_to_planWorkoutFragment2)
