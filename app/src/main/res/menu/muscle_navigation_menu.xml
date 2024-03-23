@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/backMuscle_btn"
+        android:enabled="true"
+        android:icon="@drawable/profile_circle_svgrepo_com"
+        android:title="Back"/>
+    <item
+        android:id="@+id/chestMuscle_btn"
+        android:enabled="true"
+        android:icon="@drawable/running_2_svgrepo_com"
+        android:title="Chest"/>
+    <item
+        android:id="@+id/absMuscle_btn"
+        android:enabled="true"
+        android:icon="@drawable/plan_svgrepo_com"
+        android:title="Abs"/>
+    <item
+        android:id="@+id/LegsMuscle_btn"
+        android:enabled="true"
+        android:icon="@drawable/gym_fitness_svgrepo_com"
+        android:title="Legs"/>
+    <item
+        android:id="@+id/cardio_Btn"
+        android:enabled="true"
+        android:icon="@drawable/my_workout"
+        android:title="Cardio"/>
+</menu>

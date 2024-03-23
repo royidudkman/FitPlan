@@ -3,7 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MyWorkoutFragment"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".UI.fragments.MyWorkoutFragment"
     android:orientation="vertical">
 
     <TextView
@@ -14,6 +15,15 @@
         android:layout_height="wrap_content"
         android:text="Plan your workout!" />
 
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:layout_margin="10dp"
+        android:id="@+id/muscle_navigation"
+        style="bottomBar.style"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="visible"
+        app:labelVisibilityMode="labeled"
+        app:menu="@menu/muscle_navigation_menu" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:layout_margin="50dp"

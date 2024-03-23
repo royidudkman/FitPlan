@@ -1,4 +1,4 @@
-package com.example.fitplan
+package com.example.fitplan.UI.fragments
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -9,6 +9,8 @@ import android.widget.Toast
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.NavHostFragment
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.fitplan.ExercisesViewModel
+import com.example.fitplan.R
 import com.example.fitplan.adapters.MyExerciseAdapter
 import com.example.fitplan.databinding.FragmentMyWorkoutBinding
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -56,9 +58,10 @@ class MyWorkoutFragment : Fragment() {
                 override fun onExerciseLongClicked(index: Int) {
                     Toast.makeText(requireContext(),"${exercises[index]}", Toast.LENGTH_SHORT).show()
                 }
+
+
             }, viewModel)
             binding.recycler.layoutManager = LinearLayoutManager(requireContext())
-
         }
     }
 

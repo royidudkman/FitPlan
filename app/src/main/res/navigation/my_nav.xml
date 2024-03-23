@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/my_nav"
-    app:startDestination="@id/loginFragment">
+    app:startDestination="@id/myWorkoutFragment">
 
     <fragment
         android:id="@+id/loginFragment"
@@ -28,7 +28,7 @@
     </fragment>
     <fragment
         android:id="@+id/myWorkoutFragment"
-        android:name="com.example.fitplan.MyWorkoutFragment"
+        android:name="com.example.fitplan.UI.fragments.MyWorkoutFragment"
         android:label="fragment_my_workout"
         tools:layout="@layout/fragment_my_workout" >
         <action
@@ -37,6 +37,6 @@
     </fragment>
     <fragment
         android:id="@+id/planWorkoutFragment2"
-        android:name="com.example.fitplan.PlanWorkoutFragment"
+        android:name="com.example.fitplan.UI.fragments.PlanWorkoutFragment"
         android:label="PlanWorkoutFragment" />
 </navigation>
