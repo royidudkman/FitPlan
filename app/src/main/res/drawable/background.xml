@@ -8,9 +8,9 @@
                 android:angle="270"
                 android:centerY="0.3"
                 android:centerX="0.4"
-                android:centerColor="#25814C"
-                android:endColor="#6DBC8E"
-                android:startColor="#01451D"/>
+                android:centerColor="#323232"
+                android:endColor="#000000"
+                android:startColor="#787878"/>
         </shape>
     </item>
     <!-- Bitmap Layer -->
@@ -19,6 +19,6 @@
         android:height="200dp"
         android:gravity="center|bottom">
         <bitmap
-            android:src="@drawable/logo2" />
+            android:src="@drawable/logo3_remove_bg" />
     </item>
 </layer-list>

@@ -3,10 +3,9 @@
 
     <style name="LoginInputText" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
         <item name="boxStrokeColor">@color/black</item>
-        <item name="hintTextColor">@color/white</item>
-        <item name="cursorColor">#000000</item>
+        <item name="hintTextColor">@color/green</item>
+        <item name="cursorColor">#FFFFFF</item>
         <item name="boxStrokeWidth">3dp</item>
     </style>
-
 
 </resources>

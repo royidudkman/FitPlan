@@ -6,6 +6,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".UI.login_register.LoginFragment"
     android:gravity="center"
+    android:paddingBottom="50dp"
     android:background="@drawable/background"
     android:orientation="vertical">
 
@@ -27,8 +28,6 @@
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"
         android:layout_marginBottom="10dp"
-        app:boxStrokeColor="@color/white"
-        app:hintTextColor="@color/white"
         app:endIconMode="custom"
         app:endIconDrawable="@drawable/user_check_alt_svgrepo_com"
         app:endIconTint="@color/white"
@@ -39,7 +38,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:maxLines="1"
-            android:textColor="@color/black"
+            android:textColor="@color/white"
             android:hint="Enter email" />
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -63,27 +62,41 @@
         <com.google.android.material.textfield.TextInputEditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColor="@color/black"
+            android:textColor="@color/white"
             android:maxLines="1"
             android:inputType="textPassword"
             android:hint="Enter password" />
     </com.google.android.material.textfield.TextInputLayout>
 
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/login_btn"
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="16dp"
-        android:backgroundTint="@color/black"
-        android:text="Login"/>
+        android:orientation="vertical">
 
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/register_btn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="16dp"
-        android:backgroundTint="@color/green"
-        android:text="Register"/>
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/login_btn"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:backgroundTint="@color/gray"
+            android:text="Login"/>
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="0.2"/>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/register_btn"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:backgroundTint="@color/green"
+            android:text="Register"/>
+
+
+
+    </LinearLayout>
+
 
 
 
