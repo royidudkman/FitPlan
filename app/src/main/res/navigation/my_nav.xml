@@ -30,5 +30,13 @@
         android:id="@+id/myWorkoutFragment"
         android:name="com.example.fitplan.MyWorkoutFragment"
         android:label="fragment_my_workout"
-        tools:layout="@layout/fragment_my_workout" />
+        tools:layout="@layout/fragment_my_workout" >
+        <action
+            android:id="@+id/action_myWorkoutFragment_to_planWorkoutFragment2"
+            app:destination="@id/planWorkoutFragment2" />
+    </fragment>
+    <fragment
+        android:id="@+id/planWorkoutFragment2"
+        android:name="com.example.fitplan.PlanWorkoutFragment"
+        android:label="PlanWorkoutFragment" />
 </navigation>
