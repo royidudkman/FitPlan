@@ -11,6 +11,7 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.NavHostFragment
 import com.example.fitplan.R
 import com.example.fitplan.databinding.FragmentLoginBinding
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.auth.FirebaseAuth
 
 class LoginFragment : Fragment() {
@@ -31,6 +32,7 @@ class LoginFragment : Fragment() {
     ): View? {
         _binding = FragmentLoginBinding.inflate(inflater, container, false)
 
+
         binding.registerBtn.setOnClickListener {
             val navController = NavHostFragment.findNavController(this)
             navController.navigate(R.id.action_loginFragment_to_registerFragment)
@@ -46,6 +48,7 @@ class LoginFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        requireActivity().findViewById<BottomNavigationView>(R.id.bottom_navigation).visibility = View.GONE
     }
 
 

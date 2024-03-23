@@ -11,6 +11,7 @@ import androidx.navigation.fragment.NavHostFragment
 import com.example.fitplan.R
 import com.example.fitplan.databinding.FragmentRegisterBinding
 import com.google.android.gms.tasks.OnCompleteListener
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.auth.AuthResult
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
@@ -39,6 +40,7 @@ class RegisterFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        requireActivity().findViewById<BottomNavigationView>(R.id.bottom_navigation).visibility = View.GONE
     }
 
     fun RegisterFunc() {

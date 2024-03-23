@@ -11,6 +11,7 @@ import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.fitplan.databinding.FragmentMyWorkoutBinding
 import com.example.fitplan.databinding.FragmentPlanWorkoutBinding
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.auth.FirebaseAuth
 
 class PlanWorkoutFragment : Fragment() {
@@ -35,6 +36,7 @@ class PlanWorkoutFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        requireActivity().findViewById<BottomNavigationView>(R.id.bottom_navigation).visibility = View.VISIBLE
 
         val exerciseData = ExercisesData()
 

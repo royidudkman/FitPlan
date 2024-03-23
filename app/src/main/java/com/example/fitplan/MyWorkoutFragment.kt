@@ -13,6 +13,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.fitplan.databinding.FragmentLoginBinding
 import com.example.fitplan.databinding.FragmentMyWorkoutBinding
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.auth.FirebaseAuth
 
 class MyWorkoutFragment : Fragment() {
@@ -41,6 +42,7 @@ class MyWorkoutFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        requireActivity().findViewById<BottomNavigationView>(R.id.bottom_navigation).visibility = View.VISIBLE
 
         viewModel.exercises?.observe(viewLifecycleOwner){
 
