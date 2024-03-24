@@ -31,6 +31,7 @@ class MyWorkoutFragment : Fragment() {
     private val viewModel : ExercisesViewModel by activityViewModels()
 
     private var isInitialFilterApplied = false
+    private var selectedMuscle = R.id.backMuscle_btn
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -45,13 +46,14 @@ class MyWorkoutFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+
         setupBottomNavigation()
 
-        binding.muscleNavigation.selectedItemId = R.id.backMuscle_btn
+        binding.muscleNavigation.selectedItemId = selectedMuscle
 
         viewModel.exercises?.observe(viewLifecycleOwner) { exercises ->
             binding.recycler.adapter = MyExerciseAdapter(exercises, exerciseListener, viewModel)
-            filterExercises("Back")
+            filterExercises(binding.muscleNavigation.menu.findItem(selectedMuscle)?.title.toString())
         }
 
         viewModel.filteredExercises.observe(viewLifecycleOwner) { filteredExercises ->
@@ -93,7 +95,9 @@ class MyWorkoutFragment : Fragment() {
             builder.setTitle("This action will delete the exercise")
                 .setMessage("Are you sure you want to delete the exercise?")
                 .setPositiveButton("Yes") { dialog, which ->
+                    selectedMuscle = binding.muscleNavigation.selectedItemId
                     viewModel.deleteExercise(item)
+
                     Toast.makeText(requireContext(), "Exercise deleted", Toast.LENGTH_SHORT).show()
                 }
                 .setNegativeButton("No") { dialog, which ->
