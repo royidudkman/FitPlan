@@ -6,13 +6,13 @@ class ExercisesData {
 
     val exercisesByBodyPart: Map<String, List<Exercise>> = mapOf(
         "Chest" to listOf(
-            Exercise("Push ups", "Description 1", "Chest", 1),
-            Exercise("bench press", "Description 2", "Chest",1)
+            Exercise("Push ups", "Description 1", "Chest", R.drawable.barbel_squat),
+            Exercise("bench press", "Description 2", "Chest",R.drawable.barbel_squat)
             // Add more chest exercises here
         ),
         "Back" to listOf(
-            Exercise("Pull ups", "Description 1", "Back",1),
-            Exercise("Dead lift", "Description 2", "Back",1)
+            Exercise("Pull ups", "Description 1", "Back",R.drawable.barbel_squat),
+            Exercise("Dead lift", "Description 2", "Back",R.drawable.barbel_squat)
             // Add more back exercises here
         ),
         "Legs" to listOf(

@@ -5,18 +5,15 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".UI.fragments.MyWorkoutFragment"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:background="@drawable/background">
 
-    <TextView
-        android:id="@+id/title_MyWorkout"
-        android:layout_margin="10dp"
-        android:layout_gravity="center"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="hello!" />
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
-        android:layout_margin="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+
         android:id="@+id/muscle_navigation"
         style="bottomBar.style"
         android:layout_width="match_parent"
@@ -26,7 +23,7 @@
         app:menu="@menu/muscle_navigation_menu" />
 
     <androidx.recyclerview.widget.RecyclerView
-        android:layout_margin="50dp"
+        android:layout_margin="10dp"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/recycler"

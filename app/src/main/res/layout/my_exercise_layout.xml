@@ -9,7 +9,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:cardBackgroundColor="@color/gray"
-        app:strokeColor="@color/white"
+        app:strokeColor="@color/black"
         app:strokeWidth="2dp">
 
 
