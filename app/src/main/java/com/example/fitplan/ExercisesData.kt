@@ -21,8 +21,8 @@ class ExercisesData {
             // Add more leg exercises here
         ),
         "Abs" to listOf(
-            Exercise("sit ups", "Description 1", "Abs",1),
-            Exercise("L Sit", "Description 2", "Abs",1)
+            Exercise("sit ups", "Description 1", "Abs",R.drawable.ab_coaster_machine),
+            Exercise("L Sit", "Description 2", "Abs",R.drawable.alternate_leg_raises)
             // Add more abs exercises here
         ),
         "Cardio" to listOf(
