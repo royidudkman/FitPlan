@@ -1,23 +1,18 @@
 package com.example.fitplan.UI.fragments
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
-import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
-import androidx.appcompat.app.AlertDialog
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.navigation.fragment.NavHostFragment
-import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.example.fitplan.ExercisesViewModel
 import com.example.fitplan.R
 import com.example.fitplan.adapters.MyExerciseAdapter
 import com.example.fitplan.databinding.FragmentMyWorkoutBinding
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.android.material.tabs.TabLayout
 import com.google.firebase.auth.FirebaseAuth
 
 class MyWorkoutFragment : Fragment() {
@@ -28,17 +23,16 @@ class MyWorkoutFragment : Fragment() {
     private val _mAuth: FirebaseAuth by lazy { FirebaseAuth.getInstance() }
     private val mAuth get() = _mAuth
 
-    private val viewModel : ExercisesViewModel by activityViewModels()
+    private val viewModel: ExercisesViewModel by activityViewModels()
 
-    private var isInitialFilterApplied = false
-    private var selectedMuscle = R.id.backMuscle_btn
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         _binding = FragmentMyWorkoutBinding.inflate(inflater, container, false)
-        requireActivity().findViewById<BottomNavigationView>(R.id.bottom_navigation).visibility = View.VISIBLE
+        requireActivity().findViewById<BottomNavigationView>(R.id.bottom_navigation).visibility =
+            View.VISIBLE
 
         return binding.root
     }
@@ -46,14 +40,9 @@ class MyWorkoutFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-
-        setupBottomNavigation()
-
-        binding.muscleNavigation.selectedItemId = selectedMuscle
-
         viewModel.exercises?.observe(viewLifecycleOwner) { exercises ->
             binding.recycler.adapter = MyExerciseAdapter(exercises, exerciseListener, viewModel)
-            filterExercises(binding.muscleNavigation.menu.findItem(selectedMuscle)?.title.toString())
+            viewModel.filterExercisesByBodyPart("Back")
         }
 
         viewModel.filteredExercises.observe(viewLifecycleOwner) { filteredExercises ->
@@ -62,20 +51,25 @@ class MyWorkoutFragment : Fragment() {
 
         }
 
-    }
 
-    private fun setupBottomNavigation() {
-        binding.muscleNavigation.setOnItemSelectedListener { menuItem ->
-            when (menuItem.itemId) {
-                R.id.backMuscle_btn -> filterExercises("Back")
-                R.id.chestMuscle_btn -> filterExercises("Chest")
-                R.id.absMuscle_btn -> filterExercises("Abs")
-                R.id.LegsMuscle_btn -> filterExercises("Legs")
-                R.id.cardio_Btn -> filterExercises("Cardio")
+        binding.tabs.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
+            override fun onTabSelected(tab: TabLayout.Tab?) {
+                when (tab?.text.toString()) {
+                    "Back" -> filterExercises("Back")
+                    "Chest" -> filterExercises("Chest")
+                    "ABS" -> filterExercises("Abs")
+                    "Legs" -> filterExercises("Legs")
+                    "Cardio" -> filterExercises("Cardio")
+                }
             }
-            true
-        }
 
+            override fun onTabUnselected(tab: TabLayout.Tab?) {
+
+            }
+
+            override fun onTabReselected(tab: TabLayout.Tab?) {
+            }
+        })
     }
 
     private fun filterExercises(bodyPart: String) {
@@ -90,23 +84,22 @@ class MyWorkoutFragment : Fragment() {
         }
 
         override fun onExerciseLongClicked(index: Int) {
-            val item = (binding.recycler.adapter as MyExerciseAdapter).exerciseAt(index)
-            val builder = AlertDialog.Builder(requireContext())
-            builder.setTitle("This action will delete the exercise")
-                .setMessage("Are you sure you want to delete the exercise?")
-                .setPositiveButton("Yes") { dialog, which ->
-                    selectedMuscle = binding.muscleNavigation.selectedItemId
-                    viewModel.deleteExercise(item)
-
-                    Toast.makeText(requireContext(), "Exercise deleted", Toast.LENGTH_SHORT).show()
-                }
-                .setNegativeButton("No") { dialog, which ->
-                    dialog.dismiss()
-                }
-                .show()
+//            val item = (binding.recycler.adapter as MyExerciseAdapter).exerciseAt(index)
+//            val builder = AlertDialog.Builder(requireContext())
+//            builder.setTitle("This action will delete the exercise")
+//                .setMessage("Are you sure you want to delete the exercise?")
+//                .setPositiveButton("Yes") { dialog, which ->
+//                    selectedMuscle = binding.muscleNavigation.selectedItemId
+//                    viewModel.deleteExercise(item)
+//
+//                    Toast.makeText(requireContext(), "Exercise deleted", Toast.LENGTH_SHORT).show()
+//                }
+//                .setNegativeButton("No") { dialog, which ->
+//                    dialog.dismiss()
+//                }
+//                .show()
         }
     }
-
 
 
     override fun onDestroyView() {

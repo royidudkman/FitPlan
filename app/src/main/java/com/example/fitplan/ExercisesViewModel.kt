@@ -51,7 +51,4 @@ class ExercisesViewModel(application: Application) : AndroidViewModel(applicatio
         }
     }
 
-    fun navigate(idToNav:Int ,view: View){
-        Navigation.findNavController(view).navigate(idToNav)
-    }
 }
