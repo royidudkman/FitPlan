@@ -29,19 +29,32 @@ class ExercisesData {
             // Add more back exercises here
         ),
         "Legs" to listOf(
-            Exercise("Squats", "A compound exercise targeting legs, glutes, and core.", "Legs",1),
-            Exercise("Jump", "Plyometric exercise for explosive leg power.", "Legs",1)
+            Exercise("Squats", "Squats are a compound exercise that targets the quadriceps, hamstrings, and glutes.", "Legs",R.drawable.depth_jump_to_hurdle_hop),
+            Exercise("Dumbbell Lunges", "Dumbbell Lunges are a unilateral leg exercise that targets the quadriceps, hamstrings, and glutes.", "Legs",R.drawable.dumbbell_lunges),
+            Exercise("High Knee Lunge on Bosu Ball", "High Knee Lunges on a Bosu Ball challenge balance and engage leg muscles.", "Legs",R.drawable.high_knee_lunge_on_bosu_ball),
+            Exercise("Standing Leg Circles", "Standing Leg Circles are a dynamic stretching exercise for the lower body.", "Legs",R.drawable.standing_leg_circles)
             // Add more leg exercises here
         ),
         "Abs" to listOf(
-            Exercise("Sit ups", "Classic ab exercise for core strength.", "Abs",R.drawable.ab_coaster_machine),
-            Exercise("L Sit", "Challenging core exercise targeting abs and hip flexors.", "Abs",R.drawable.alternate_leg_raises)
+            Exercise("sit ups", "Sit ups are a classic abdominal exercise that targets the rectus abdominis and obliques.", "Abs",R.drawable.ab_coaster_machine),
+            Exercise("L Sit", "The L Sit is a challenging core exercise that primarily targets the abdominals and hip flexors.", "Abs",R.drawable.alternate_leg_raises),
+            Exercise("Crunch", "Crunches are a fundamental abdominal exercise that focuses on the rectus abdominis.", "Abs",R.drawable.crunch),
+            Exercise("Leg Raise (Dragon Flag)", "The Leg Raise, also known as the Dragon Flag, is an advanced abdominal exercise that targets the entire core.", "Abs",R.drawable.leg_raise_dragon_flag),
+            Exercise("Seated Bench Leg Pull In", "Seated Bench Leg Pull Ins are an effective exercise for targeting the lower abdominals.", "Abs",R.drawable.seated_bench_leg_pull_in)
             // Add more abs exercises here
         ),
-        "Cardio" to listOf(
-            Exercise("Run", "Aerobic exercise for cardiovascular health.", "Cardio",1),
-            Exercise("Skip Rope", "Effective cardio workout using a jump rope.", "Cardio",1)
-            // Add more cardio exercises here
+        "Triceps" to listOf(
+            Exercise("Dumbbell Kickback", "Dumbbell Kickbacks are an isolation exercise that targets the triceps.", "Triceps",R.drawable.dumbbell_kickback),
+            Exercise("One Arm Reverse Push Down", "One Arm Reverse Push Downs are a unilateral exercise for targeting the triceps.", "Triceps",R.drawable.one_arm_reverse_push_down),
+            Exercise("One Arm Triceps Pushdown", "One Arm Triceps Pushdowns are a unilateral exercise that isolates the triceps.", "Triceps",R.drawable.one_arm_triceps_pushdown),
+            // Add more triceps exercises here
+        ),
+        "Shoulder" to listOf(
+            Exercise("Dumbbell Lateral Raise", "Dumbbell Lateral Raises target the lateral deltoid and help build shoulder width.", "Shoulder",R.drawable.dumbbell_lateral_raise),
+            Exercise("Dumbbell Shoulder Press", "Dumbbell Shoulder Presses are a compound exercise that primarily targets the deltoids.", "Shoulder",R.drawable.dumbbell_shoulder_press),
+            Exercise("Smith Machine Behind Neck Press", "Smith Machine Behind Neck Presses target the deltoids and upper chest.", "Shoulder",R.drawable.smith_machine_behind_neck_press),
+            Exercise("Standing Dumbbell Overhead Press", "Standing Dumbbell Overhead Presses target the deltoids and triceps.", "Shoulder",R.drawable.standing_dumbbell_overhead_press)
+            // Add more shoulder exercises here
         )
     )
 }
