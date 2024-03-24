@@ -1,28 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
+
     <item
-        android:id="@+id/profile_btn"
+        android:id="@+id/myWorkout_btn"
         android:enabled="true"
-        android:icon="@drawable/profile_circle_svgrepo_com"
-        android:title="Profile"/>
+        android:icon="@drawable/gym_fitness_svgrepo_com"
+        android:title="My workout"/>
+    <item
+        android:id="@+id/planWorkout_btn"
+        android:enabled="true"
+        android:icon="@drawable/plan_svgrepo_com"
+        android:title="Plan workout"/>
+    <item
+        android:id="@+id/social_btn"
+        android:enabled="true"
+        android:icon="@drawable/my_workout"
+        android:title="Social"/>
     <item
         android:id="@+id/run_btn"
         android:enabled="true"
         android:icon="@drawable/running_2_svgrepo_com"
         android:title="Run"/>
     <item
-        android:id="@+id/planWorkout_btn"
+        android:id="@+id/profile_btn"
         android:enabled="true"
-        android:icon="@drawable/plan_svgrepo_com"
-        android:title="Plan"/>
-    <item
-        android:id="@+id/Workouts_btn"
-        android:enabled="true"
-        android:icon="@drawable/gym_fitness_svgrepo_com"
-        android:title="Workouts"/>
-    <item
-        android:id="@+id/item_2"
-        android:enabled="true"
-        android:icon="@drawable/my_workout"
-        android:title="My workout"/>
+        android:icon="@drawable/profile_circle_svgrepo_com"
+        android:title="Profile"/>
 </menu>

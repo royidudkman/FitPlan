@@ -28,4 +28,7 @@ interface ExerciseDao {
 
     @Query("DELETE FROM exercises")
     fun deleteAll()
+
+    @Query("SELECT * FROM exercises WHERE bodyPart = :bodyPart ORDER BY name ASC")
+    fun getExercisesByBodyPart(bodyPart: String): LiveData<List<Exercise>>
 }

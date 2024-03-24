@@ -16,6 +16,10 @@ class ExercisesViewModel(application: Application) : AndroidViewModel(applicatio
     private val repository = ExerciseRepository(application)
     val exercises : LiveData<List<Exercise>>? = repository.getExercises()
 
+    private val _filteredExercises = MutableLiveData<List<Exercise>>()
+    val filteredExercises : LiveData<List<Exercise>> get() = _filteredExercises
+
+
     private val _chosenExercise = MutableLiveData<Exercise>()
     val chosenExercise : LiveData<Exercise> get() = _chosenExercise
 
@@ -32,11 +36,18 @@ class ExercisesViewModel(application: Application) : AndroidViewModel(applicatio
         viewModelScope.launch{
             repository.deleteExercise(exercise)
         }
-
     }
+
     fun deleteAll(){
         viewModelScope.launch {
             repository.deleteAll()
+        }
+    }
+    fun filterExercisesByBodyPart(bodyPart: String) {
+        val allExercises = exercises?.value
+        if (allExercises != null) {
+            val filteredExercises = allExercises.filter { it.bodyPart == bodyPart }
+            _filteredExercises.value = filteredExercises
         }
     }
 

@@ -15,8 +15,12 @@ data class Exercise(
     @ColumnInfo(name = "description")
     val description : String,
 
+    @ColumnInfo(name = "bodyPart")
+    val bodyPart : String,
+
     @ColumnInfo(name = "image")
     val image : Int)
+
 
     : Parcelable {
         @PrimaryKey(autoGenerate = true)

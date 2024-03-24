@@ -3,12 +3,16 @@ package com.example.fitplan.UI.fragments
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
+import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.NavHostFragment
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.fitplan.ExercisesViewModel
 import com.example.fitplan.R
 import com.example.fitplan.adapters.MyExerciseAdapter
@@ -26,42 +30,76 @@ class MyWorkoutFragment : Fragment() {
 
     private val viewModel : ExercisesViewModel by activityViewModels()
 
+    private var isInitialFilterApplied = false
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         _binding = FragmentMyWorkoutBinding.inflate(inflater, container, false)
-        val bottomNavigationMenuView = requireActivity().findViewById<BottomNavigationView>(R.id.bottom_navigation)
-        bottomNavigationMenuView.visibility = View.VISIBLE
-
-        binding.planWorkoutBtn.setOnClickListener {
-            val navController = NavHostFragment.findNavController(this)
-            navController.navigate(R.id.action_myWorkoutFragment_to_planWorkoutFragment2)
-        }
+        requireActivity().findViewById<BottomNavigationView>(R.id.bottom_navigation).visibility = View.VISIBLE
 
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        requireActivity().findViewById<BottomNavigationView>(R.id.bottom_navigation).visibility = View.VISIBLE
 
-        viewModel.exercises?.observe(viewLifecycleOwner){exercises ->
+        setupBottomNavigation()
 
-            binding.recycler.adapter = MyExerciseAdapter(exercises, object : MyExerciseAdapter.ExerciseListener {
-                override fun onExerciseClicked(index: Int) {
-                    viewModel.setExercise(exercises[index])
-                    //findNavController().navigate(R.id.action_allItemsFragment_to_detailItemFragment)
-                }
+        binding.muscleNavigation.selectedItemId = R.id.backMuscle_btn
 
-                override fun onExerciseLongClicked(index: Int) {
-                    Toast.makeText(requireContext(),"${exercises[index]}", Toast.LENGTH_SHORT).show()
-                }
+        viewModel.exercises?.observe(viewLifecycleOwner) { exercises ->
+            binding.recycler.adapter = MyExerciseAdapter(exercises, exerciseListener, viewModel)
+            filterExercises("Back")
+        }
 
-
-            }, viewModel)
+        viewModel.filteredExercises.observe(viewLifecycleOwner) { filteredExercises ->
+            (binding.recycler.adapter as? MyExerciseAdapter)?.updateExercises(filteredExercises)
             binding.recycler.layoutManager = LinearLayoutManager(requireContext())
+
+        }
+
+    }
+
+    private fun setupBottomNavigation() {
+        binding.muscleNavigation.setOnItemSelectedListener { menuItem ->
+            when (menuItem.itemId) {
+                R.id.backMuscle_btn -> filterExercises("Back")
+                R.id.chestMuscle_btn -> filterExercises("Chest")
+                R.id.absMuscle_btn -> filterExercises("Abs")
+                R.id.LegsMuscle_btn -> filterExercises("Legs")
+                R.id.cardio_Btn -> filterExercises("Cardio")
+            }
+            true
+        }
+
+    }
+
+    private fun filterExercises(bodyPart: String) {
+        // Perform filtering based on body part
+        viewModel.filterExercisesByBodyPart(bodyPart)
+    }
+
+    private val exerciseListener = object : MyExerciseAdapter.ExerciseListener {
+        override fun onExerciseClicked(index: Int) {
+            //viewModel.setExercise(index)
+            // Handle exercise click
+        }
+
+        override fun onExerciseLongClicked(index: Int) {
+            val item = (binding.recycler.adapter as MyExerciseAdapter).exerciseAt(index)
+            val builder = AlertDialog.Builder(requireContext())
+            builder.setTitle("This action will delete the exercise")
+                .setMessage("Are you sure you want to delete the exercise?")
+                .setPositiveButton("Yes") { dialog, which ->
+                    viewModel.deleteExercise(item)
+                    Toast.makeText(requireContext(), "Exercise deleted", Toast.LENGTH_SHORT).show()
+                }
+                .setNegativeButton("No") { dialog, which ->
+                    dialog.dismiss()
+                }
+                .show()
         }
     }
 

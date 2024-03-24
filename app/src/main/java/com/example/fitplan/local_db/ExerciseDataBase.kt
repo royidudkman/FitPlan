@@ -6,7 +6,7 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import com.example.fitplan.model.Exercise
 
-@Database(entities = arrayOf(Exercise::class), version = 1, exportSchema = false)
+@Database(entities = arrayOf(Exercise::class), version = 2, exportSchema = false)
 abstract class ExerciseDataBase : RoomDatabase() {
     abstract fun ExerciseDao(): ExerciseDao
 

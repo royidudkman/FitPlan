@@ -9,7 +9,7 @@ import com.example.fitplan.ExercisesViewModel
 import com.example.fitplan.model.Exercise
 import com.example.fitplan.databinding.MyExerciseLayoutBinding
 
-class MyExerciseAdapter(private val exercises: List<Exercise>, private val callback: ExerciseListener, private val viewModel: ExercisesViewModel) :
+class MyExerciseAdapter(private var exercises: List<Exercise>, private val callback: ExerciseListener, private val viewModel: ExercisesViewModel) :
     RecyclerView.Adapter<MyExerciseAdapter.ExerciseViewHolder>() {
 
     interface ExerciseListener {
@@ -44,6 +44,13 @@ class MyExerciseAdapter(private val exercises: List<Exercise>, private val callb
             callback.onExerciseLongClicked(adapterPosition)
             return true
         }
+    }
+
+    fun exerciseAt(position: Int) = exercises[position]
+
+    fun updateExercises(newExercises: List<Exercise>) {
+        exercises = newExercises
+        notifyDataSetChanged()
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ExerciseViewHolder {

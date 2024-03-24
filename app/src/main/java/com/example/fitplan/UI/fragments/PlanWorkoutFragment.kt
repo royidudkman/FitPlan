@@ -31,14 +31,13 @@ class PlanWorkoutFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         _binding = FragmentPlanWorkoutBinding.inflate(inflater, container, false)
-
+        requireActivity().findViewById<BottomNavigationView>(R.id.bottom_navigation).visibility = View.VISIBLE
 
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        requireActivity().findViewById<BottomNavigationView>(R.id.bottom_navigation).visibility = View.VISIBLE
 
         val exerciseData = ExercisesData()
         val allExercises = exerciseData.exercisesByBodyPart.values.flatten()
@@ -46,6 +45,9 @@ class PlanWorkoutFragment : Fragment() {
 
         binding.recycler.layoutManager = LinearLayoutManager(requireContext())
         binding.recycler.adapter = exerciseAdapter
+
+        binding.muscleNavigation.selectedItemId = R.id.backMuscle_btn
+        filterExercises("Back")
 
         binding.muscleNavigation.setOnItemSelectedListener { menuItem ->
             when (menuItem.itemId) {
