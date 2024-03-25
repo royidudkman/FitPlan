@@ -74,5 +74,14 @@
         android:backgroundTint="@color/green"
         android:text="Register"/>
 
+    <ProgressBar
+        android:id="@+id/registerProgress"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone" />
+
+
+
 
 </LinearLayout>

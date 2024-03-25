@@ -26,6 +26,14 @@ class MainActivity : AppCompatActivity() {
                     navController.navController.navigate(R.id.planWorkoutFragment2)
                     return@setOnItemSelectedListener true
                 }
+                R.id.social_btn ->{
+                    navController.navController.navigate(R.id.socialFragment)
+                    return@setOnItemSelectedListener true
+                }
+                R.id.run_btn ->{
+                    navController.navController.navigate(R.id.runFragment)
+                    return@setOnItemSelectedListener true
+                }
                 //TODO : Arrange all the fragments in order
                 else -> {return@setOnItemSelectedListener false}
             }

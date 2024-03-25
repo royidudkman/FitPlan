@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/my_nav"
-    app:startDestination="@id/myWorkoutFragment">
+    app:startDestination="@id/loginFragment">
 
     <fragment
         android:id="@+id/loginFragment"
@@ -23,8 +23,8 @@
         android:label="fragment_register"
         tools:layout="@layout/fragment_register" >
         <action
-            android:id="@+id/action_registerFragment_to_loginFragment"
-            app:destination="@id/loginFragment" />
+            android:id="@+id/action_registerFragment_to_myWorkoutFragment"
+            app:destination="@id/myWorkoutFragment" />
     </fragment>
     <fragment
         android:id="@+id/myWorkoutFragment"
@@ -34,9 +34,24 @@
         <action
             android:id="@+id/action_myWorkoutFragment_to_planWorkoutFragment2"
             app:destination="@id/planWorkoutFragment2" />
+        <action
+            android:id="@+id/action_myWorkoutFragment_to_socialFragment"
+            app:destination="@id/socialFragment" />
+        <action
+            android:id="@+id/action_myWorkoutFragment_to_runFragment"
+            app:destination="@id/runFragment" />
     </fragment>
     <fragment
         android:id="@+id/planWorkoutFragment2"
         android:name="com.example.fitplan.UI.fragments.PlanWorkoutFragment"
         android:label="PlanWorkoutFragment" />
+    <fragment
+        android:id="@+id/socialFragment"
+        android:name="com.example.fitplan.UI.fragments.SocialFragment"
+        android:label="SocialFragment" />
+    <fragment
+        android:id="@+id/runFragment"
+        android:name="com.example.fitplan.UI.fragments.RunFragment"
+        android:label="fragment_run"
+        tools:layout="@layout/fragment_run" />
 </navigation>

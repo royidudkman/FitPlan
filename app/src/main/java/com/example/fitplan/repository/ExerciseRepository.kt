@@ -4,6 +4,7 @@ import android.app.Application
 import com.example.fitplan.local_db.ExerciseDao
 import com.example.fitplan.local_db.ExerciseDataBase
 import com.example.fitplan.model.Exercise
+import il.co.syntax.myapplication.util.Resource
 
 class ExerciseRepository(application: Application) {
 

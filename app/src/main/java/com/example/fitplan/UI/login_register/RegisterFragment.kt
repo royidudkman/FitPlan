@@ -7,7 +7,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.view.isVisible
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.fragment.findNavController
 import com.example.fitplan.R
 import com.example.fitplan.databinding.FragmentRegisterBinding
 import com.google.android.gms.tasks.OnCompleteListener
@@ -15,6 +18,8 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.auth.AuthResult
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
+import il.co.syntax.firebasemvvm.repository.FirebaseImpl.AuthRepositoryFirebase
+import il.co.syntax.myapplication.util.Resource
 
 class RegisterFragment : Fragment() {
     private var _binding: FragmentRegisterBinding? = null
@@ -22,6 +27,10 @@ class RegisterFragment : Fragment() {
 
     private val _mAuth: FirebaseAuth by lazy { FirebaseAuth.getInstance() }
     private val mAuth get() = _mAuth
+
+    private val viewModel : RegisterViewModel by viewModels() {
+        RegisterViewModel.RegisterViewModelFactory(AuthRepositoryFirebase())
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -32,7 +41,7 @@ class RegisterFragment : Fragment() {
 
         binding.passwordTextInput.isHelperTextEnabled = false
         binding.registerBtn.setOnClickListener{
-            RegisterFunc()
+            viewModel.createUser(binding.emailTextInput.editText?.text.toString(),binding.passwordTextInput.editText?.text.toString())
         }
 
         return binding.root
@@ -41,37 +50,29 @@ class RegisterFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         requireActivity().findViewById<BottomNavigationView>(R.id.bottom_navigation).visibility = View.GONE
-    }
 
-    fun RegisterFunc() {
-        val email = binding.emailTextInput.editText?.text.toString().trim()
-        val password = binding.passwordTextInput.editText?.text.toString().trim()
+        viewModel.userRegistrationStatus.observe(viewLifecycleOwner){
+            when(it){
+                is Resource.Loading -> {
+                    binding.registerProgress.isVisible = true
+                    binding.registerBtn.isEnabled = false
+                }
+                is Resource.Success -> {
+                    Toast.makeText(requireContext(),"Registered Successfuly", Toast.LENGTH_LONG).show()
+                    findNavController().navigate(R.id.action_registerFragment_to_myWorkoutFragment)
+                }
 
-        val navController = NavHostFragment.findNavController(this)
-
-        if (TextUtils.isEmpty(email) || TextUtils.isEmpty(password)) {
-            binding.passwordTextInput.isHelperTextEnabled = true
-            binding.passwordTextInput.helperText = "Please enter both email and password"
-            return
+                is Resource.Error -> {
+                    binding.registerProgress.isVisible = false
+                    binding.registerBtn.isEnabled = true
+                    binding.passwordTextInput.helperText = it.message
+                }
+            }
         }
 
-        mAuth.createUserWithEmailAndPassword(email, password)
-            .addOnCompleteListener(requireActivity(),
-                OnCompleteListener<AuthResult?> { task ->
-                    if (task.isSuccessful) {
-                        // Sign in success, update UI with the signed-in user's information
-                        Toast.makeText(requireContext(),"Registered Successfuly", Toast.LENGTH_LONG).show()
-                        val user : FirebaseUser? = mAuth.currentUser
-                        //TODO Write data to Database
-                        //writeUserDataToDatabase(user.uid, name, email, phone)
-                        navController.navigate(R.id.action_registerFragment_to_loginFragment)
-                    } else {
-                        // If sign in fails, display a message to the user.
-                        binding.passwordTextInput.isHelperTextEnabled = true
-                        binding.passwordTextInput.helperText =  "Register failed. Email already taken"
-                    }
-                })
     }
+
+
 
     override fun onDestroyView() {
         super.onDestroyView()
