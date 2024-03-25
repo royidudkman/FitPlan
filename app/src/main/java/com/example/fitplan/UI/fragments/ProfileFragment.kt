@@ -8,16 +8,20 @@ import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.example.fitplan.R
-import com.example.fitplan.databinding.FragmentSocialBinding
+import com.example.fitplan.databinding.FragmentLoginBinding
+import com.example.fitplan.databinding.FragmentProfileBinding
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.firebase.auth.FirebaseAuth
 import il.co.syntax.firebasemvvm.repository.FirebaseImpl.AuthRepositoryFirebase
 
 
-class SocialFragment : Fragment() {
-    private var _binding: FragmentSocialBinding? = null
+class ProfileFragment : Fragment() {
+    private var _binding: FragmentProfileBinding? = null
     private val binding get() = _binding!!
 
-
+    private val viewModel : ProfileViewModel by viewModels{
+        ProfileViewModel.ProfileViewModelFactory(AuthRepositoryFirebase())
+    }
 
 
     override fun onCreateView(
@@ -25,9 +29,12 @@ class SocialFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        _binding = FragmentSocialBinding.inflate(inflater, container, false)
+        _binding = FragmentProfileBinding.inflate(inflater, container, false)
 
-
+        binding.signOutBtn.setOnClickListener {
+            viewModel.signOut()
+            findNavController().navigate(R.id.action_profileFragment_to_loginFragment)
+        }
 
         return binding.root
     }

@@ -40,6 +40,8 @@ class MyWorkoutFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        //TODO set default tab to back
+
         viewModel.exercises?.observe(viewLifecycleOwner) { exercises ->
             binding.recycler.adapter = MyExerciseAdapter(exercises, exerciseListener, viewModel)
             viewModel.filterExercisesByBodyPart("Back")

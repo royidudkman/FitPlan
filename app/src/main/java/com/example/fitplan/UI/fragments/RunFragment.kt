@@ -7,12 +7,13 @@ import android.view.View
 import android.view.ViewGroup
 import com.example.fitplan.R
 import com.example.fitplan.databinding.FragmentLoginBinding
+import com.example.fitplan.databinding.FragmentRunBinding
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.auth.FirebaseAuth
 
 
 class RunFragment : Fragment() {
-    private var _binding: FragmentLoginBinding? = null
+    private var _binding: FragmentRunBinding? = null
     private val binding get() = _binding!!
 
     private val _mAuth: FirebaseAuth by lazy { FirebaseAuth.getInstance() }
@@ -25,7 +26,7 @@ class RunFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        _binding = FragmentLoginBinding.inflate(inflater, container, false)
+        _binding = FragmentRunBinding.inflate(inflater, container, false)
 
 
         return binding.root

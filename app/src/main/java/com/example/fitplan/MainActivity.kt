@@ -34,7 +34,10 @@ class MainActivity : AppCompatActivity() {
                     navController.navController.navigate(R.id.runFragment)
                     return@setOnItemSelectedListener true
                 }
-                //TODO : Arrange all the fragments in order
+                R.id.profile_btn ->{
+                    navController.navController.navigate(R.id.profileFragment)
+                    return@setOnItemSelectedListener true
+                }
                 else -> {return@setOnItemSelectedListener false}
             }
         }
