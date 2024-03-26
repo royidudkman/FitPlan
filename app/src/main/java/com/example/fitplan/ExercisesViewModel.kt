@@ -36,6 +36,7 @@ class ExercisesViewModel(application: Application) : AndroidViewModel(applicatio
         viewModelScope.launch{
             repository.deleteExercise(exercise)
         }
+        _filteredExercises.value = _filteredExercises.value?.minus(exercise)
     }
 
     fun deleteAll(){

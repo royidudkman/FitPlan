@@ -4,6 +4,9 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
+import androidx.core.view.get
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -25,6 +28,10 @@ class MyWorkoutFragment : Fragment() {
 
     private val viewModel: ExercisesViewModel by activityViewModels()
 
+    private var selectedTabIndex = 0
+
+
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -34,44 +41,58 @@ class MyWorkoutFragment : Fragment() {
         requireActivity().findViewById<BottomNavigationView>(R.id.bottom_navigation).visibility =
             View.VISIBLE
 
+
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        //TODO set default tab to back
 
         viewModel.exercises?.observe(viewLifecycleOwner) { exercises ->
-            binding.recycler.adapter = MyExerciseAdapter(exercises, exerciseListener, viewModel)
-            viewModel.filterExercisesByBodyPart("Back")
+            if (exercises != null) {
+                // Set up adapter with filtered exercises
+                viewModel.filteredExercises.value?.let { filteredExercises ->
+                    binding.recycler.adapter = MyExerciseAdapter(filteredExercises, exerciseListener, viewModel)
+                    binding.recycler.layoutManager = LinearLayoutManager(requireContext())
+                }
+                // Select "Back" tab and filter exercises
+                binding.tabs.getTabAt(selectedTabIndex)?.select() // Assuming "Back" is the first tab
+                filterExercises(getBodyPartForTabIndex(selectedTabIndex))
+            }
         }
 
-        viewModel.filteredExercises.observe(viewLifecycleOwner) { filteredExercises ->
-            (binding.recycler.adapter as? MyExerciseAdapter)?.updateExercises(filteredExercises)
-            binding.recycler.layoutManager = LinearLayoutManager(requireContext())
 
+        viewModel.filteredExercises.observe(viewLifecycleOwner) { filteredExercises ->
+            binding.recycler.adapter = MyExerciseAdapter(filteredExercises, exerciseListener, viewModel)
+            binding.recycler.layoutManager = LinearLayoutManager(requireContext())
         }
 
 
         binding.tabs.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
             override fun onTabSelected(tab: TabLayout.Tab?) {
-                when (tab?.text.toString()) {
-                    "Back" -> filterExercises("Back")
-                    "Chest" -> filterExercises("Chest")
-                    "ABS" -> filterExercises("Abs")
-                    "Legs" -> filterExercises("Legs")
-                    "Cardio" -> filterExercises("Cardio")
+                tab?.let {
+                    selectedTabIndex = it.position // Update selectedTabIndex when a tab is selected
+                    filterExercises(getBodyPartForTabIndex(it.position))
                 }
             }
 
             override fun onTabUnselected(tab: TabLayout.Tab?) {
-
             }
 
             override fun onTabReselected(tab: TabLayout.Tab?) {
             }
         })
+    }
+
+    private fun getBodyPartForTabIndex(tabIndex: Int): String {
+        return when (tabIndex) {
+            1 -> "Chest"
+            2 -> "Abs"
+            3 -> "Legs"
+            4 -> "Cardio"
+            else -> "Back"
+        }
     }
 
     private fun filterExercises(bodyPart: String) {
@@ -86,20 +107,18 @@ class MyWorkoutFragment : Fragment() {
         }
 
         override fun onExerciseLongClicked(index: Int) {
-//            val item = (binding.recycler.adapter as MyExerciseAdapter).exerciseAt(index)
-//            val builder = AlertDialog.Builder(requireContext())
-//            builder.setTitle("This action will delete the exercise")
-//                .setMessage("Are you sure you want to delete the exercise?")
-//                .setPositiveButton("Yes") { dialog, which ->
-//                    selectedMuscle = binding.muscleNavigation.selectedItemId
-//                    viewModel.deleteExercise(item)
-//
-//                    Toast.makeText(requireContext(), "Exercise deleted", Toast.LENGTH_SHORT).show()
-//                }
-//                .setNegativeButton("No") { dialog, which ->
-//                    dialog.dismiss()
-//                }
-//                .show()
+            val item = (binding.recycler.adapter as MyExerciseAdapter).exerciseAt(index)
+            val builder = AlertDialog.Builder(requireContext())
+            builder.setTitle("This action will delete the exercise")
+                .setMessage("Are you sure you want to delete the exercise?")
+                .setPositiveButton("Yes") { dialog, which ->
+                    viewModel.deleteExercise(item)
+                    Toast.makeText(requireContext(), "Exercise deleted", Toast.LENGTH_SHORT).show()
+                }
+                .setNegativeButton("No") { dialog, which ->
+                    dialog.dismiss()
+                }
+                .show()
         }
     }
 

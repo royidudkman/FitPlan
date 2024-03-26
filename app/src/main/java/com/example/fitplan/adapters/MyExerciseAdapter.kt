@@ -38,6 +38,7 @@ class MyExerciseAdapter(private var exercises: List<Exercise>, private val callb
 
         override fun onClick(v: View?) {
             callback.onExerciseClicked(adapterPosition)
+           // notifyItemRemoved(adapterPosition)
         }
 
         override fun onLongClick(v: View?): Boolean {
@@ -46,11 +47,15 @@ class MyExerciseAdapter(private var exercises: List<Exercise>, private val callb
         }
     }
 
+    override fun registerAdapterDataObserver(observer: RecyclerView.AdapterDataObserver) {
+        super.registerAdapterDataObserver(observer)
+    }
+
     fun exerciseAt(position: Int) = exercises[position]
 
     fun updateExercises(newExercises: List<Exercise>) {
         exercises = newExercises
-        notifyDataSetChanged()
+
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ExerciseViewHolder {
