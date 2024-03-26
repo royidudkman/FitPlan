@@ -25,8 +25,6 @@ class RegisterFragment : Fragment() {
     private var _binding: FragmentRegisterBinding? = null
     private val binding get() = _binding!!
 
-    private val _mAuth: FirebaseAuth by lazy { FirebaseAuth.getInstance() }
-    private val mAuth get() = _mAuth
 
     private val viewModel : RegisterViewModel by viewModels() {
         RegisterViewModel.RegisterViewModelFactory(AuthRepositoryFirebase())
@@ -59,7 +57,7 @@ class RegisterFragment : Fragment() {
                 }
                 is Resource.Success -> {
                     Toast.makeText(requireContext(),"Registered Successfuly", Toast.LENGTH_LONG).show()
-                    findNavController().navigate(R.id.action_registerFragment_to_myWorkoutFragment)
+                    findNavController().navigate(R.id.action_registerFragment_to_myPlansFragment)
                 }
 
                 is Resource.Error -> {

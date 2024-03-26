@@ -1,7 +1,9 @@
 package il.co.syntax.firebasemvvm.repository.FirebaseImpl
 
+import com.example.fitplan.model.Exercise
 import com.example.fitplan.model.User
 import com.example.fitplan.repository.AuthRepository
+import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import il.co.syntax.myapplication.util.Resource
@@ -14,6 +16,7 @@ class AuthRepositoryFirebase : AuthRepository {
 
     private val firebaseAuth = FirebaseAuth.getInstance()
     private val userRef = FirebaseFirestore.getInstance().collection("users")
+    private val db: FirebaseFirestore = FirebaseFirestore.getInstance()
 
      override suspend fun currentUser() : Resource<User>{
         return withContext(Dispatchers.IO){
@@ -44,6 +47,9 @@ class AuthRepositoryFirebase : AuthRepository {
             }
         }
     }
+
+
+
     override fun logout(){
        firebaseAuth.signOut()
     }

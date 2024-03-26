@@ -19,7 +19,7 @@ class MainActivity : AppCompatActivity() {
         bottomNavigationView.setOnItemSelectedListener { item ->
             when(item.itemId){
                 R.id.myWorkout_btn -> {
-                    navController.navController.navigate(R.id.myWorkoutFragment)
+                    navController.navController.navigate(R.id.myPlansFragment)
                     return@setOnItemSelectedListener true
                 }
                 R.id.planWorkout_btn ->{

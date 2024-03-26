@@ -1,6 +1,8 @@
 package com.example.fitplan.repository
 
+import com.example.fitplan.model.Exercise
 import com.example.fitplan.model.User
+import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import il.co.syntax.myapplication.util.Resource

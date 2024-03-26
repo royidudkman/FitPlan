@@ -14,9 +14,8 @@
             android:id="@+id/action_loginFragment_to_registerFragment"
             app:destination="@id/registerFragment" />
         <action
-            android:id="@+id/action_loginFragment_to_myWorkoutFragment"
-            app:destination="@id/myWorkoutFragment"
-            app:popUpTo="@id/my_nav" />
+            android:id="@+id/action_loginFragment_to_myPlansFragment"
+            app:destination="@id/myPlansFragment" />
     </fragment>
     <fragment
         android:id="@+id/registerFragment"
@@ -24,32 +23,14 @@
         android:label="fragment_register"
         tools:layout="@layout/fragment_register" >
         <action
-            android:id="@+id/action_registerFragment_to_myWorkoutFragment"
-            app:destination="@id/myWorkoutFragment"
-            app:popUpTo="@id/my_nav" />
+            android:id="@+id/action_registerFragment_to_myPlansFragment"
+            app:destination="@id/myPlansFragment" />
     </fragment>
     <fragment
         android:id="@+id/myWorkoutFragment"
         android:name="com.example.fitplan.UI.fragments.MyWorkoutFragment"
         android:label="fragment_my_workout"
-        tools:layout="@layout/fragment_my_workout" >
-        <action
-            android:id="@+id/action_myWorkoutFragment_to_planWorkoutFragment2"
-            app:destination="@id/planWorkoutFragment2"
-            app:popUpTo="@id/my_nav" />
-        <action
-            android:id="@+id/action_myWorkoutFragment_to_socialFragment"
-            app:destination="@id/socialFragment"
-            app:popUpTo="@id/my_nav" />
-        <action
-            android:id="@+id/action_myWorkoutFragment_to_runFragment"
-            app:destination="@id/runFragment"
-            app:popUpTo="@id/my_nav" />
-        <action
-            android:id="@+id/action_myWorkoutFragment_to_profileFragment"
-            app:destination="@id/profileFragment"
-            app:popUpTo="@id/my_nav" />
-    </fragment>
+        tools:layout="@layout/fragment_my_workout" />
     <fragment
         android:id="@+id/planWorkoutFragment2"
         android:name="com.example.fitplan.UI.fragments.PlanWorkoutFragment"
@@ -71,6 +52,32 @@
         <action
             android:id="@+id/action_profileFragment_to_loginFragment"
             app:destination="@id/loginFragment"
+            app:popUpTo="@id/my_nav" />
+    </fragment>
+    <fragment
+        android:id="@+id/myPlansFragment"
+        android:name="com.example.fitplan.UI.fragments.MyPlansFragment"
+        android:label="fragment_my_plans"
+        tools:layout="@layout/fragment_my_plans" >
+        <action
+            android:id="@+id/action_myPlansFragment_to_myWorkoutFragment"
+            app:destination="@id/myWorkoutFragment"
+            app:popUpTo="@id/my_nav" />
+        <action
+            android:id="@+id/action_myPlansFragment_to_profileFragment"
+            app:destination="@id/profileFragment"
+            app:popUpTo="@id/my_nav" />
+        <action
+            android:id="@+id/action_myPlansFragment_to_socialFragment"
+            app:destination="@id/socialFragment"
+            app:popUpTo="@id/my_nav" />
+        <action
+            android:id="@+id/action_myPlansFragment_to_planWorkoutFragment2"
+            app:destination="@id/planWorkoutFragment2"
+            app:popUpTo="@id/my_nav" />
+        <action
+            android:id="@+id/action_myPlansFragment_to_runFragment"
+            app:destination="@id/runFragment"
             app:popUpTo="@id/my_nav" />
     </fragment>
 </navigation>

@@ -12,6 +12,8 @@ import com.example.fitplan.databinding.PlanExerciseLayoutBinding
 
 class PlanExerciseAdapter(private var exercises: List<Exercise>, private val callback: ExerciseListener, private val viewModel: ExercisesViewModel) :
     RecyclerView.Adapter<PlanExerciseAdapter.ExerciseViewHolder>() {
+
+
     fun setExercises(newExercises: List<Exercise>) {
         exercises = newExercises
         notifyDataSetChanged()

@@ -29,9 +29,6 @@ class LoginFragment : Fragment() {
     private var _binding: FragmentLoginBinding? = null
     private val binding get() = _binding!!
 
-    private val _mAuth: FirebaseAuth by lazy { FirebaseAuth.getInstance() }
-    private val mAuth get() = _mAuth
-
     private val viewModel : LoginViewModel by viewModels{
         LoginViewModel.LoginViewModelFactory(AuthRepositoryFirebase())
     }
@@ -71,7 +68,7 @@ class LoginFragment : Fragment() {
                 }
                 is Resource.Success -> {
                     Toast.makeText(requireContext(),"Logged-in Successfuly", Toast.LENGTH_LONG).show()
-                    findNavController().navigate(R.id.action_loginFragment_to_myWorkoutFragment)
+                    findNavController().navigate(R.id.action_loginFragment_to_myPlansFragment)
                 }
 
                 is Resource.Error -> {
@@ -89,7 +86,7 @@ class LoginFragment : Fragment() {
                     binding.registerBtn.isEnabled = false
                 }
                 is Resource.Success -> {
-                    findNavController().navigate(R.id.action_loginFragment_to_myWorkoutFragment)
+                    findNavController().navigate(R.id.action_loginFragment_to_myPlansFragment)
                 }
 
                 is Resource.Error -> {
@@ -106,35 +103,4 @@ class LoginFragment : Fragment() {
         _binding = null
     }
 
-    fun LoginFunc() {
-        val email = binding.emailTextInput.editText?.text.toString().trim()
-        val password = binding.passwordTextInput.editText?.text.toString().trim()
-        val navController = NavHostFragment.findNavController(this)
-
-        if (TextUtils.isEmpty(email) || TextUtils.isEmpty(password)) {
-            binding.passwordTextInput.isHelperTextEnabled = true
-            binding.passwordTextInput.helperText = "Please enter both email and password"
-            return
-        }
-
-        mAuth.signInWithEmailAndPassword(email, password)
-            .addOnCompleteListener(
-                requireActivity()) { task ->
-                if (task.isSuccessful) {
-                    // Sign in success, update UI with the signed-in user's information
-                    Toast.makeText(requireContext(), "Successful Login", Toast.LENGTH_LONG).show()
-                    val user = mAuth.currentUser
-                    if (user != null) {
-                        navController.navigate(R.id.action_loginFragment_to_myWorkoutFragment)
-                    } else {
-                        binding.passwordTextInput.isHelperTextEnabled = true
-                        binding.passwordTextInput.helperText ="User does not exist"
-                    }
-                } else {
-                    // If sign in fails, display a message to the user.
-                    binding.passwordTextInput.isHelperTextEnabled = true
-                    binding.passwordTextInput.helperText =  "Login failed. Please check your credentials."
-                }
-            }
-    }
 }

@@ -28,9 +28,6 @@ class MyWorkoutFragment : Fragment() {
     private var _binding: FragmentMyWorkoutBinding? = null
     private val binding get() = _binding!!
 
-    private val _mAuth: FirebaseAuth by lazy { FirebaseAuth.getInstance() }
-    private val mAuth get() = _mAuth
-
     private val viewModel: ExercisesViewModel by activityViewModels()
 
     private var selectedTabIndex = 0
@@ -43,8 +40,7 @@ class MyWorkoutFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         _binding = FragmentMyWorkoutBinding.inflate(inflater, container, false)
-        requireActivity().findViewById<BottomNavigationView>(R.id.bottom_navigation).visibility =
-            View.VISIBLE
+        requireActivity().findViewById<BottomNavigationView>(R.id.bottom_navigation).visibility = View.GONE
 
 
         return binding.root

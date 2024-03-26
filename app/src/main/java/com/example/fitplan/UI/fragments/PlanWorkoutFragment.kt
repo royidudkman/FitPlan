@@ -7,23 +7,30 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.fitplan.ExercisesData
 import com.example.fitplan.ExercisesViewModel
 import com.example.fitplan.R
 import com.example.fitplan.adapters.PlanExerciseAdapter
 import com.example.fitplan.databinding.FragmentPlanWorkoutBinding
+import com.example.fitplan.repository.PlansRepositoryFirebase
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.auth.FirebaseAuth
+import il.co.syntax.firebasemvvm.repository.FirebaseImpl.AuthRepositoryFirebase
 
 class PlanWorkoutFragment : Fragment() {
     private var _binding: FragmentPlanWorkoutBinding? = null
     private val binding get() = _binding!!
 
-    private val _mAuth: FirebaseAuth by lazy { FirebaseAuth.getInstance() }
-    private val mAuth get() = _mAuth
+    private val exerciseViewModel : ExercisesViewModel by activityViewModels()
 
-    private val viewModel : ExercisesViewModel by activityViewModels()
+    private val viewModel : MyPlansViewModel by viewModels{
+        MyPlansViewModel.MyPlansViewModelFactory(
+            AuthRepositoryFirebase(),
+            PlansRepositoryFirebase()
+        )
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -33,15 +40,18 @@ class PlanWorkoutFragment : Fragment() {
         _binding = FragmentPlanWorkoutBinding.inflate(inflater, container, false)
         requireActivity().findViewById<BottomNavigationView>(R.id.bottom_navigation).visibility = View.VISIBLE
 
+
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+
+
         val exerciseData = ExercisesData()
         val allExercises = exerciseData.exercisesByBodyPart.values.flatten()
-        val exerciseAdapter = PlanExerciseAdapter(allExercises, exerciseListener, viewModel)
+        val exerciseAdapter = PlanExerciseAdapter(allExercises, exerciseListener, exerciseViewModel)
 
         binding.recycler.layoutManager = LinearLayoutManager(requireContext())
         binding.recycler.adapter = exerciseAdapter
@@ -69,7 +79,7 @@ class PlanWorkoutFragment : Fragment() {
 
     private val exerciseListener = object : PlanExerciseAdapter.ExerciseListener {
         override fun onExerciseClicked(index: Int) {
-            // Handle exercise click
+
         }
 
         override fun onExerciseLongClicked(index: Int) {
