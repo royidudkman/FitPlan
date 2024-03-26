@@ -16,8 +16,7 @@ class RunFragment : Fragment() {
     private var _binding: FragmentRunBinding? = null
     private val binding get() = _binding!!
 
-    private val _mAuth: FirebaseAuth by lazy { FirebaseAuth.getInstance() }
-    private val mAuth get() = _mAuth
+
 
 
 

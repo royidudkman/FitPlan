@@ -16,7 +16,6 @@ class AuthRepositoryFirebase : AuthRepository {
 
     private val firebaseAuth = FirebaseAuth.getInstance()
     private val userRef = FirebaseFirestore.getInstance().collection("users")
-    private val db: FirebaseFirestore = FirebaseFirestore.getInstance()
 
      override suspend fun currentUser() : Resource<User>{
         return withContext(Dispatchers.IO){
@@ -36,14 +35,40 @@ class AuthRepositoryFirebase : AuthRepository {
             }
         }
     }
-    override suspend fun createUser(userEmail:String, userPassword: String) : Resource<User>{
+    override suspend fun createUser(userEmail:String,userName:String, userPassword: String) : Resource<User>{
         return withContext(Dispatchers.IO){
             safeCall {
                 val registrationResult = firebaseAuth.createUserWithEmailAndPassword(userEmail,userPassword).await()
                 val userId = registrationResult.user?.uid!!
-                val newUser = User(userEmail)
+                val newUser = User(userEmail,userName)
                 userRef.document(userId).set(newUser).await()
                 Resource.Success(newUser)
+            }
+        }
+    }
+
+    override suspend fun getUsername(userId: String): Resource<String> {
+        return withContext(Dispatchers.IO) {
+            try {
+                val documentSnapshot = userRef.document(userId).get().await()
+                if (documentSnapshot.exists()) {
+                    val userName = documentSnapshot.getString("userName") ?: ""
+                    Resource.Success(userName)
+                } else {
+                    Resource.Error("User document does not exist")
+                }
+            } catch (e: Exception) {
+                Resource.Error("Error retrieving username: ${e.message}")
+            }
+        }
+    }
+
+    override suspend fun setUsername(userId: String, newUserName: String): Resource<Unit> {
+        return withContext(Dispatchers.IO) {
+            safeCall {
+                userRef.document(userId).update("userName", newUserName).await()
+                Resource.Success(Unit)
+                Resource.Error("Error setting username")
             }
         }
     }

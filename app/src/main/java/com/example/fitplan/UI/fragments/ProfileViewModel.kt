@@ -10,6 +10,10 @@ class ProfileViewModel(private val authRep:AuthRepository): ViewModel() {
         authRep.logout()
     }
 
+    fun setUsername(newUserName:String){
+       // authRep.setUsername(authRep,newUserName)
+    }
+
     class ProfileViewModelFactory(val authRepo: AuthRepository) : ViewModelProvider.NewInstanceFactory(){
         override fun <T : ViewModel> create(modelClass: Class<T>): T {
             return ProfileViewModel(authRepo) as T

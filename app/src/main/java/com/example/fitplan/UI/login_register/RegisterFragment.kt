@@ -39,7 +39,8 @@ class RegisterFragment : Fragment() {
 
         binding.passwordTextInput.isHelperTextEnabled = false
         binding.registerBtn.setOnClickListener{
-            viewModel.createUser(binding.emailTextInput.editText?.text.toString(),binding.passwordTextInput.editText?.text.toString())
+            viewModel.createUser(binding.emailTextInput.editText?.text.toString(),binding.userNameTextInput.editText?.text.toString(),
+                binding.passwordTextInput.editText?.text.toString())
         }
 
         return binding.root

@@ -15,8 +15,9 @@ import safeCall
 interface AuthRepository {
     suspend fun currentUser() : Resource<User>
     suspend fun login(email:String, password:String) : Resource<User>
-
-    suspend fun createUser(userEmail:String, userPassword:String) : Resource<User>
+    suspend fun createUser(userEmail:String, userName:String, userPassword:String) : Resource<User>
+    suspend fun setUsername(userId: String, newUserName: String): Resource<Unit>
+    suspend fun getUsername(userId: String): Resource<String>
     fun logout()
 
 }

@@ -18,6 +18,26 @@
         android:padding="30dp"
         android:textStyle="bold"/>
 
+    <com.google.android.material.textfield.TextInputLayout
+        style="@style/LoginInputText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginBottom="10dp"
+        app:endIconMode="custom"
+        app:endIconDrawable="@drawable/user_check_alt_svgrepo_com"
+        app:endIconTint="@color/white"
+        android:textColorHint="@color/white"
+        android:id="@+id/userNameTextInput">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:maxLines="1"
+            android:textColor="@color/white"
+            android:hint="Enter user name" />
+    </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
         style="@style/LoginInputText"

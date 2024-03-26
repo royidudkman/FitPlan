@@ -17,7 +17,7 @@ class RegisterViewModel(private val repository: AuthRepository) : ViewModel(){
     private val _userRegistrationStatus = MutableLiveData<Resource<User>>()
     val userRegistrationStatus : LiveData<Resource<User>> = _userRegistrationStatus
 
-    fun createUser(userEmail: String, userPassword:String) {
+    fun createUser(userEmail: String,userName:String, userPassword:String) {
 
         val error = if (userEmail.isEmpty() || userPassword.isEmpty())
             "One or more fields are empty"
@@ -29,7 +29,7 @@ class RegisterViewModel(private val repository: AuthRepository) : ViewModel(){
         }
         _userRegistrationStatus.postValue(Resource.Loading())
         viewModelScope.launch {
-            val registrationResult = repository.createUser(userEmail,userPassword)
+            val registrationResult = repository.createUser(userEmail,userName,userPassword)
             _userRegistrationStatus.postValue(registrationResult)
         }
     }

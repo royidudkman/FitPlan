@@ -54,31 +54,8 @@ class MyPlansFragment : Fragment() {
             adapter = myExerciseAdapter
         }
 
-        fetchPlansFromFirestore("userId") { plans ->
-            plans?.let {
-                myExerciseAdapter.updateExercises(plans.flatMap { plan -> plan.exercises })
-                myExerciseAdapter.notifyDataSetChanged()
-            }
-        }
     }
 
-    fun fetchPlansFromFirestore(userId: String, callback: (List<Plan>?) -> Unit) {
-        val db = FirebaseFirestore.getInstance()
-        db.collection("users").document(userId).collection("plans")
-            .get()
-            .addOnSuccessListener { documents ->
-                val plans = mutableListOf<Plan>()
-                for (document in documents) {
-                    val plan = document.toObject(Plan::class.java)
-                    plans.add(plan)
-                }
-                callback(plans)
-            }
-            .addOnFailureListener { e ->
-                // Handle failure
-                callback(null)
-            }
-    }
 
 
 
