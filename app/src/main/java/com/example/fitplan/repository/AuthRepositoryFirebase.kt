@@ -45,6 +45,6 @@ class AuthRepositoryFirebase : AuthRepository {
         }
     }
     override fun logout(){
-        firebaseAuth.signOut()
+       firebaseAuth.signOut()
     }
 }

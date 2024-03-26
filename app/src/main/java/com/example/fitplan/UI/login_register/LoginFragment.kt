@@ -94,7 +94,7 @@ class LoginFragment : Fragment() {
 
                 is Resource.Error -> {
                     binding.loginProgress.isVisible = false
-                    binding.passwordTextInput.helperText = it.message
+                    binding.registerBtn.isEnabled = true
                 }
             }
         }

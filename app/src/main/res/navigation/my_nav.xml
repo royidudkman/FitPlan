@@ -15,7 +15,8 @@
             app:destination="@id/registerFragment" />
         <action
             android:id="@+id/action_loginFragment_to_myWorkoutFragment"
-            app:destination="@id/myWorkoutFragment" />
+            app:destination="@id/myWorkoutFragment"
+            app:popUpTo="@id/my_nav" />
     </fragment>
     <fragment
         android:id="@+id/registerFragment"
@@ -24,7 +25,8 @@
         tools:layout="@layout/fragment_register" >
         <action
             android:id="@+id/action_registerFragment_to_myWorkoutFragment"
-            app:destination="@id/myWorkoutFragment" />
+            app:destination="@id/myWorkoutFragment"
+            app:popUpTo="@id/my_nav" />
     </fragment>
     <fragment
         android:id="@+id/myWorkoutFragment"
@@ -33,16 +35,20 @@
         tools:layout="@layout/fragment_my_workout" >
         <action
             android:id="@+id/action_myWorkoutFragment_to_planWorkoutFragment2"
-            app:destination="@id/planWorkoutFragment2" />
+            app:destination="@id/planWorkoutFragment2"
+            app:popUpTo="@id/my_nav" />
         <action
             android:id="@+id/action_myWorkoutFragment_to_socialFragment"
-            app:destination="@id/socialFragment" />
+            app:destination="@id/socialFragment"
+            app:popUpTo="@id/my_nav" />
         <action
             android:id="@+id/action_myWorkoutFragment_to_runFragment"
-            app:destination="@id/runFragment" />
+            app:destination="@id/runFragment"
+            app:popUpTo="@id/my_nav" />
         <action
             android:id="@+id/action_myWorkoutFragment_to_profileFragment"
-            app:destination="@id/profileFragment" />
+            app:destination="@id/profileFragment"
+            app:popUpTo="@id/my_nav" />
     </fragment>
     <fragment
         android:id="@+id/planWorkoutFragment2"
@@ -64,6 +70,7 @@
         tools:layout="@layout/fragment_profile" >
         <action
             android:id="@+id/action_profileFragment_to_loginFragment"
-            app:destination="@id/loginFragment" />
+            app:destination="@id/loginFragment"
+            app:popUpTo="@id/my_nav" />
     </fragment>
 </navigation>
