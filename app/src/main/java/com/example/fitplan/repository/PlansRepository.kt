@@ -13,5 +13,5 @@ interface PlansRepository {
     suspend fun getPlans():Resource<List<Plan>>
 
     fun getPlansFlow(): Flow<Resource<List<Plan>>>
-    fun getPlansLiveData(data : MutableLiveData<Resource<List<Plan>>>)
+    //fun getPlansLiveData(data : MutableLiveData<Resource<List<Plan>>>)
 }

@@ -14,7 +14,7 @@ import safeCall
 
 class PlansRepositoryFirebase : PlansRepository {
 
-    private val planRef = FirebaseFirestore.getInstance().collection("Plans")
+    private val planRef = FirebaseFirestore.getInstance().collection("users")
     override suspend fun addPlan(title: String, description: String, image: Int, exercises: List<Exercise>): Resource<Void> = withContext(Dispatchers.IO){
 
         safeCall {
@@ -22,10 +22,10 @@ class PlansRepositoryFirebase : PlansRepository {
             val plan = Plan(planId, title ,description, image, exercises)
             val addition = planRef.document(planId).set(plan).await()
 
-//            val exercisesMap = exercises.mapIndexed { index, exercise ->
-//                "exercise_$index" to exercise
-//            }.toMap()
-//            planRef.document(planId).set(mapOf("exercises" to exercisesMap), SetOptions.merge()).await()
+            val exercisesCollectionRef = planRef.document(planId).collection("exercises")
+            exercises.forEachIndexed { index, exercise ->
+                exercisesCollectionRef.document("exercise_$index").set(exercise).await()
+            }
 
             Resource.Success(addition)
 
@@ -59,18 +59,18 @@ class PlansRepositoryFirebase : PlansRepository {
         TODO("Not yet implemented")
     }
 
-    override fun getPlansLiveData(data: MutableLiveData<Resource<List<Plan>>>) {
-        data.postValue(Resource.Loading())
-        planRef.orderBy("title").addSnapshotListener{ snapshot, e ->
-            if(e !=null){
-                data.postValue(Resource.Error(e.localizedMessage))
-            }
-            if(snapshot != null && !snapshot.isEmpty){
-                data.postValue(Resource.Success(snapshot.toObjects(Plan::class.java)))
-            }
-            else{
-                data.postValue(Resource.Error("No Data"))
-            }
-        }
-    }
+//    override fun getPlansLiveData(data: MutableLiveData<Resource<List<Plan>>>) {
+//        data.postValue(Resource.Loading())
+//        planRef.orderBy("title").addSnapshotListener{ snapshot, e ->
+//            if(e !=null){
+//                data.postValue(Resource.Error(e.localizedMessage))
+//            }
+//            if(snapshot != null && !snapshot.isEmpty){
+//                data.postValue(Resource.Success(snapshot.toObjects(Plan::class.java)))
+//            }
+//            else{
+//                data.postValue(Resource.Error("No Data"))
+//            }
+//        }
+//    }
 }

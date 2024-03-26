@@ -24,10 +24,10 @@ data class Exercise(
     val image : Int,
 
     @ColumnInfo(name = "reps")
-    val reps : Int = 0,
+    var reps : Int = 0,
 
     @ColumnInfo(name = "time")
-    val time : Long = 0
+    var time : Long = 0
 )
 
 

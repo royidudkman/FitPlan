@@ -7,6 +7,7 @@ import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.fitplan.ExercisesViewModel
+import com.example.fitplan.databinding.MyExerciseLayoutBinding
 import com.example.fitplan.model.Exercise
 import com.example.fitplan.databinding.PlanExerciseLayoutBinding
 
@@ -23,16 +24,12 @@ class PlanExerciseAdapter(private var exercises: List<Exercise>, private val cal
         fun onExerciseLongClicked(index: Int)
     }
 
-    inner class ExerciseViewHolder(private val binding: PlanExerciseLayoutBinding) :
+    inner class ExerciseViewHolder(private val binding: MyExerciseLayoutBinding) :
         RecyclerView.ViewHolder(binding.root), View.OnClickListener, View.OnLongClickListener {
 
         init {
             binding.root.setOnClickListener(this)
             binding.root.setOnLongClickListener(this)
-            binding.addExerciseBtn.setOnClickListener {
-                val exercise = exercises[adapterPosition]
-                viewModel.addExercise(exercise)
-            }
         }
 
         fun bind(exercise: Exercise) {
@@ -54,7 +51,7 @@ class PlanExerciseAdapter(private var exercises: List<Exercise>, private val cal
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ExerciseViewHolder {
         val inflater = LayoutInflater.from(parent.context)
-        val binding = PlanExerciseLayoutBinding.inflate(inflater, parent, false)
+        val binding = MyExerciseLayoutBinding.inflate(inflater, parent, false)
         return ExerciseViewHolder(binding)
     }
 
@@ -62,6 +59,7 @@ class PlanExerciseAdapter(private var exercises: List<Exercise>, private val cal
         val exercise = exercises[position]
         holder.bind(exercise)
     }
+    fun exerciseAt(position: Int) = exercises[position]
 
     override fun getItemCount(): Int {
         return exercises.size

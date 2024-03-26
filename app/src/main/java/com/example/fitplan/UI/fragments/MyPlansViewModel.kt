@@ -26,7 +26,7 @@ class MyPlansViewModel(private val authRep:AuthRepository,val planRep : PlansRep
     val deletePlanStatus: LiveData<Resource<Void>> = _deletePlanStatus
 
     init{
-        planRep.getPlansLiveData(_plansStatus)
+       // planRep.getPlansLiveData(_plansStatus)
     }
 
 

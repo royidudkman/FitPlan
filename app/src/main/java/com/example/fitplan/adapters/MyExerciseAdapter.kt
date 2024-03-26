@@ -39,6 +39,7 @@ class MyExerciseAdapter(private var exercises: List<Exercise>, private val callb
         override fun onClick(v: View?) {
             callback.onExerciseClicked(adapterPosition)
            // notifyItemRemoved(adapterPosition)
+
         }
 
         override fun onLongClick(v: View?): Boolean {
