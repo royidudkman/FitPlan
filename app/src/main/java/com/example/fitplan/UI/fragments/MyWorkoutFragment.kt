@@ -23,7 +23,7 @@ import com.google.android.material.tabs.TabLayout
 import com.google.firebase.auth.FirebaseAuth
 import java.util.Locale
 
-class MyWorkoutFragment : Fragment() {
+class MyWorkoutFragment : Fragment(), ExercisesViewModel.TimerCallback {
 
     private var _binding: FragmentMyWorkoutBinding? = null
     private val binding get() = _binding!!
@@ -48,7 +48,7 @@ class MyWorkoutFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        viewModel.timerCallback = this
 
         viewModel.exercises?.observe(viewLifecycleOwner) { exercises ->
             if (exercises != null) {
@@ -123,6 +123,10 @@ class MyWorkoutFragment : Fragment() {
                 startTimer(itemTimer)
             }
 
+            itemTimerPauseBtn.setOnClickListener {
+                //TODO : PAUSE THE TIME
+            }
+
 
             dialogBuilder.setView(dialogView)
             dialogBuilder.create().show()
@@ -144,7 +148,7 @@ class MyWorkoutFragment : Fragment() {
         }
     }
 
-    private fun startTimer(textView: TextView) { //TODO : ADD TO THE DATA THE TIME THAT THE USER WANT
+    override fun startTimer(textView: TextView) { //TODO : ADD TO THE DATA THE TIME THAT THE USER WANT
         timer = object : CountDownTimer(10000, 1000) {
             override fun onTick(millisUntilFinished: Long) {
                 val hours = (millisUntilFinished / 1000) / 3600
@@ -159,7 +163,6 @@ class MyWorkoutFragment : Fragment() {
                 val media = MediaPlayer.create(requireContext(),R.raw.pijamot)
                 media.start()
             }
-
         }.start()
     }
 
