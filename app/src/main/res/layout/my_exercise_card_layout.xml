@@ -1,16 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">
 
     <com.google.android.material.card.MaterialCardView
+        style="@style/Widget.Material3.CardView.Outlined"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        app:cardPreventCornerOverlap="false"
         app:cardBackgroundColor="@color/gray_black"
-        app:strokeColor="@color/white"
-        android:elevation="0dp">
+        app:strokeColor="@color/white">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -18,6 +19,7 @@
             android:orientation="vertical">
 
             <ImageView
+                android:id="@+id/exercise_image"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="0.5"
@@ -25,6 +27,7 @@
                 android:src="@drawable/pull_up"/>
 
             <TextView
+                android:id="@+id/title_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:padding="15dp"
@@ -34,6 +37,7 @@
                 android:textStyle="bold" />
 
             <TextView
+                android:id="@+id/description_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:padding="15dp"
@@ -50,6 +54,7 @@
                 android:background="@color/white" />
 
             <TextView
+                android:id="@+id/reps_tv"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
@@ -59,6 +64,7 @@
                 android:textSize="16sp"
                 android:textStyle="bold" />
             <TextView
+                android:id="@+id/sets_tv"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
@@ -75,6 +81,7 @@
                 android:background="@color/white" />
 
             <TextView
+                android:id="@+id/timer_tv"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="00:00:00"
@@ -91,6 +98,7 @@
                 android:gravity="center">
 
                 <com.google.android.material.button.MaterialButton
+                    android:id="@+id/start_timer_btn"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="0.5"
@@ -106,6 +114,7 @@
                     android:layout_weight="1"/>
 
                 <com.google.android.material.button.MaterialButton
+                    android:id="@+id/stop_timer_btn"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="0.5"
