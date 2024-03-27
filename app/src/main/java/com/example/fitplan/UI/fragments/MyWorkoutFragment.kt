@@ -13,14 +13,21 @@ import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.fitplan.ExercisesViewModel
 import com.example.fitplan.R
+import com.example.fitplan.SharedViewModel
 import com.example.fitplan.adapters.MyExerciseAdapter
 import com.example.fitplan.databinding.FragmentMyWorkoutBinding
+import com.example.fitplan.model.Exercise
+import com.example.fitplan.model.Plan
+import com.example.fitplan.repository.PlansRepositoryFirebase
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.tabs.TabLayout
 import com.google.firebase.auth.FirebaseAuth
+import il.co.syntax.firebasemvvm.repository.FirebaseImpl.AuthRepositoryFirebase
 import java.util.Locale
 
 class MyWorkoutFragment : Fragment(), ExercisesViewModel.TimerCallback {
@@ -28,10 +35,14 @@ class MyWorkoutFragment : Fragment(), ExercisesViewModel.TimerCallback {
     private var _binding: FragmentMyWorkoutBinding? = null
     private val binding get() = _binding!!
 
+    private val sharedViewModel : SharedViewModel by activityViewModels()
     private val viewModel: ExercisesViewModel by activityViewModels()
+    private lateinit var myExerciseAdapter: MyExerciseAdapter
 
     private var selectedTabIndex = 0
     private var timer: CountDownTimer? = null
+
+
 
 
     override fun onCreateView(
@@ -40,7 +51,8 @@ class MyWorkoutFragment : Fragment(), ExercisesViewModel.TimerCallback {
         savedInstanceState: Bundle?
     ): View? {
         _binding = FragmentMyWorkoutBinding.inflate(inflater, container, false)
-        requireActivity().findViewById<BottomNavigationView>(R.id.bottom_navigation).visibility = View.GONE
+        requireActivity().findViewById<BottomNavigationView>(R.id.bottom_navigation).visibility =
+            View.GONE
 
 
         return binding.root
@@ -48,36 +60,34 @@ class MyWorkoutFragment : Fragment(), ExercisesViewModel.TimerCallback {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel.timerCallback = this
 
-        viewModel.exercises?.observe(viewLifecycleOwner) { exercises ->
-            if (exercises != null) {
-                // Set up adapter with filtered exercises
-                viewModel.filteredExercises.value?.let { filteredExercises ->
-                    binding.recycler.adapter =
-                        MyExerciseAdapter(filteredExercises, exerciseListener, viewModel)
-                    binding.recycler.layoutManager = LinearLayoutManager(requireContext())
-                }
-                // Select "Back" tab and filter exercises
-                binding.tabs.getTabAt(selectedTabIndex)
-                    ?.select() // Assuming "Back" is the first tab
-                filterExercises(getBodyPartForTabIndex(selectedTabIndex))
+        sharedViewModel.selectedPlan.observe(viewLifecycleOwner) { plan ->
+            val planTitle = plan.title
+            Toast.makeText(requireContext(), "Welcome to: $planTitle", Toast.LENGTH_SHORT).show()
+
+            // Update the RecyclerView with exercises from the selected plan
+            plan.exercises?.let { exercises ->
+                // Filter exercises based on the selected tab (body part)
+                filterExercises(exercises, getBodyPartForTabIndex(selectedTabIndex))
             }
         }
 
 
-        viewModel.filteredExercises.observe(viewLifecycleOwner) { filteredExercises ->
-            binding.recycler.adapter =
-                MyExerciseAdapter(filteredExercises, exerciseListener, viewModel)
-            binding.recycler.layoutManager = LinearLayoutManager(requireContext())
-        }
+        viewModel.timerCallback = this
+
+
 
 
         binding.tabs.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
             override fun onTabSelected(tab: TabLayout.Tab?) {
                 tab?.let {
-                    selectedTabIndex = it.position // Update selectedTabIndex when a tab is selected
-                    filterExercises(getBodyPartForTabIndex(it.position))
+                    selectedTabIndex = it.position
+                    sharedViewModel.selectedPlan.value?.let { plan ->
+                        plan.exercises?.let { exercises ->
+                            // Filter exercises based on the selected tab (body part)
+                            filterExercises(exercises, getBodyPartForTabIndex(selectedTabIndex))
+                        }
+                    }
                 }
             }
 
@@ -99,9 +109,13 @@ class MyWorkoutFragment : Fragment(), ExercisesViewModel.TimerCallback {
         }
     }
 
-    private fun filterExercises(bodyPart: String) {
-        // Perform filtering based on body part
-        viewModel.filterExercisesByBodyPart(bodyPart)
+    private fun filterExercises(exercises: List<Exercise>, bodyPart: String) {
+        val filteredExercises = exercises.filter { it.bodyPart.equals(bodyPart, ignoreCase = true) }
+        myExerciseAdapter = MyExerciseAdapter(filteredExercises, exerciseListener, viewModel)
+        binding.recycler.apply {
+            layoutManager = LinearLayoutManager(requireContext())
+            adapter = myExerciseAdapter
+        }
     }
 
     private val exerciseListener = object : MyExerciseAdapter.ExerciseListener {
@@ -112,7 +126,8 @@ class MyWorkoutFragment : Fragment(), ExercisesViewModel.TimerCallback {
             val itemImage = dialogView.findViewById<ImageView>(R.id.exercise_image)
             itemImage.setImageResource(item.image)
             val itemTitle = dialogView.findViewById<TextView>(R.id.title_tv).setText(item.name)
-            val itemDescription = dialogView.findViewById<TextView>(R.id.description_tv).setText(item.description)
+            val itemDescription =
+                dialogView.findViewById<TextView>(R.id.description_tv).setText(item.description)
             val itemReps = dialogView.findViewById<TextView>(R.id.reps_tv)
             val itemSets = dialogView.findViewById<TextView>(R.id.sets_tv)
             val itemTimer = dialogView.findViewById<TextView>(R.id.timer_tv)
@@ -154,13 +169,14 @@ class MyWorkoutFragment : Fragment(), ExercisesViewModel.TimerCallback {
                 val hours = (millisUntilFinished / 1000) / 3600
                 val minutes = ((millisUntilFinished / 1000) % 3600) / 60
                 val seconds = (millisUntilFinished / 1000) % 60
-                val timeFormatted = String.format(Locale.getDefault(), "%02d:%02d:%02d", hours, minutes, seconds)
+                val timeFormatted =
+                    String.format(Locale.getDefault(), "%02d:%02d:%02d", hours, minutes, seconds)
                 textView.setText(timeFormatted)
             }
 
             override fun onFinish() {
                 textView.text = "00:00:00"
-                val media = MediaPlayer.create(requireContext(),R.raw.pijamot)
+                val media = MediaPlayer.create(requireContext(), R.raw.pijamot)
                 media.start()
             }
         }.start()

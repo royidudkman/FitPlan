@@ -8,10 +8,13 @@ import kotlinx.coroutines.flow.Flow
 
 interface PlansRepository {
     suspend fun addPlan(title: String , description : String, image: Int, exercises: List<Exercise>) : Resource<Void>
+    suspend fun addSocialPlan(title: String, description: String, image: Int, exercises: List<Exercise>): Resource<Void>
     suspend fun deletePlan(planId: String): Resource<Void>
     suspend fun getPlan(planId: String) : Resource<Plan>
     suspend fun getPlans():Resource<List<Plan>>
 
     fun getPlansFlow(): Flow<Resource<List<Plan>>>
+    suspend fun getPlansLiveData(data: MutableLiveData<Resource<List<Plan>>>)
+    suspend fun getSocialPlansLiveData(data: MutableLiveData<Resource<List<Plan>>>)
     //fun getPlansLiveData(data : MutableLiveData<Resource<List<Plan>>>)
 }

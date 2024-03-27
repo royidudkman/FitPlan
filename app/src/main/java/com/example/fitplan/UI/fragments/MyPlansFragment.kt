@@ -7,19 +7,24 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
+import androidx.core.os.bundleOf
+import androidx.core.view.isVisible
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.fitplan.ExercisesViewModel
 import com.example.fitplan.R
+import com.example.fitplan.SharedViewModel
 import com.example.fitplan.UI.login_register.LoginViewModel
-import com.example.fitplan.adapters.MyExerciseAdapter
+import com.example.fitplan.adapters.MyPlansAdapter
 import com.example.fitplan.databinding.FragmentMyPlansBinding
 import com.example.fitplan.model.Plan
 import com.example.fitplan.repository.PlansRepositoryFirebase
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.firestore.FirebaseFirestore
 import il.co.syntax.firebasemvvm.repository.FirebaseImpl.AuthRepositoryFirebase
+import il.co.syntax.myapplication.util.Resource
 
 class MyPlansFragment : Fragment() {
     private var _binding: FragmentMyPlansBinding? = null
@@ -27,7 +32,8 @@ class MyPlansFragment : Fragment() {
 
     private val exerciseViewModel: ExercisesViewModel by activityViewModels()
 
-    private lateinit var myExerciseAdapter: MyExerciseAdapter
+    private lateinit var myPlansAdapter: MyPlansAdapter
+    private val sharedViewModel : SharedViewModel by activityViewModels()
 
     private val viewModel : MyPlansViewModel by viewModels{
         MyPlansViewModel.MyPlansViewModelFactory(AuthRepositoryFirebase(),PlansRepositoryFirebase())
@@ -39,41 +45,55 @@ class MyPlansFragment : Fragment() {
     ): View? {
         _binding = FragmentMyPlansBinding.inflate(inflater, container, false)
         requireActivity().findViewById<BottomNavigationView>(R.id.bottom_navigation).visibility = View.VISIBLE
-
-
-
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        myExerciseAdapter = MyExerciseAdapter(emptyList(), exerciseListener, exerciseViewModel)
+        myPlansAdapter = MyPlansAdapter(emptyList(), planListener, viewModel)
         binding.recycler.apply {
             layoutManager = LinearLayoutManager(requireContext())
-            adapter = myExerciseAdapter
+            adapter = myPlansAdapter
+        }
+
+        viewModel.planStatus.observe(viewLifecycleOwner){ resource ->
+            when(resource){
+                is Resource.Loading -> {
+                    binding.loadingPlansProgress.isVisible = true
+
+                }
+                is Resource.Success -> {
+                    binding.loadingPlansProgress.isVisible = false
+                    resource.data?.let{ plans ->
+                        myPlansAdapter.updatePlans(plans)
+                    }
+                }
+                is Resource.Error -> {
+                    binding.loadingPlansProgress.isVisible = false
+                    Toast.makeText(requireContext(), "Error: ${resource.message}", Toast.LENGTH_SHORT).show()
+                }
+            }
         }
 
     }
 
+    private val planListener = object : MyPlansAdapter.ExerciseListener {
+        override fun onPlanClicked(index: Int) {
+            val clickedPlan = myPlansAdapter.planAt(index)
+            sharedViewModel.setSelectedPlan(clickedPlan)
+            findNavController().navigate(R.id.action_myPlansFragment_to_myWorkoutFragment)
 
-
-
-
-    private val exerciseListener = object : MyExerciseAdapter.ExerciseListener {
-        override fun onExerciseClicked(index: Int) {
-            //viewModel.setExercise(index)
-            // Handle exercise click
         }
 
-        override fun onExerciseLongClicked(index: Int) {
-            val item = (binding.recycler.adapter as MyExerciseAdapter).exerciseAt(index)
+        override fun onPlanLongClicked(index: Int) {
+            val item = myPlansAdapter.planAt(index)
             val builder = AlertDialog.Builder(requireContext())
-            builder.setTitle("This action will delete the exercise")
+            builder.setTitle("This action will delete the plan")
                 .setMessage("Are you sure you want to delete the exercise?")
                 .setPositiveButton("Yes") { dialog, which ->
-                    exerciseViewModel.deleteExercise(item)
-                    Toast.makeText(requireContext(), "Exercise deleted", Toast.LENGTH_SHORT).show()
+                    viewModel.deletePlan(item.id)
+                    Toast.makeText(requireContext(), "Plan deleted", Toast.LENGTH_SHORT).show()
                 }
                 .setNegativeButton("No") { dialog, which ->
                     dialog.dismiss()
@@ -81,7 +101,6 @@ class MyPlansFragment : Fragment() {
                 .show()
         }
     }
-
 
     override fun onDestroyView() {
         super.onDestroyView()

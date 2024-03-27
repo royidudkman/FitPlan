@@ -25,8 +25,11 @@ class MyPlansViewModel(private val authRep:AuthRepository,val planRep : PlansRep
     private val _deletePlanStatus = MutableLiveData<Resource<Void>>()
     val deletePlanStatus: LiveData<Resource<Void>> = _deletePlanStatus
 
+    val planShare = MutableLiveData<Plan>()
     init{
-       // planRep.getPlansLiveData(_plansStatus)
+        viewModelScope.launch {
+            planRep.getPlansLiveData(_plansStatus)
+        }
     }
 
 

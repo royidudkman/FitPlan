@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/my_nav"
-    app:startDestination="@id/socialFragment">
+    app:startDestination="@id/loginFragment">
 
     <fragment
         android:id="@+id/loginFragment"
@@ -62,22 +62,6 @@
         <action
             android:id="@+id/action_myPlansFragment_to_myWorkoutFragment"
             app:destination="@id/myWorkoutFragment"
-            app:popUpTo="@id/my_nav" />
-        <action
-            android:id="@+id/action_myPlansFragment_to_profileFragment"
-            app:destination="@id/profileFragment"
-            app:popUpTo="@id/my_nav" />
-        <action
-            android:id="@+id/action_myPlansFragment_to_socialFragment"
-            app:destination="@id/socialFragment"
-            app:popUpTo="@id/my_nav" />
-        <action
-            android:id="@+id/action_myPlansFragment_to_planWorkoutFragment2"
-            app:destination="@id/planWorkoutFragment2"
-            app:popUpTo="@id/my_nav" />
-        <action
-            android:id="@+id/action_myPlansFragment_to_runFragment"
-            app:destination="@id/runFragment"
-            app:popUpTo="@id/my_nav" />
+            app:popUpToInclusive="true" />
     </fragment>
 </navigation>

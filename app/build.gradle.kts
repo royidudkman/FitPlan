@@ -4,6 +4,7 @@ plugins {
     id("com.google.gms.google-services")
     id("kotlin-parcelize")
     id ("kotlin-kapt")
+
 }
 
 android {
@@ -43,6 +44,7 @@ android {
 }
 
 dependencies {
+
     implementation("androidx.room:room-ktx:2.6.1")
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.7.0")
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.7.0")
