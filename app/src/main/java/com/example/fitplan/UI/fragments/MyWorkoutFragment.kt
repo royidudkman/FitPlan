@@ -126,16 +126,21 @@ class MyWorkoutFragment : Fragment(), ExercisesViewModel.TimerCallback {
             val itemImage = dialogView.findViewById<ImageView>(R.id.exercise_image)
             itemImage.setImageResource(item.image)
             val itemTitle = dialogView.findViewById<TextView>(R.id.title_tv).setText(item.name)
-            val itemDescription =
-                dialogView.findViewById<TextView>(R.id.description_tv).setText(item.description)
+            val itemDescription = dialogView.findViewById<TextView>(R.id.description_tv).setText(item.description)
             val itemReps = dialogView.findViewById<TextView>(R.id.reps_tv)
-            val itemSets = dialogView.findViewById<TextView>(R.id.sets_tv)
+
             val itemTimer = dialogView.findViewById<TextView>(R.id.timer_tv)
             val itemTimerStartBtn = dialogView.findViewById<Button>(R.id.start_timer_btn)
             val itemTimerPauseBtn = dialogView.findViewById<Button>(R.id.stop_timer_btn)
 
+            itemReps.text = item.reps.toString()
+            val totalSeconds = item.time / 1000
+            val minutes = totalSeconds / 60
+            val seconds = totalSeconds % 60
+            itemTimer.text = String.format(Locale.getDefault(), "%02d:%02d", minutes, seconds)
+
             itemTimerStartBtn.setOnClickListener {
-                startTimer(itemTimer)
+                startTimer(itemTimer,item.time)
             }
 
             itemTimerPauseBtn.setOnClickListener {
@@ -163,19 +168,19 @@ class MyWorkoutFragment : Fragment(), ExercisesViewModel.TimerCallback {
         }
     }
 
-    override fun startTimer(textView: TextView) { //TODO : ADD TO THE DATA THE TIME THAT THE USER WANT
-        timer = object : CountDownTimer(10000, 1000) {
+    override fun startTimer(textView: TextView, milliseconds: Long) {
+        timer = object : CountDownTimer(milliseconds, 1000) {
             override fun onTick(millisUntilFinished: Long) {
                 val hours = (millisUntilFinished / 1000) / 3600
                 val minutes = ((millisUntilFinished / 1000) % 3600) / 60
                 val seconds = (millisUntilFinished / 1000) % 60
                 val timeFormatted =
-                    String.format(Locale.getDefault(), "%02d:%02d:%02d", hours, minutes, seconds)
+                    String.format(Locale.getDefault(), "%02d:%02d", hours, minutes, seconds)
                 textView.setText(timeFormatted)
             }
 
             override fun onFinish() {
-                textView.text = "00:00:00"
+                textView.text = "00:00"
                 val media = MediaPlayer.create(requireContext(), R.raw.pijamot)
                 media.start()
             }

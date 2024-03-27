@@ -28,7 +28,7 @@ class MyPlansAdapter(private var plans: List<Plan>, private val callback: Exerci
 
         fun bind(plan: Plan) {
             binding.exerciseTitle.text = plan.title
-
+            binding.exerciseDescription.text = plan.description
             Glide.with(binding.root).load(plan.image).circleCrop().into(binding.exerciseImage)
         }
 
@@ -64,5 +64,12 @@ class MyPlansAdapter(private var plans: List<Plan>, private val callback: Exerci
 
     fun planAt(position: Int): Plan {
         return plans[position]
+    }
+
+    fun deletePlanAt(position: Int) {
+        val deletedPlan = plans[position]
+        plans = plans.filterIndexed { index, _ -> index != position }
+        notifyItemRemoved(position)
+        viewModel.deletePlan(deletedPlan.id)
     }
 }

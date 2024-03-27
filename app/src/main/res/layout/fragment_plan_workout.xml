@@ -34,6 +34,8 @@
 
     <Button
         style="@style/Widget.Material3.Button.TextButton"
+        android:backgroundTint="@color/green"
+        android:textColor="@color/black"
         android:id="@+id/savePlan_btn"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"

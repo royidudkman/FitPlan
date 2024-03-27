@@ -123,7 +123,7 @@ class PlansRepositoryFirebase : PlansRepository {
                     val name = exerciseDocument.getString("name") ?: ""
                     val description = exerciseDocument.getString("description") ?: ""
                     val bodyPart = exerciseDocument.getString("bodyPart") ?: ""
-                    val image = document.getLong("image")?.toInt() ?: 0
+                    val image = exerciseDocument.getLong("image")?.toInt() ?: 0
                     val reps = exerciseDocument.getLong("reps")?.toInt() ?: 0
                     val time = exerciseDocument.getLong("time") ?: 0
 
@@ -144,6 +144,7 @@ class PlansRepositoryFirebase : PlansRepository {
             data.postValue(Resource.Error(e.localizedMessage))
         }
     }
+
 
     override suspend fun getSocialPlansLiveData(data: MutableLiveData<Resource<List<Plan>>>) = withContext(Dispatchers.IO) {
         data.postValue(Resource.Loading())

@@ -71,7 +71,7 @@ class MyPlansFragment : Fragment() {
                 }
                 is Resource.Error -> {
                     binding.loadingPlansProgress.isVisible = false
-                    Toast.makeText(requireContext(), "Error: ${resource.message}", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(requireContext(), "${resource.message}", Toast.LENGTH_SHORT).show()
                 }
             }
         }
@@ -92,6 +92,7 @@ class MyPlansFragment : Fragment() {
             builder.setTitle("This action will delete the plan")
                 .setMessage("Are you sure you want to delete the exercise?")
                 .setPositiveButton("Yes") { dialog, which ->
+                    myPlansAdapter.deletePlanAt(index)
                     viewModel.deletePlan(item.id)
                     Toast.makeText(requireContext(), "Plan deleted", Toast.LENGTH_SHORT).show()
                 }

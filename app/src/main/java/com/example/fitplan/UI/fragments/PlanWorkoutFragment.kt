@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
@@ -55,17 +56,31 @@ class PlanWorkoutFragment : Fragment() {
             View.VISIBLE
 
         binding.savePlanBtn.setOnClickListener {
-            val builder = AlertDialog.Builder(requireContext())
-            builder.setTitle("Save")
-                .setMessage("Do you want to save the current plan?")
-                .setPositiveButton("Yes") { dialog, which ->
-                    viewModel.addPlan("StamPlan","Ahla Plan Shebaolam",R.drawable.waiter_curl,exercisesToPlan!!)
-                    Toast.makeText(requireContext(), "Plan saved", Toast.LENGTH_SHORT).show()
-                }
-                .setNegativeButton("No") { dialog, which ->
-                    dialog.dismiss()
-                }
-                .show()
+
+            val dialogBuilder = AlertDialog.Builder(requireContext())
+            val dialogView: View = layoutInflater.inflate(R.layout.create_plan_card_layout, null)
+            dialogBuilder.setView(dialogView)
+            val alertDialog = dialogBuilder.create()
+
+            val titleText = dialogView.findViewById<TextInputEditText>(R.id.title_text)
+            val descriptionText = dialogView.findViewById<TextInputEditText>(R.id.description_text)
+            val imageBtn = dialogView.findViewById<ImageButton>(R.id.planImageBtn)
+            val saveBtn = dialogView.findViewById<Button>(R.id.save_btn)
+            val cancelBtn = dialogView.findViewById<Button>(R.id.cancel_btn)
+
+            //TODO get image from phone
+            saveBtn.setOnClickListener {
+                viewModel.addPlan(titleText.text.toString(),descriptionText.text.toString(),0,exercisesToPlan)
+                Toast.makeText(requireContext(), "Plan saved", Toast.LENGTH_SHORT).show()
+                alertDialog.dismiss()
+            }
+
+            cancelBtn.setOnClickListener {
+                alertDialog.dismiss()
+            }
+
+
+            alertDialog.show()
 
         }
 
@@ -110,7 +125,7 @@ class PlanWorkoutFragment : Fragment() {
             val dialogBuilder = AlertDialog.Builder(requireContext())
             val dialogView: View = layoutInflater.inflate(R.layout.plan_exercise_card_layout, null)
             setDialogUI(dialogView, exercise)
-            val totalMilliseconds = IncreaseDecreaseUI(dialogView, exercise)
+            IncreaseDecreaseUI(dialogView, exercise)
             //TODO check if the exercise is in my plan
             val addExerciseBtn = dialogView.findViewById<MaterialButton>(R.id.add_exercise_btn)
             val removeExerciseBtn =
@@ -125,6 +140,10 @@ class PlanWorkoutFragment : Fragment() {
                 } else {
                     exercise.reps = 0
                 }
+
+                val minutes = dialogView.findViewById<TextView>(R.id.minutes_tv).text.toString().split(":").last().trim().toIntOrNull() ?: 0
+                val seconds = dialogView.findViewById<TextView>(R.id.seconds_tv).text.toString().split(":").last().trim().toIntOrNull() ?: 0
+                val totalMilliseconds = ((minutes * 60) + seconds) * 1000L
 
                 exercise.time = totalMilliseconds
                 exercisesToPlan.add(exercise)
@@ -153,7 +172,6 @@ class PlanWorkoutFragment : Fragment() {
 
         val image = dialogView.findViewById<ImageView>(R.id.exercise_image)
         image.setImageResource(exercise.image)
-        //Glide.with(image.context).asGif().load(exercise.image).into(image)
 
         val title = dialogView.findViewById<TextView>(R.id.title_tv)
         title.text = exercise.name
@@ -162,51 +180,40 @@ class PlanWorkoutFragment : Fragment() {
         description.text = exercise.description
 
 
-        val reps = dialogView.findViewById<TextInputEditText>(R.id.reps_text)
-
-        val increaseMinutes = dialogView.findViewById<Button>(R.id.increase_minutes_btn)
-        val decreaseMinutes = dialogView.findViewById<Button>(R.id.decrease_minutes_btn)
-        val minutes = dialogView.findViewById<TextView>(R.id.minutes_tv)
-        val seconds = dialogView.findViewById<TextView>(R.id.seconds_tv)
-
-        val increaseSeconds = dialogView.findViewById<Button>(R.id.increase_second_btn)
-        val decreaseSeconds = dialogView.findViewById<Button>(R.id.decrease_second_btn)
     }
 
-    fun IncreaseDecreaseUI(dialogView: View, exercise: Exercise): Long {
+    fun IncreaseDecreaseUI(dialogView: View, exercise: Exercise) {
 
         var totalMinutes = 0
         var totalSeconds = 0
         val increaseMinutes = dialogView.findViewById<Button>(R.id.increase_minutes_btn)
         val decreaseMinutes = dialogView.findViewById<Button>(R.id.decrease_minutes_btn)
         val minutesText = dialogView.findViewById<TextView>(R.id.minutes_tv)
-        minutesText.text = "Minutes ${totalMinutes}"
+        minutesText.text = "Minutes: ${totalMinutes}"
 
         val increaseSeconds = dialogView.findViewById<Button>(R.id.increase_second_btn)
         val decreaseSeconds = dialogView.findViewById<Button>(R.id.decrease_second_btn)
         val secondsText = dialogView.findViewById<TextView>(R.id.seconds_tv)
-        secondsText.text = "Seconds ${totalSeconds}"
+        secondsText.text = "Seconds: ${totalSeconds}"
 
         increaseMinutes.setOnClickListener {
-            minutesText.text = "Minutes ${++totalMinutes}"
+            minutesText.text = "Minutes: ${++totalMinutes}"
         }
 
         decreaseMinutes.setOnClickListener {
             if (totalMinutes == 0) totalMinutes = 1
-            minutesText.text = "Minutes ${--totalMinutes}"
+            minutesText.text = "Minutes: ${--totalMinutes}"
         }
 
         increaseSeconds.setOnClickListener {
-            secondsText.text = "Seconds ${++totalSeconds}"
+            secondsText.text = "Seconds: ${++totalSeconds}"
         }
 
         decreaseSeconds.setOnClickListener {
             if (totalSeconds == 0) totalSeconds = 1
-            secondsText.text = "Seconds ${--totalSeconds}"
+            secondsText.text = "Seconds: ${--totalSeconds}"
         }
 
-        val totalMilliseconds = ((totalMinutes * 60 + totalSeconds) * 1000).toLong()
-        return totalMilliseconds
     }
 
 

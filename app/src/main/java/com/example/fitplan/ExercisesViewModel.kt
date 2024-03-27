@@ -31,7 +31,7 @@ class ExercisesViewModel(application: Application) : AndroidViewModel(applicatio
     val chosenExercise : LiveData<Exercise> get() = _chosenExercise
 
     interface TimerCallback {
-        fun startTimer(textView: TextView)
+        fun startTimer(textView: TextView, milliseconds: Long)
     }
 
     var timerCallback : TimerCallback? = null
@@ -53,8 +53,8 @@ class ExercisesViewModel(application: Application) : AndroidViewModel(applicatio
         _filteredExercises.value = _filteredExercises.value?.minus(exercise)
     }
 
-    private fun startTimer(textView: TextView) { //TODO : ADD TO THE DATA THE TIME THAT THE USER WANT
-       timerCallback?.startTimer(textView)
+    private fun startTimer(textView: TextView, milliseconds : Long) { //TODO : ADD TO THE DATA THE TIME THAT THE USER WANT
+       timerCallback?.startTimer(textView, milliseconds )
     }
 
     fun deleteAll(){
