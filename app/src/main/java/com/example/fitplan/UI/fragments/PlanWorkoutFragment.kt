@@ -15,11 +15,13 @@ import androidx.appcompat.app.AlertDialog
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.example.fitplan.ExercisesData
 import com.example.fitplan.ExercisesViewModel
 import com.example.fitplan.R
+import com.example.fitplan.SharedViewModel
 import com.example.fitplan.adapters.MyExerciseAdapter
 import com.example.fitplan.adapters.PlanExerciseAdapter
 import com.example.fitplan.databinding.FragmentPlanWorkoutBinding
@@ -36,6 +38,7 @@ class PlanWorkoutFragment : Fragment() {
     private val binding get() = _binding!!
 
     private val exerciseViewModel: ExercisesViewModel by activityViewModels()
+    private val sharedViewModel: SharedViewModel by activityViewModels()
 
     private val viewModel: MyPlansViewModel by viewModels {
         MyPlansViewModel.MyPlansViewModelFactory(
@@ -68,13 +71,19 @@ class PlanWorkoutFragment : Fragment() {
             val saveBtn = dialogView.findViewById<Button>(R.id.save_btn)
             val cancelBtn = dialogView.findViewById<Button>(R.id.cancel_btn)
 
-            //TODO get image from phone
-            saveBtn.setOnClickListener {
-                viewModel.addPlan(titleText.text.toString(),descriptionText.text.toString(),0,exercisesToPlan)
-                Toast.makeText(requireContext(), "Plan saved", Toast.LENGTH_SHORT).show()
-                alertDialog.dismiss()
-            }
+            sharedViewModel.exerciseToPlan.observe(viewLifecycleOwner) { exercises ->
 
+                saveBtn.setOnClickListener {
+                    viewModel.addPlan(
+                        titleText.text.toString(),
+                        descriptionText.text.toString(),
+                        0,//TODO get image from phone
+                        exercises
+                    )
+                    Toast.makeText(requireContext(), "Plan saved", Toast.LENGTH_SHORT).show()
+                    alertDialog.dismiss()
+                }
+            }
             cancelBtn.setOnClickListener {
                 alertDialog.dismiss()
             }
@@ -122,43 +131,9 @@ class PlanWorkoutFragment : Fragment() {
     private val exerciseListener = object : PlanExerciseAdapter.ExerciseListener {
         override fun onExerciseClicked(index: Int) {
             val exercise = planExerciseAdapter.exerciseAt(index)
-            val dialogBuilder = AlertDialog.Builder(requireContext())
-            val dialogView: View = layoutInflater.inflate(R.layout.plan_exercise_card_layout, null)
-            setDialogUI(dialogView, exercise)
-            IncreaseDecreaseUI(dialogView, exercise)
-            //TODO check if the exercise is in my plan
-            val addExerciseBtn = dialogView.findViewById<MaterialButton>(R.id.add_exercise_btn)
-            val removeExerciseBtn =
-                dialogView.findViewById<MaterialButton>(R.id.remove_exercise_btn)
+            sharedViewModel.setSelectedExercise(exercise)
+            findNavController().navigate(R.id.action_planWorkoutFragment2_to_planExerciseCardFragment)
 
-            addExerciseBtn.setOnClickListener {
-                val repsEditText = dialogView.findViewById<TextInputEditText>(R.id.reps_text)
-                val repsText = repsEditText.text.toString()
-                val repsValue: Int? = repsText.toIntOrNull()
-                if (repsValue != null) {
-                    exercise.reps = repsValue
-                } else {
-                    exercise.reps = 0
-                }
-
-                val minutes = dialogView.findViewById<TextView>(R.id.minutes_tv).text.toString().split(":").last().trim().toIntOrNull() ?: 0
-                val seconds = dialogView.findViewById<TextView>(R.id.seconds_tv).text.toString().split(":").last().trim().toIntOrNull() ?: 0
-                val totalMilliseconds = ((minutes * 60) + seconds) * 1000L
-
-                exercise.time = totalMilliseconds
-                exercisesToPlan.add(exercise)
-                Toast.makeText(requireContext(), "${exercise.name} added to your plan", Toast.LENGTH_SHORT).show()
-
-            }
-
-            removeExerciseBtn.setOnClickListener {
-
-            }
-
-
-            dialogBuilder.setView(dialogView)
-            val alertDialog = dialogBuilder.create()
-            alertDialog.show()
         }
 
         override fun onExerciseLongClicked(index: Int) {
