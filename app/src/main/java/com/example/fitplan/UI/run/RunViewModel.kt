@@ -3,6 +3,7 @@ package com.example.fitplan.UI.run
 import android.Manifest
 import android.app.Activity
 import android.app.Application
+import android.content.Context
 import android.content.pm.PackageManager
 import android.location.Location
 import android.location.LocationRequest
@@ -49,7 +50,7 @@ class RunViewModel(application: Application) : AndroidViewModel(application) {
         )
     }
 
-    private fun startLocationUpdates() {
+    private fun startLocationUpdates(activity: Activity) {
         val task: Task<Location> = fusedLocationProviderClient.lastLocation
         val locationRequest = com.google.android.gms.location.LocationRequest.create().apply {
             interval = 10000 // Update interval in milliseconds
@@ -65,13 +66,13 @@ class RunViewModel(application: Application) : AndroidViewModel(application) {
             }
         }
         if (ActivityCompat.checkSelfPermission(
-                getApplication<Application>().baseContext, Manifest.permission.ACCESS_FINE_LOCATION
+                activity.baseContext, Manifest.permission.ACCESS_FINE_LOCATION
             ) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
-                getApplication<Application>().baseContext,
+                activity.baseContext,
                 Manifest.permission.ACCESS_COARSE_LOCATION
             ) != PackageManager.PERMISSION_GRANTED
         ) {
-            requestPermissions(activity = Activity())
+            requestPermissions(activity = activity)
         }
         task.addOnSuccessListener {
             if (startLocation != null) {
@@ -146,12 +147,12 @@ class RunViewModel(application: Application) : AndroidViewModel(application) {
         isRunning = false
     }
 
-    private fun resumeRun() {
+    private fun resumeRun(activity: Activity) {
         val task: Task<Location> = fusedLocationProviderClient.lastLocation
         if (ActivityCompat.checkSelfPermission(
-                getApplication<Application>().baseContext, Manifest.permission.ACCESS_FINE_LOCATION
+                activity.baseContext, Manifest.permission.ACCESS_FINE_LOCATION
             ) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
-                getApplication<Application>().baseContext,
+                activity.baseContext,
                 Manifest.permission.ACCESS_COARSE_LOCATION
             ) != PackageManager.PERMISSION_GRANTED
         ) {
@@ -181,14 +182,14 @@ class RunViewModel(application: Application) : AndroidViewModel(application) {
         currentLocation.value = null
     }
 
-    fun onStartRunning() {
+    fun onStartRunning(activity: Activity) {
         startTime()
-        startLocationUpdates()
+        startLocationUpdates(activity)
     }
 
-    fun onResumeRunning() {
-        resumeRun()
-        startLocationUpdates()
+    fun onResumeRunning(activity: Activity) {
+        resumeRun(activity)
+        startLocationUpdates(activity)
         startTime()
         isRunning = true
     }

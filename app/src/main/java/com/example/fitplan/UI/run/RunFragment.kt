@@ -64,13 +64,13 @@ class RunFragment : Fragment() {
             when (viewModel.isRunning()) {
                 false -> {
                     if (!isRunningHappend){
-                        viewModel.onStartRunning()
+                        viewModel.onStartRunning(requireActivity())
                         binding.startBtn.icon = resources.getDrawable(R.drawable.pause_svgrepo_com_full)
                         binding.startBtn.icon.setTint(resources.getColor(R.color.black))
                         isRunningHappend=true
                     }
                     else{
-                        viewModel.onResumeRunning()
+                        viewModel.onResumeRunning(requireActivity())
                         binding.startBtn.icon = resources.getDrawable(R.drawable.pause_svgrepo_com_full)
                     }
 
