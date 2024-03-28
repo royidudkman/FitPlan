@@ -10,6 +10,7 @@ interface PlansRepository {
     suspend fun addPlan(title: String , description : String, image: Int, exercises: List<Exercise>) : Resource<Void>
     suspend fun addSocialPlan(title: String, description: String, image: Int, exercises: List<Exercise>): Resource<Void>
     suspend fun deletePlan(planId: String): Resource<Void>
+    suspend fun deleteSocialPlan(planId: String): Resource<Void>
     suspend fun getPlan(planId: String) : Resource<Plan>
     suspend fun getPlans():Resource<List<Plan>>
 

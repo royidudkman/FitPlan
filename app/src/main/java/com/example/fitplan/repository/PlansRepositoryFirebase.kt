@@ -72,6 +72,13 @@ class PlansRepositoryFirebase : PlansRepository {
             } ?: Resource.Error("User plans collection is null")
         } ?: Resource.Error("Current user is null")
     }
+    override suspend fun deleteSocialPlan(planId: String): Resource<Void> = withContext(Dispatchers.IO) {
+        safeCall {
+            // Delete the plan document from the SocialPlans collection
+            val result = socialPlansCollection.document(planId).delete().await()
+            Resource.Success(result)
+        }
+    }
 
     override suspend fun getPlan(planId: String): Resource<Plan> = withContext(Dispatchers.IO) {
         currentUser?.let { user ->
@@ -153,11 +160,11 @@ class PlansRepositoryFirebase : PlansRepository {
             val snapshot = socialPlansCollection.orderBy("title").get().await()
             val plans = mutableListOf<Plan>()
 
-            snapshot.documents.forEach { document ->
+            snapshot?.documents?.forEach { document ->
                 val planId = document.id
-                val title = document.getString("title") ?: ""
-                val description = document.getString("description") ?: ""
-                val image = document.getLong("image")?.toInt() ?: 0
+                val planTitle = document.getString("title") ?: ""
+                val planDescription = document.getString("description") ?: ""
+                val planImage = document.getLong("image")?.toInt() ?: 0
 
                 val exercises = mutableListOf<Exercise>()
                 val exercisesSnapshot = document.reference.collection("exercises").get().await()
@@ -174,7 +181,7 @@ class PlansRepositoryFirebase : PlansRepository {
                     exercises.add(exercise)
                 }
 
-                val plan = Plan(planId, title, description, image, exercises)
+                val plan = Plan(planId, planTitle, planDescription, planImage, exercises)
                 plans.add(plan)
             }
 

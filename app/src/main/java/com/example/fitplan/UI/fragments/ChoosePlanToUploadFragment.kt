@@ -12,54 +12,57 @@ import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.fitplan.ExercisesViewModel
 import com.example.fitplan.R
 import com.example.fitplan.SharedViewModel
 import com.example.fitplan.adapters.MyPlansAdapter
-import com.example.fitplan.adapters.SocialAdapter
-import com.example.fitplan.databinding.FragmentSocialBinding
+import com.example.fitplan.databinding.FragmentMyPlansBinding
 import com.example.fitplan.repository.PlansRepositoryFirebase
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import il.co.syntax.firebasemvvm.repository.FirebaseImpl.AuthRepositoryFirebase
 import il.co.syntax.myapplication.util.Resource
 
 
-class SocialFragment : Fragment() {
-    private var _binding: FragmentSocialBinding? = null
+class ChoosePlanToUploadFragment : Fragment() {
+
+    private var _binding: FragmentMyPlansBinding? = null
     private val binding get() = _binding!!
 
-    private lateinit var socialAdapter: SocialAdapter
+    private val exerciseViewModel: ExercisesViewModel by activityViewModels()
+
+    private lateinit var myPlansAdapter: MyPlansAdapter
     private val sharedViewModel : SharedViewModel by activityViewModels()
 
-    private val viewModel : SocialViewModel by viewModels{
-        SocialViewModel.SocialViewModelFactory(AuthRepositoryFirebase(),
+    private val viewModel : MyPlansViewModel by viewModels{
+        MyPlansViewModel.MyPlansViewModelFactory(
+            AuthRepositoryFirebase(),
             PlansRepositoryFirebase()
         )
     }
 
-
-
+    private val socialViewModel : SocialViewModel by viewModels{
+        SocialViewModel.SocialViewModelFactory(
+            AuthRepositoryFirebase(),
+            PlansRepositoryFirebase()
+        )
+    }
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        _binding = FragmentSocialBinding.inflate(inflater, container, false)
-
-
-        binding.uploadPlanBtn.setOnClickListener {
-            findNavController().navigate(R.id.action_socialFragment_to_choosePlanToUploadFragment)
-        }
-
+        _binding = FragmentMyPlansBinding.inflate(inflater, container, false)
+        requireActivity().findViewById<BottomNavigationView>(R.id.bottom_navigation).visibility = View.VISIBLE
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        socialAdapter = SocialAdapter(emptyList(), socialPlanListener, viewModel)
+        myPlansAdapter = MyPlansAdapter(emptyList(), planListener, viewModel)
         binding.recycler.apply {
             layoutManager = LinearLayoutManager(requireContext())
-            adapter = socialAdapter
+            adapter = myPlansAdapter
         }
 
         viewModel.planStatus.observe(viewLifecycleOwner){ resource ->
@@ -71,7 +74,7 @@ class SocialFragment : Fragment() {
                 is Resource.Success -> {
                     binding.loadingPlansProgress.isVisible = false
                     resource.data?.let{ plans ->
-                        socialAdapter.updatePlans(plans)
+                        myPlansAdapter.updatePlans(plans)
                     }
                 }
                 is Resource.Error -> {
@@ -83,19 +86,17 @@ class SocialFragment : Fragment() {
 
     }
 
-    private val socialPlanListener = object : SocialAdapter.ExerciseListener {
+    private val planListener = object : MyPlansAdapter.ExerciseListener {
         override fun onPlanClicked(index: Int) {
-            val clickedPlan = socialAdapter.planAt(index)
-            sharedViewModel.setSelectedPlan(clickedPlan)
-            findNavController().navigate(R.id.action_socialFragment_to_myWorkoutFragment)
+            val clickedPlan = myPlansAdapter.planAt(index)
+            socialViewModel.addSocialPlan(clickedPlan.title,clickedPlan.description,clickedPlan.image,clickedPlan.exercises)
+            findNavController().navigate(R.id.action_choosePlanToUploadFragment_to_socialFragment)
 
         }
 
         override fun onPlanLongClicked(index: Int) {
-
         }
     }
-
 
     override fun onDestroyView() {
         super.onDestroyView()

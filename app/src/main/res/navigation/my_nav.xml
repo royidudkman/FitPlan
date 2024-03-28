@@ -48,7 +48,14 @@
     <fragment
         android:id="@+id/socialFragment"
         android:name="com.example.fitplan.UI.fragments.SocialFragment"
-        android:label="SocialFragment" />
+        android:label="SocialFragment" >
+        <action
+            android:id="@+id/action_socialFragment_to_myWorkoutFragment"
+            app:destination="@id/myWorkoutFragment" />
+        <action
+            android:id="@+id/action_socialFragment_to_choosePlanToUploadFragment"
+            app:destination="@id/choosePlanToUploadFragment" />
+    </fragment>
     <fragment
         android:id="@+id/runFragment"
         android:name="com.example.fitplan.UI.fragments.RunFragment"
@@ -84,4 +91,13 @@
         android:name="com.example.fitplan.UI.fragments.MyExerciseCardFragment"
         android:label="my_exercise_card_layout"
         tools:layout="@layout/my_exercise_card_layout" />
+    <fragment
+        android:id="@+id/choosePlanToUploadFragment"
+        android:name="com.example.fitplan.UI.fragments.ChoosePlanToUploadFragment"
+        android:label="fragment_choose_plan_to_upload"
+        tools:layout="@layout/fragment_choose_plan_to_upload" >
+        <action
+            android:id="@+id/action_choosePlanToUploadFragment_to_socialFragment"
+            app:destination="@id/socialFragment" />
+    </fragment>
 </navigation>
