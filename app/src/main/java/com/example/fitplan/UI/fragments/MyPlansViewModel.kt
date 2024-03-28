@@ -1,5 +1,6 @@
 package com.example.fitplan.UI.fragments
 
+import android.graphics.Bitmap
 import android.net.Uri
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -34,7 +35,7 @@ class MyPlansViewModel(private val authRep:AuthRepository,val planRep : PlansRep
     }
 
 
-    fun addPlan(title: String, description : String, image: Uri, exercises: List<Exercise>){
+    fun addPlan(title: String, description : String, image: Bitmap?, exercises: List<Exercise>){
         viewModelScope.launch {
             if(title.isEmpty())
                 _addPlanStatus.postValue(Resource.Error("Empty plan title"))

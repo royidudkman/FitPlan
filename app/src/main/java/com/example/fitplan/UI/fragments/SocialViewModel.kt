@@ -1,5 +1,6 @@
 package com.example.fitplan.UI.fragments
 
+import android.graphics.Bitmap
 import android.net.Uri
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -33,7 +34,7 @@ class SocialViewModel (private val authRep: AuthRepository, val planRep : PlansR
     }
 
 
-    fun addSocialPlan(title: String, description : String, image: Uri, exercises: List<Exercise>){
+    fun addSocialPlan(title: String, description : String, image: Bitmap?, exercises: List<Exercise>){
         viewModelScope.launch {
             if(title.isEmpty())
                 _addPlanStatus.postValue(Resource.Error("Empty plan title"))

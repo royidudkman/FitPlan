@@ -1,6 +1,9 @@
 package com.example.fitplan.repository
 
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.net.Uri
+import android.util.Base64
 import androidx.lifecycle.MutableLiveData
 import com.example.fitplan.model.Exercise
 import com.example.fitplan.model.Plan
@@ -14,6 +17,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.tasks.await
 import kotlinx.coroutines.withContext
 import safeCall
+import java.io.ByteArrayOutputStream
 
 class PlansRepositoryFirebase : PlansRepository {
 
@@ -21,12 +25,22 @@ class PlansRepositoryFirebase : PlansRepository {
     private val currentUser = FirebaseAuth.getInstance().currentUser
     private val userPlansCollection = currentUser?.let{firestore.collection("users").document(it.uid).collection("exercises")}
     private val socialPlansCollection = firestore.collection("SocialPlans")
-    override suspend fun addPlan(title: String, description: String, image: Uri, exercises: List<Exercise>): Resource<Void> = withContext(Dispatchers.IO) {
+    override suspend fun addPlan(title: String, description: String, image: Bitmap?, exercises: List<Exercise>): Resource<Void> = withContext(Dispatchers.IO) {
         currentUser?.let { user ->
             userPlansCollection?.let { plansCollection ->
                 safeCall {
+
+                    var base64Bitmap: String? = image?.let { bitmap ->
+                        val byteArrayOutputStream = ByteArrayOutputStream()
+                        bitmap.compress(Bitmap.CompressFormat.PNG, 100, byteArrayOutputStream)
+                        val byteArray: ByteArray = byteArrayOutputStream.toByteArray()
+                        Base64.encodeToString(byteArray, Base64.DEFAULT)
+                    }
+
+                    if(base64Bitmap == null){base64Bitmap = ""}
+
                     val planId = plansCollection.document().id
-                    val plan = Plan(planId, title ,description, image, exercises)
+                    val plan = Plan(planId, title ,description, base64Bitmap,null, exercises)
 
                     // Save the plan document under user's collection
                     val addition = plansCollection.document(planId).set(plan).await()
@@ -44,10 +58,20 @@ class PlansRepositoryFirebase : PlansRepository {
     }
 
 
-    override suspend fun addSocialPlan(title: String, description: String, image: Uri, exercises: List<Exercise>): Resource<Void> = withContext(Dispatchers.IO) {
+    override suspend fun addSocialPlan(title: String, description: String, image: Bitmap?, exercises: List<Exercise>): Resource<Void> = withContext(Dispatchers.IO) {
         safeCall {
+
+            var base64Bitmap: String? = image?.let { bitmap ->
+                val byteArrayOutputStream = ByteArrayOutputStream()
+                bitmap.compress(Bitmap.CompressFormat.PNG, 100, byteArrayOutputStream)
+                val byteArray: ByteArray = byteArrayOutputStream.toByteArray()
+                Base64.encodeToString(byteArray, Base64.DEFAULT)
+            }
+
+            if(base64Bitmap == null){base64Bitmap = ""}
+
             val planId = socialPlansCollection.document().id
-            val plan = Plan(planId, title, description, image, exercises)
+            val plan = Plan(planId, title, description, base64Bitmap,null, exercises)
 
             // Save the plan document under SocialPlans collection
            val addition = socialPlansCollection.document(planId).set(plan).await()
@@ -122,7 +146,16 @@ class PlansRepositoryFirebase : PlansRepository {
                 val planId = document.id
                 val planTitle = document.getString("title") ?: ""
                 val planDescription = document.getString("description") ?: ""
-                val planImage = document.getString("image")?.let{ Uri.parse(it)}?: Uri.EMPTY
+
+                var base64Bitmap: String? = document.getString("imageString")
+                var bitmap : Bitmap? = null
+                if (base64Bitmap != null) {
+                    val byteArray = Base64.decode(base64Bitmap, Base64.DEFAULT)
+                    bitmap = BitmapFactory.decodeByteArray(byteArray, 0, byteArray.size)
+                    // Use 'bitmap' here
+                } else {
+                    base64Bitmap = ""
+                }
 
                 val exercises = mutableListOf<Exercise>()
                 val exercisesSnapshot = document.reference.collection("exercises").get().await()
@@ -139,7 +172,7 @@ class PlansRepositoryFirebase : PlansRepository {
                     exercises.add(exercise)
                 }
 
-                val plan = Plan(planId, planTitle, planDescription, planImage, exercises)
+                val plan = Plan(planId, planTitle, planDescription,base64Bitmap, bitmap, exercises)
                 plans.add(plan)
             }
 
@@ -165,7 +198,16 @@ class PlansRepositoryFirebase : PlansRepository {
                 val planId = document.id
                 val planTitle = document.getString("title") ?: ""
                 val planDescription = document.getString("description") ?: ""
-                val planImage = document.getString("image")?.let{ Uri.parse(it)}?: Uri.EMPTY
+
+                var base64Bitmap: String? = document.getString("imageString")
+                var bitmap : Bitmap? = null
+                if (base64Bitmap != null) {
+                    val byteArray = Base64.decode(base64Bitmap, Base64.DEFAULT)
+                    bitmap = BitmapFactory.decodeByteArray(byteArray, 0, byteArray.size)
+                    // Use 'bitmap' here
+                } else {
+                    base64Bitmap = ""
+                }
 
                 val exercises = mutableListOf<Exercise>()
                 val exercisesSnapshot = document.reference.collection("exercises").get().await()
@@ -182,7 +224,9 @@ class PlansRepositoryFirebase : PlansRepository {
                     exercises.add(exercise)
                 }
 
-                val plan = Plan(planId, planTitle, planDescription, planImage, exercises)
+
+
+                val plan = Plan(planId, planTitle, planDescription,base64Bitmap, bitmap, exercises)
                 plans.add(plan)
             }
 

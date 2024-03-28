@@ -1,7 +1,9 @@
 package com.example.fitplan.UI.fragments
 
+import android.graphics.Bitmap
 import android.net.Uri
 import android.os.Bundle
+import android.provider.MediaStore
 import android.text.Editable
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -53,7 +55,10 @@ class PlanWorkoutFragment : Fragment() {
     private val pickImageViewModel : PickImageViewModel by viewModels()
     val pickImageLauncher = registerForActivityResult(ActivityResultContracts.GetContent()) { uri: Uri? ->
         uri?.let { pickedUri ->
-            pickImageViewModel.setPhotoURi(pickedUri)
+            val bitmap: Bitmap? = MediaStore.Images.Media.getBitmap(requireContext().contentResolver, pickedUri)
+            bitmap?.let { pickedBitmap ->
+                pickImageViewModel.setPhotoBitmap(pickedBitmap)
+            }
         }
     }
 
@@ -82,15 +87,15 @@ class PlanWorkoutFragment : Fragment() {
             val planImage = dialogView.findViewById<ImageView>(R.id.planImage)
             val saveBtn = dialogView.findViewById<Button>(R.id.save_btn)
             val cancelBtn = dialogView.findViewById<Button>(R.id.cancel_btn)
-            var chosenImage : Uri = Uri.EMPTY
+            var chosenImage : Bitmap? = null
 
             chooseImageBtn.setOnClickListener{
                 pickImageLauncher.launch("image/*")
 
-                pickImageViewModel.photoUri.observe(viewLifecycleOwner){uri ->
-                    uri?.let { pickedUri ->
-                        planImage.setImageURI(pickedUri)
-                        chosenImage = pickedUri
+                pickImageViewModel.photoBitmap.observe(viewLifecycleOwner){bitmap ->
+                    bitmap?.let { pickedBitmap ->
+                        planImage.setImageBitmap(pickedBitmap)
+                        chosenImage = pickedBitmap
                     }
                 }
             }

@@ -29,7 +29,7 @@ class MyPlansAdapter(private var plans: List<Plan>, private val callback: Exerci
         fun bind(plan: Plan) {
             binding.exerciseTitle.text = plan.title
             binding.exerciseDescription.text = plan.description
-            Glide.with(binding.root).load(plan.image).circleCrop().into(binding.exerciseImage)
+            Glide.with(binding.root).load(plan.bitmap).circleCrop().into(binding.exerciseImage)
         }
 
         override fun onClick(v: View?) {

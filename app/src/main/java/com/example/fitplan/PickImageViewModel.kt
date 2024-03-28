@@ -8,10 +8,10 @@ import androidx.lifecycle.ViewModel
 
 class PickImageViewModel: ViewModel() {
 
-    private val _photoUri = MutableLiveData<Uri>()
-    val photoUri : LiveData<Uri> get() = _photoUri
+    private val _photoBitmap = MutableLiveData<Bitmap>()
+    val photoBitmap : LiveData<Bitmap> get() = _photoBitmap
 
-   fun setPhotoURi(uri: Uri){
-        _photoUri.value=uri
+   fun setPhotoBitmap(bitmap: Bitmap){
+       _photoBitmap.value = bitmap
     }
 }

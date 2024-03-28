@@ -89,7 +89,7 @@ class ChoosePlanToUploadFragment : Fragment() {
     private val planListener = object : MyPlansAdapter.ExerciseListener {
         override fun onPlanClicked(index: Int) {
             val clickedPlan = myPlansAdapter.planAt(index)
-            socialViewModel.addSocialPlan(clickedPlan.title,clickedPlan.description,clickedPlan.image,clickedPlan.exercises)
+            socialViewModel.addSocialPlan(clickedPlan.title,clickedPlan.description,clickedPlan.bitmap,clickedPlan.exercises)
             findNavController().navigate(R.id.action_choosePlanToUploadFragment_to_socialFragment)
 
         }
