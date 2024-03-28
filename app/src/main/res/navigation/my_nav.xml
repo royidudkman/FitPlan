@@ -58,7 +58,7 @@
     </fragment>
     <fragment
         android:id="@+id/runFragment"
-        android:name="com.example.fitplan.UI.fragments.RunFragment"
+        android:name="com.example.fitplan.UI.run.RunFragment"
         android:label="fragment_run"
         tools:layout="@layout/fragment_run" />
     <fragment
