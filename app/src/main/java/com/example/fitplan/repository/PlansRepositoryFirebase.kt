@@ -1,5 +1,6 @@
 package com.example.fitplan.repository
 
+import android.net.Uri
 import androidx.lifecycle.MutableLiveData
 import com.example.fitplan.model.Exercise
 import com.example.fitplan.model.Plan
@@ -20,7 +21,7 @@ class PlansRepositoryFirebase : PlansRepository {
     private val currentUser = FirebaseAuth.getInstance().currentUser
     private val userPlansCollection = currentUser?.let{firestore.collection("users").document(it.uid).collection("exercises")}
     private val socialPlansCollection = firestore.collection("SocialPlans")
-    override suspend fun addPlan(title: String, description: String, image: Int, exercises: List<Exercise>): Resource<Void> = withContext(Dispatchers.IO) {
+    override suspend fun addPlan(title: String, description: String, image: Uri, exercises: List<Exercise>): Resource<Void> = withContext(Dispatchers.IO) {
         currentUser?.let { user ->
             userPlansCollection?.let { plansCollection ->
                 safeCall {
@@ -43,7 +44,7 @@ class PlansRepositoryFirebase : PlansRepository {
     }
 
 
-    override suspend fun addSocialPlan(title: String, description: String, image: Int, exercises: List<Exercise>): Resource<Void> = withContext(Dispatchers.IO) {
+    override suspend fun addSocialPlan(title: String, description: String, image: Uri, exercises: List<Exercise>): Resource<Void> = withContext(Dispatchers.IO) {
         safeCall {
             val planId = socialPlansCollection.document().id
             val plan = Plan(planId, title, description, image, exercises)
@@ -121,7 +122,7 @@ class PlansRepositoryFirebase : PlansRepository {
                 val planId = document.id
                 val planTitle = document.getString("title") ?: ""
                 val planDescription = document.getString("description") ?: ""
-                val planImage = document.getLong("image")?.toInt() ?: 0
+                val planImage = document.getString("image")?.let{ Uri.parse(it)}?: Uri.EMPTY
 
                 val exercises = mutableListOf<Exercise>()
                 val exercisesSnapshot = document.reference.collection("exercises").get().await()
@@ -164,7 +165,7 @@ class PlansRepositoryFirebase : PlansRepository {
                 val planId = document.id
                 val planTitle = document.getString("title") ?: ""
                 val planDescription = document.getString("description") ?: ""
-                val planImage = document.getLong("image")?.toInt() ?: 0
+                val planImage = document.getString("image")?.let{ Uri.parse(it)}?: Uri.EMPTY
 
                 val exercises = mutableListOf<Exercise>()
                 val exercisesSnapshot = document.reference.collection("exercises").get().await()

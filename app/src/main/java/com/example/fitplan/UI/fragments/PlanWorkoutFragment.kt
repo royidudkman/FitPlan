@@ -1,5 +1,6 @@
 package com.example.fitplan.UI.fragments
 
+import android.net.Uri
 import android.os.Bundle
 import android.text.Editable
 import androidx.fragment.app.Fragment
@@ -11,6 +12,7 @@ import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.activityViewModels
@@ -20,6 +22,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.example.fitplan.ExercisesData
 import com.example.fitplan.ExercisesViewModel
+import com.example.fitplan.PickImageViewModel
 import com.example.fitplan.R
 import com.example.fitplan.SharedViewModel
 import com.example.fitplan.adapters.MyExerciseAdapter
@@ -47,6 +50,14 @@ class PlanWorkoutFragment : Fragment() {
         )
     }
 
+    private val pickImageViewModel : PickImageViewModel by viewModels()
+    val pickImageLauncher = registerForActivityResult(ActivityResultContracts.GetContent()) { uri: Uri? ->
+        uri?.let { pickedUri ->
+            pickImageViewModel.setPhotoURi(pickedUri)
+        }
+    }
+
+
     private lateinit var planExerciseAdapter: PlanExerciseAdapter
     private var exercisesToPlan: MutableList<Exercise> = mutableListOf()
     override fun onCreateView(
@@ -67,9 +78,22 @@ class PlanWorkoutFragment : Fragment() {
 
             val titleText = dialogView.findViewById<TextInputEditText>(R.id.title_text)
             val descriptionText = dialogView.findViewById<TextInputEditText>(R.id.description_text)
-            val imageBtn = dialogView.findViewById<ImageButton>(R.id.planImageBtn)
+            val chooseImageBtn = dialogView.findViewById<Button>(R.id.chooseImage_btn)
+            val planImage = dialogView.findViewById<ImageView>(R.id.planImage)
             val saveBtn = dialogView.findViewById<Button>(R.id.save_btn)
             val cancelBtn = dialogView.findViewById<Button>(R.id.cancel_btn)
+            var chosenImage : Uri = Uri.EMPTY
+
+            chooseImageBtn.setOnClickListener{
+                pickImageLauncher.launch("image/*")
+
+                pickImageViewModel.photoUri.observe(viewLifecycleOwner){uri ->
+                    uri?.let { pickedUri ->
+                        planImage.setImageURI(pickedUri)
+                        chosenImage = pickedUri
+                    }
+                }
+            }
 
             sharedViewModel.exerciseToPlan.observe(viewLifecycleOwner) { exercises ->
 
@@ -77,7 +101,7 @@ class PlanWorkoutFragment : Fragment() {
                     viewModel.addPlan(
                         titleText.text.toString(),
                         descriptionText.text.toString(),
-                        0,//TODO get image from phone
+                        chosenImage,//TODO get image from phone
                         exercises
                     )
                     Toast.makeText(requireContext(), "Plan saved", Toast.LENGTH_SHORT).show()
@@ -143,53 +167,6 @@ class PlanWorkoutFragment : Fragment() {
     }
 
 
-    fun setDialogUI(dialogView: View, exercise: Exercise) {
-
-        val image = dialogView.findViewById<ImageView>(R.id.exercise_image)
-        image.setImageResource(exercise.image)
-
-        val title = dialogView.findViewById<TextView>(R.id.title_tv)
-        title.text = exercise.name
-
-        val description = dialogView.findViewById<TextView>(R.id.description_tv)
-        description.text = exercise.description
-
-
-    }
-
-    fun IncreaseDecreaseUI(dialogView: View, exercise: Exercise) {
-
-        var totalMinutes = 0
-        var totalSeconds = 0
-        val increaseMinutes = dialogView.findViewById<Button>(R.id.increase_minutes_btn)
-        val decreaseMinutes = dialogView.findViewById<Button>(R.id.decrease_minutes_btn)
-        val minutesText = dialogView.findViewById<TextView>(R.id.minutes_tv)
-        minutesText.text = "Minutes: ${totalMinutes}"
-
-        val increaseSeconds = dialogView.findViewById<Button>(R.id.increase_second_btn)
-        val decreaseSeconds = dialogView.findViewById<Button>(R.id.decrease_second_btn)
-        val secondsText = dialogView.findViewById<TextView>(R.id.seconds_tv)
-        secondsText.text = "Seconds: ${totalSeconds}"
-
-        increaseMinutes.setOnClickListener {
-            minutesText.text = "Minutes: ${++totalMinutes}"
-        }
-
-        decreaseMinutes.setOnClickListener {
-            if (totalMinutes == 0) totalMinutes = 1
-            minutesText.text = "Minutes: ${--totalMinutes}"
-        }
-
-        increaseSeconds.setOnClickListener {
-            secondsText.text = "Seconds: ${++totalSeconds}"
-        }
-
-        decreaseSeconds.setOnClickListener {
-            if (totalSeconds == 0) totalSeconds = 1
-            secondsText.text = "Seconds: ${--totalSeconds}"
-        }
-
-    }
 
 
     override fun onDestroyView() {
