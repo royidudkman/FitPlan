@@ -30,7 +30,12 @@
         android:id="@+id/myWorkoutFragment"
         android:name="com.example.fitplan.UI.fragments.MyWorkoutFragment"
         android:label="fragment_my_workout"
-        tools:layout="@layout/fragment_my_workout" />
+        tools:layout="@layout/fragment_my_workout" >
+        <action
+            android:id="@+id/action_myWorkoutFragment_to_myExerciseCardFragment"
+            app:destination="@id/myExerciseCardFragment"
+            app:popUpToInclusive="true" />
+    </fragment>
     <fragment
         android:id="@+id/planWorkoutFragment2"
         android:name="com.example.fitplan.UI.fragments.PlanWorkoutFragment"
@@ -74,4 +79,9 @@
         android:name="com.example.fitplan.UI.fragments.PlanExerciseCardFragment"
         android:label="plan_exercise_card_layout"
         tools:layout="@layout/plan_exercise_card_layout" />
+    <fragment
+        android:id="@+id/myExerciseCardFragment"
+        android:name="com.example.fitplan.UI.fragments.MyExerciseCardFragment"
+        android:label="my_exercise_card_layout"
+        tools:layout="@layout/my_exercise_card_layout" />
 </navigation>

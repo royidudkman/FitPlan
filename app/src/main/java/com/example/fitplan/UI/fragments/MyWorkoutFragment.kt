@@ -14,6 +14,7 @@ import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.fitplan.ExercisesViewModel
@@ -30,7 +31,7 @@ import com.google.firebase.auth.FirebaseAuth
 import il.co.syntax.firebasemvvm.repository.FirebaseImpl.AuthRepositoryFirebase
 import java.util.Locale
 
-class MyWorkoutFragment : Fragment(), ExercisesViewModel.TimerCallback {
+class MyWorkoutFragment : Fragment() {
 
     private var _binding: FragmentMyWorkoutBinding? = null
     private val binding get() = _binding!!
@@ -40,7 +41,7 @@ class MyWorkoutFragment : Fragment(), ExercisesViewModel.TimerCallback {
     private lateinit var myExerciseAdapter: MyExerciseAdapter
 
     private var selectedTabIndex = 0
-    private var timer: CountDownTimer? = null
+
 
 
 
@@ -73,7 +74,7 @@ class MyWorkoutFragment : Fragment(), ExercisesViewModel.TimerCallback {
         }
 
 
-        viewModel.timerCallback = this
+
 
 
 
@@ -121,35 +122,9 @@ class MyWorkoutFragment : Fragment(), ExercisesViewModel.TimerCallback {
     private val exerciseListener = object : MyExerciseAdapter.ExerciseListener {
         override fun onExerciseClicked(index: Int) {
             val item = (binding.recycler.adapter as MyExerciseAdapter).exerciseAt(index)
-            val dialogBuilder = AlertDialog.Builder(requireContext())
-            val dialogView: View = layoutInflater.inflate(R.layout.my_exercise_card_layout, null)
-            val itemImage = dialogView.findViewById<ImageView>(R.id.exercise_image)
-            itemImage.setImageResource(item.image)
-            val itemTitle = dialogView.findViewById<TextView>(R.id.title_tv).setText(item.name)
-            val itemDescription = dialogView.findViewById<TextView>(R.id.description_tv).setText(item.description)
-            val itemReps = dialogView.findViewById<TextView>(R.id.reps_tv)
+            sharedViewModel.setSelectedExercise(item) //TODO check if work
+            findNavController().navigate(R.id.action_myWorkoutFragment_to_myExerciseCardFragment)
 
-            val itemTimer = dialogView.findViewById<TextView>(R.id.timer_tv)
-            val itemTimerStartBtn = dialogView.findViewById<Button>(R.id.start_timer_btn)
-            val itemTimerPauseBtn = dialogView.findViewById<Button>(R.id.stop_timer_btn)
-
-            itemReps.text = item.reps.toString()
-            val totalSeconds = item.time / 1000
-            val minutes = totalSeconds / 60
-            val seconds = totalSeconds % 60
-            itemTimer.text = String.format(Locale.getDefault(), "%02d:%02d", minutes, seconds)
-
-            itemTimerStartBtn.setOnClickListener {
-                startTimer(itemTimer,item.time)
-            }
-
-            itemTimerPauseBtn.setOnClickListener {
-                //TODO : PAUSE THE TIME
-            }
-
-
-            dialogBuilder.setView(dialogView)
-            dialogBuilder.create().show()
         }
 
         override fun onExerciseLongClicked(index: Int) {
@@ -168,24 +143,7 @@ class MyWorkoutFragment : Fragment(), ExercisesViewModel.TimerCallback {
         }
     }
 
-    override fun startTimer(textView: TextView, milliseconds: Long) {
-        timer = object : CountDownTimer(milliseconds, 1000) {
-            override fun onTick(millisUntilFinished: Long) {
-                val hours = (millisUntilFinished / 1000) / 3600
-                val minutes = ((millisUntilFinished / 1000) % 3600) / 60
-                val seconds = (millisUntilFinished / 1000) % 60
-                val timeFormatted =
-                    String.format(Locale.getDefault(), "%02d:%02d", hours, minutes, seconds)
-                textView.setText(timeFormatted)
-            }
 
-            override fun onFinish() {
-                textView.text = "00:00"
-                val media = MediaPlayer.create(requireContext(), R.raw.pijamot)
-                media.start()
-            }
-        }.start()
-    }
 
 
     override fun onDestroyView() {
