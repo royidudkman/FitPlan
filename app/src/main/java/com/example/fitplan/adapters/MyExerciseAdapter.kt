@@ -24,23 +24,15 @@ class MyExerciseAdapter(private var exercises: List<Exercise>, private val callb
         init {
             binding.root.setOnClickListener(this)
             binding.root.setOnLongClickListener(this)
-//            binding.addExerciseBtn.setOnClickListener {
-//                val exercise = exercises[adapterPosition]
-//                viewModel.addExercise(exercise)
-//            }
         }
 
         fun bind(exercise: Exercise) {
             binding.exerciseTitle.text = exercise.name
-            //binding.exerciseDescription.text = exercise.description
-            // Load image using Glide (example)
             Glide.with(binding.root).load(exercise.image).circleCrop().into(binding.exerciseImage)
         }
 
         override fun onClick(v: View?) {
             callback.onExerciseClicked(adapterPosition)
-           // notifyItemRemoved(adapterPosition)
-
         }
 
         override fun onLongClick(v: View?): Boolean {

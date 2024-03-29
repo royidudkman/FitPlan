@@ -122,7 +122,7 @@ class MyWorkoutFragment : Fragment() {
     private val exerciseListener = object : MyExerciseAdapter.ExerciseListener {
         override fun onExerciseClicked(index: Int) {
             val item = (binding.recycler.adapter as MyExerciseAdapter).exerciseAt(index)
-            sharedViewModel.setSelectedExercise(item) //TODO check if work
+            sharedViewModel.setSelectedExercise(item)
             findNavController().navigate(R.id.action_myWorkoutFragment_to_myExerciseCardFragment)
 
         }
@@ -133,6 +133,7 @@ class MyWorkoutFragment : Fragment() {
             builder.setTitle("This action will delete the exercise")
                 .setMessage("Are you sure you want to delete the exercise?")
                 .setPositiveButton("Yes") { dialog, which ->
+
                     viewModel.deleteExercise(item)
                     Toast.makeText(requireContext(), "Exercise deleted", Toast.LENGTH_SHORT).show()
                 }

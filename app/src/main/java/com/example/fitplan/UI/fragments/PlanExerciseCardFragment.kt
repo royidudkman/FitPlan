@@ -41,7 +41,6 @@ class PlanExerciseCardFragment : Fragment() {
         sharedViewModel.selectedExercise.observe(viewLifecycleOwner) { exercise ->
 
             Glide.with(requireContext()).asGif().load(exercise.image).into(binding.exerciseImage)
-           // binding.exerciseImage.setImageResource(exercise.image)
             binding.titleTv.text = exercise.name
             binding.descriptionTv.text = exercise.description
 

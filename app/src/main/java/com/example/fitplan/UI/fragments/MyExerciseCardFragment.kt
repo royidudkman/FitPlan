@@ -9,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import com.bumptech.glide.Glide
 import com.example.fitplan.ExercisesViewModel
 import com.example.fitplan.R
 import com.example.fitplan.SharedViewModel
@@ -35,23 +36,26 @@ class MyExerciseCardFragment : Fragment() , ExercisesViewModel.TimerCallback{
 
         sharedViewModel.selectedExercise.observe(viewLifecycleOwner){ exercise ->
 
-            binding.exerciseImage.setImageResource(exercise.image)
+            Glide.with(requireContext()).asGif().load(exercise.image).into(binding.exerciseImage)
             binding.titleTv.setText(exercise.name)
             binding.descriptionTv.setText(exercise.description)
-            binding.repsTv.setText(exercise.reps.toString())
+            binding.repsTv.setText("Reps: " + exercise.reps.toString())
 
             val totalSeconds = exercise.time / 1000
             val minutes = totalSeconds / 60
             val seconds = totalSeconds % 60
             binding.timerTv.text = String.format(Locale.getDefault(), "%02d:%02d", minutes, seconds)
 
+            if (exercise.time == 0L){
+                binding.timerTv.visibility = View.GONE
+                binding.startTimerBtn.visibility = View.GONE
+                binding.startTimerBtn.isEnabled = false
+            }
+
             binding.startTimerBtn.setOnClickListener {
                 startTimer(exercise.time)
             }
 
-            binding.stopTimerBtn.setOnClickListener {
-                //TODO : PAUSE THE TIME
-            }
 
         }
 
