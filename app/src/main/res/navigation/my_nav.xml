@@ -44,6 +44,9 @@
             android:id="@+id/action_planWorkoutFragment2_to_planExerciseCardFragment"
             app:destination="@id/planExerciseCardFragment"
             app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_planWorkoutFragment2_to_myPlansFragment"
+            app:destination="@id/myPlansFragment" />
     </fragment>
     <fragment
         android:id="@+id/socialFragment"

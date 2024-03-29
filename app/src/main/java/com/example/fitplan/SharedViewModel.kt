@@ -24,6 +24,10 @@ class SharedViewModel : ViewModel() {
         currentList.add(exercise)
         _exerciseToPlan.value = currentList
     }
+
+    fun cleanExerciseToPlan(){
+        _exerciseToPlan.value = emptyList()
+    }
     fun setSelectedExercise(exercise: Exercise) {
         _selectedExercise.value = exercise
     }

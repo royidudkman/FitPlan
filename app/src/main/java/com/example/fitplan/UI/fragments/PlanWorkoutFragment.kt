@@ -16,6 +16,7 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
+import androidx.core.view.isVisible
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
@@ -74,6 +75,18 @@ class PlanWorkoutFragment : Fragment() {
         requireActivity().findViewById<BottomNavigationView>(R.id.bottom_navigation).visibility =
             View.VISIBLE
 
+        binding.savePlanBtn.isEnabled = false
+        binding.savePlanBtn.alpha = 0.5f
+
+        sharedViewModel.exerciseToPlan.observe(viewLifecycleOwner) { exercises ->
+            if (exercises.isNotEmpty()) {
+                binding.savePlanBtn.isEnabled = true
+                binding.savePlanBtn.alpha = 1f
+            }
+        }
+
+
+
         binding.savePlanBtn.setOnClickListener {
 
             val dialogBuilder = AlertDialog.Builder(requireContext())
@@ -103,14 +116,20 @@ class PlanWorkoutFragment : Fragment() {
             sharedViewModel.exerciseToPlan.observe(viewLifecycleOwner) { exercises ->
 
                 saveBtn.setOnClickListener {
-                    viewModel.addPlan(
-                        titleText.text.toString(),
-                        descriptionText.text.toString(),
-                        chosenImage,//TODO get image from phone
-                        exercises
-                    )
-                    Toast.makeText(requireContext(), "Plan saved", Toast.LENGTH_SHORT).show()
-                    alertDialog.dismiss()
+                    if (titleText.text.isNullOrEmpty())
+                        Toast.makeText(requireContext(),"Plan must have a title",Toast.LENGTH_SHORT).show()
+                    else {
+                        viewModel.addPlan(
+                            titleText.text.toString(),
+                            descriptionText.text.toString(),
+                            chosenImage,//TODO get image from phone
+                            exercises
+                        )
+                        Toast.makeText(requireContext(), "Plan saved", Toast.LENGTH_SHORT).show()
+                        alertDialog.dismiss()
+                        sharedViewModel.cleanExerciseToPlan()
+                        findNavController().navigate(R.id.action_planWorkoutFragment2_to_myPlansFragment)
+                    }
                 }
             }
             cancelBtn.setOnClickListener {
