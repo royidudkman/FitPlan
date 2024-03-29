@@ -10,6 +10,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.activityViewModels
+import com.bumptech.glide.Glide
 import com.example.fitplan.R
 import com.example.fitplan.SharedViewModel
 import com.example.fitplan.adapters.PlanExerciseAdapter
@@ -39,7 +40,8 @@ class PlanExerciseCardFragment : Fragment() {
 
         sharedViewModel.selectedExercise.observe(viewLifecycleOwner) { exercise ->
 
-            binding.exerciseImage.setImageResource(exercise.image)
+            Glide.with(requireContext()).asGif().load(exercise.image).into(binding.exerciseImage)
+           // binding.exerciseImage.setImageResource(exercise.image)
             binding.titleTv.text = exercise.name
             binding.descriptionTv.text = exercise.description
 
