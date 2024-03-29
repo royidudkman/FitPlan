@@ -38,6 +38,7 @@ class SocialFragment : Fragment() {
 
 
 
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -92,6 +93,25 @@ class SocialFragment : Fragment() {
         }
 
         override fun onPlanLongClicked(index: Int) {
+            val item = socialAdapter.planAt(index)
+
+            sharedViewModel.sharedPlans.value?.let { plans ->
+                if(plans.any{it.id == item.id}){
+                    val builder = AlertDialog.Builder(requireContext())
+                    builder.setTitle("This action will delete the plan from the Social")
+                        .setMessage("Are you sure you want to delete the plan?")
+                        .setPositiveButton("Yes") { dialog, which ->
+                            socialAdapter.deletePlanAt(index)
+                            viewModel.deleteSocialPlan(item.id)
+                            Toast.makeText(requireContext(), "Plan deleted", Toast.LENGTH_SHORT).show()
+                        }
+                        .setNegativeButton("No") { dialog, which ->
+                            dialog.dismiss()
+                        }.show()
+                } else{
+                    Toast.makeText(requireContext(), "You can't delete other people's plans", Toast.LENGTH_SHORT).show()
+                }
+            }
 
         }
     }

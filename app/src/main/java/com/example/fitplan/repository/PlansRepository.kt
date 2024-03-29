@@ -10,7 +10,7 @@ import kotlinx.coroutines.flow.Flow
 
 interface PlansRepository {
     suspend fun addPlan(title: String , description : String, image: Bitmap?, exercises: List<Exercise>) : Resource<Void>
-    suspend fun addSocialPlan(title: String, description: String, image: Bitmap?, exercises: List<Exercise>): Resource<Void>
+    suspend fun addSocialPlan(planId : String, title: String, description: String, image: Bitmap?, exercises: List<Exercise>): Resource<Void>
     suspend fun deletePlan(planId: String): Resource<Void>
     suspend fun deleteSocialPlan(planId: String): Resource<Void>
     suspend fun getPlan(planId: String) : Resource<Plan>

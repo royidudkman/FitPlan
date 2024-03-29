@@ -16,6 +16,9 @@ class SharedViewModel : ViewModel() {
     private val _exerciseToPlan = MutableLiveData<List<Exercise>>()
     val exerciseToPlan: LiveData<List<Exercise>> get() = _exerciseToPlan
 
+    private val _sharedPlans: MutableLiveData<List<Plan>> = MutableLiveData()
+    val sharedPlans: LiveData<List<Plan>> get() = _sharedPlans
+
     fun setSelectedPlan(plan: Plan) {
         _selectedPlan.value = plan
     }
@@ -31,4 +34,10 @@ class SharedViewModel : ViewModel() {
     fun setSelectedExercise(exercise: Exercise) {
         _selectedExercise.value = exercise
     }
+
+    fun setSharedPlans(plans:List<Plan>){
+        _sharedPlans.value = plans
+    }
+
+
 }

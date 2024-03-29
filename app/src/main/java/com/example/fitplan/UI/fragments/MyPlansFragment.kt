@@ -67,6 +67,7 @@ class MyPlansFragment : Fragment() {
                     binding.loadingPlansProgress.isVisible = false
                     resource.data?.let{ plans ->
                         myPlansAdapter.updatePlans(plans)
+                        sharedViewModel.setSharedPlans(plans)
                     }
                 }
                 is Resource.Error -> {

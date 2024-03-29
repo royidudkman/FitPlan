@@ -7,6 +7,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
+import com.example.fitplan.SharedViewModel
 import com.example.fitplan.model.Exercise
 import com.example.fitplan.model.Plan
 import com.example.fitplan.repository.AuthRepository
@@ -27,7 +28,9 @@ class MyPlansViewModel(private val authRep:AuthRepository,val planRep : PlansRep
     private val _deletePlanStatus = MutableLiveData<Resource<Void>>()
     val deletePlanStatus: LiveData<Resource<Void>> = _deletePlanStatus
 
-    val planShare = MutableLiveData<Plan>()
+
+
+
     init{
         viewModelScope.launch {
             planRep.getPlansLiveData(_plansStatus)

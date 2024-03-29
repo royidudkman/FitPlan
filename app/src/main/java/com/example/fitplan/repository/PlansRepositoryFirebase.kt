@@ -58,7 +58,7 @@ class PlansRepositoryFirebase : PlansRepository {
     }
 
 
-    override suspend fun addSocialPlan(title: String, description: String, image: Bitmap?, exercises: List<Exercise>): Resource<Void> = withContext(Dispatchers.IO) {
+    override suspend fun addSocialPlan(planId : String, title: String, description: String, image: Bitmap?, exercises: List<Exercise>): Resource<Void> = withContext(Dispatchers.IO) {
         safeCall {
 
             var base64Bitmap: String? = image?.let { bitmap ->
@@ -70,7 +70,6 @@ class PlansRepositoryFirebase : PlansRepository {
 
             if(base64Bitmap == null){base64Bitmap = ""}
 
-            val planId = socialPlansCollection.document().id
             val plan = Plan(planId, title, description, base64Bitmap,null, exercises)
 
             // Save the plan document under SocialPlans collection

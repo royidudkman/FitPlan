@@ -58,10 +58,6 @@ class PlanExerciseCardFragment : Fragment() {
                 //exercisesToPlan.add(exercise)
                 Toast.makeText(requireContext(), "${exercise.name} added to your plan", Toast.LENGTH_SHORT).show()
             }
-
-            binding.removeExerciseBtn.setOnClickListener {
-                //TODO remove?
-            }
         }
 
 

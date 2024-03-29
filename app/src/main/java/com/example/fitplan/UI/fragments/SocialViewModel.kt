@@ -33,14 +33,13 @@ class SocialViewModel (private val authRep: AuthRepository, val planRep : PlansR
         }
     }
 
-
-    fun addSocialPlan(title: String, description : String, image: Bitmap?, exercises: List<Exercise>){
+    fun addSocialPlan(planId : String,title: String, description : String, image: Bitmap?, exercises: List<Exercise>){
         viewModelScope.launch {
             if(title.isEmpty())
                 _addPlanStatus.postValue(Resource.Error("Empty plan title"))
             else {
                 _addPlanStatus.postValue(Resource.Loading())
-                _addPlanStatus.postValue(planRep.addSocialPlan(title,description,image,exercises))
+                _addPlanStatus.postValue(planRep.addSocialPlan(planId,title,description,image,exercises))
             }
         }
     }
@@ -55,6 +54,8 @@ class SocialViewModel (private val authRep: AuthRepository, val planRep : PlansR
             }
         }
     }
+
+
 
     class SocialViewModelFactory(val authRepo: AuthRepository, val planRep: PlansRepository) : ViewModelProvider.NewInstanceFactory(){
         override fun <T : ViewModel> create(modelClass: Class<T>): T {
