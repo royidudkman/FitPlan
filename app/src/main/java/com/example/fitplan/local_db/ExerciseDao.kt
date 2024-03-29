@@ -6,6 +6,7 @@ import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import androidx.room.Transaction
 import androidx.room.Update
 import com.example.fitplan.model.Exercise
 
@@ -13,6 +14,12 @@ import com.example.fitplan.model.Exercise
 interface ExerciseDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun addExercise(exercise: Exercise)
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun addExercises(exercises: List<Exercise>)
+
+    @Update
+    suspend fun updateExercises(newExercises: List<Exercise>)
 
     @Delete
     suspend fun deleteExercise(vararg exercises:Exercise)

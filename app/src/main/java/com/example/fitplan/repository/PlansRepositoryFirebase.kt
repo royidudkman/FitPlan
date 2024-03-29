@@ -9,6 +9,7 @@ import com.example.fitplan.model.Exercise
 import com.example.fitplan.model.Plan
 import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.SetOptions
 import il.co.syntax.myapplication.util.Resource
@@ -29,18 +30,16 @@ class PlansRepositoryFirebase : PlansRepository {
         currentUser?.let { user ->
             userPlansCollection?.let { plansCollection ->
                 safeCall {
-
                     var base64Bitmap: String? = image?.let { bitmap ->
                         val byteArrayOutputStream = ByteArrayOutputStream()
                         bitmap.compress(Bitmap.CompressFormat.PNG, 100, byteArrayOutputStream)
                         val byteArray: ByteArray = byteArrayOutputStream.toByteArray()
                         Base64.encodeToString(byteArray, Base64.DEFAULT)
                     }
-
-                    if(base64Bitmap == null){base64Bitmap = ""}
+                    if (base64Bitmap == null) base64Bitmap = ""
 
                     val planId = plansCollection.document().id
-                    val plan = Plan(planId, title ,description, base64Bitmap,null, exercises)
+                    val plan = Plan(planId, title, description, base64Bitmap, null, emptyList())
 
                     // Save the plan document under user's collection
                     val addition = plansCollection.document(planId).set(plan).await()
@@ -58,29 +57,20 @@ class PlansRepositoryFirebase : PlansRepository {
     }
 
 
-    override suspend fun addSocialPlan(planId : String, title: String, description: String, image: Bitmap?, exercises: List<Exercise>): Resource<Void> = withContext(Dispatchers.IO) {
+    override suspend fun addSocialPlan(planId: String, title: String, description: String, image: Bitmap?, exercises: List<Exercise>): Resource<Void> = withContext(Dispatchers.IO) {
         safeCall {
-
             var base64Bitmap: String? = image?.let { bitmap ->
                 val byteArrayOutputStream = ByteArrayOutputStream()
                 bitmap.compress(Bitmap.CompressFormat.PNG, 100, byteArrayOutputStream)
                 val byteArray: ByteArray = byteArrayOutputStream.toByteArray()
                 Base64.encodeToString(byteArray, Base64.DEFAULT)
             }
+            if (base64Bitmap == null) base64Bitmap = ""
 
-            if(base64Bitmap == null){base64Bitmap = ""}
-
-            val plan = Plan(planId, title, description, base64Bitmap,null, exercises)
+            val plan = Plan(planId, title, description, base64Bitmap, null, exercises)
 
             // Save the plan document under SocialPlans collection
-           val addition = socialPlansCollection.document(planId).set(plan).await()
-
-            // Save exercises as subcollection under the plan
-            val exercisesCollectionRef = socialPlansCollection.document(planId).collection("exercises")
-            exercises.forEachIndexed { index, exercise ->
-                exercisesCollectionRef.document("exercise_${index + 1}").set(exercise).await()
-            }
-
+            val addition = socialPlansCollection.document(planId).set(plan).await()
             Resource.Success(addition)
         }
     }
@@ -96,6 +86,25 @@ class PlansRepositoryFirebase : PlansRepository {
             } ?: Resource.Error("User plans collection is null")
         } ?: Resource.Error("Current user is null")
     }
+
+    override suspend fun deleteExerciseFromPlan(planId: String, exerciseId: String): Resource<Void> = withContext(Dispatchers.IO) {
+        currentUser?.let { user ->
+            userPlansCollection?.let { plansCollection ->
+                safeCall {
+                    val planRef = plansCollection.document(planId)
+                    val exercisesCollectionRef = planRef.collection("exercises")
+
+                    // Delete the exercise document from the exercises subcollection
+                    val delete = exercisesCollectionRef.document(exerciseId).delete().await()
+
+                    Resource.Success(delete)
+                }
+            } ?: Resource.Error("User plans collection is null")
+        } ?: Resource.Error("Current user is null")
+    }
+
+
+
     override suspend fun deleteSocialPlan(planId: String): Resource<Void> = withContext(Dispatchers.IO) {
         safeCall {
             // Delete the plan document from the SocialPlans collection
@@ -145,16 +154,11 @@ class PlansRepositoryFirebase : PlansRepository {
                 val planId = document.id
                 val planTitle = document.getString("title") ?: ""
                 val planDescription = document.getString("description") ?: ""
+                var base64Bitmap: String? = document.getString("imageString") ?: ""
+                val bitmap: Bitmap? = null // Assuming the bitmap is not stored directly in the document
 
-                var base64Bitmap: String? = document.getString("imageString")
-                var bitmap : Bitmap? = null
-                if (base64Bitmap != null) {
-                    val byteArray = Base64.decode(base64Bitmap, Base64.DEFAULT)
-                    bitmap = BitmapFactory.decodeByteArray(byteArray, 0, byteArray.size)
-                    // Use 'bitmap' here
-                } else {
+                if(base64Bitmap == null)
                     base64Bitmap = ""
-                }
 
                 val exercises = mutableListOf<Exercise>()
                 val exercisesSnapshot = document.reference.collection("exercises").get().await()
@@ -166,12 +170,14 @@ class PlansRepositoryFirebase : PlansRepository {
                     val image = exerciseDocument.getLong("image")?.toInt() ?: 0
                     val reps = exerciseDocument.getLong("reps")?.toInt() ?: 0
                     val time = exerciseDocument.getLong("time") ?: 0
+                    val id = exerciseDocument.id // Get the document ID as exercise ID
 
                     val exercise = Exercise(name, description, bodyPart, image, reps, time)
+                    exercise.id = id
                     exercises.add(exercise)
                 }
 
-                val plan = Plan(planId, planTitle, planDescription,base64Bitmap, bitmap, exercises)
+                val plan = Plan(planId, planTitle, planDescription, base64Bitmap, bitmap, exercises)
                 plans.add(plan)
             }
 
@@ -197,35 +203,32 @@ class PlansRepositoryFirebase : PlansRepository {
                 val planId = document.id
                 val planTitle = document.getString("title") ?: ""
                 val planDescription = document.getString("description") ?: ""
+                var base64Bitmap: String? = document.getString("imageString") ?: ""
+                val bitmap: Bitmap? = null // Assuming the bitmap is not stored directly in the document
 
-                var base64Bitmap: String? = document.getString("imageString")
-                var bitmap : Bitmap? = null
-                if (base64Bitmap != null) {
-                    val byteArray = Base64.decode(base64Bitmap, Base64.DEFAULT)
-                    bitmap = BitmapFactory.decodeByteArray(byteArray, 0, byteArray.size)
-                    // Use 'bitmap' here
-                } else {
+                if(base64Bitmap == null)
                     base64Bitmap = ""
-                }
 
                 val exercises = mutableListOf<Exercise>()
-                val exercisesSnapshot = document.reference.collection("exercises").get().await()
 
-                exercisesSnapshot.documents.forEach { exerciseDocument ->
-                    val name = exerciseDocument.getString("name") ?: ""
-                    val description = exerciseDocument.getString("description") ?: ""
-                    val bodyPart = exerciseDocument.getString("bodyPart") ?: ""
-                    val image = exerciseDocument.getLong("image")?.toInt() ?: 0
-                    val reps = exerciseDocument.getLong("reps")?.toInt() ?: 0
-                    val time = exerciseDocument.getLong("time") ?: 0
+                // Fetch exercises from the "exercises" field array
+                val exercisesData = document.get("exercises") as? List<Map<String, Any>> // Adjust the type if needed
+
+                exercisesData?.forEach { exerciseData ->
+                    val name = exerciseData["name"] as? String ?: ""
+                    val description = exerciseData["description"] as? String ?: ""
+                    val bodyPart = exerciseData["bodyPart"] as? String ?: ""
+                    val image = (exerciseData["image"] as? Long)?.toInt() ?: 0
+                    val reps = (exerciseData["reps"] as? Long)?.toInt() ?: 0
+                    val time = exerciseData["time"] as? Long ?: 0
+                    val id = exerciseData["id"] as? String ?: ""
 
                     val exercise = Exercise(name, description, bodyPart, image, reps, time)
+                    exercise.id = id
                     exercises.add(exercise)
                 }
 
-
-
-                val plan = Plan(planId, planTitle, planDescription,base64Bitmap, bitmap, exercises)
+                val plan = Plan(planId, planTitle, planDescription, base64Bitmap, bitmap, exercises)
                 plans.add(plan)
             }
 

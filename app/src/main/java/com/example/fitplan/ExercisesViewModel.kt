@@ -30,11 +30,23 @@ class ExercisesViewModel(application: Application) : AndroidViewModel(applicatio
     private val _chosenExercise = MutableLiveData<Exercise>()
     val chosenExercise : LiveData<Exercise> get() = _chosenExercise
 
+    private val _selectedBodyPart = MutableLiveData("Back")
+    val selectedBodyPart: LiveData<String> get() = _selectedBodyPart
+    fun setSelectedBodyPart(bodyPart: String) {
+        _selectedBodyPart.value = bodyPart
+    }
+//    init {
+//        // Observe LiveData in ViewModel
+//        exercises?.observeForever {
+//
+//        }
+//    }
     interface TimerCallback {
         fun startTimer(milliseconds: Long)
     }
 
     var timerCallback : TimerCallback? = null
+
 
 
     fun setExercise(exercise: Exercise){
@@ -46,14 +58,31 @@ class ExercisesViewModel(application: Application) : AndroidViewModel(applicatio
             repository.addExercise(exercise)
         }
     }
+
+    fun addExercises(exercises: List<Exercise>){
+        viewModelScope.launch {
+            repository.addExercises(exercises)
+        }
+    }
+
+    fun updateExercises(exercises: List<Exercise>){
+        viewModelScope.launch {
+            repository.updateExercises(exercises)
+        }
+    }
     fun deleteExercise(exercise: Exercise){
         viewModelScope.launch{
             repository.deleteExercise(exercise)
         }
         _filteredExercises.value = _filteredExercises.value?.minus(exercise)
     }
+    fun clearAndAddExercises(exercises: List<Exercise>){
+        viewModelScope.launch{
+            repository.clearAndAddExercises(exercises)
+        }
+    }
 
-    private fun startTimer(milliseconds : Long) { //TODO : ADD TO THE DATA THE TIME THAT THE USER WANT
+    private fun startTimer(milliseconds : Long) {
        timerCallback?.startTimer(milliseconds )
     }
 
@@ -63,11 +92,9 @@ class ExercisesViewModel(application: Application) : AndroidViewModel(applicatio
         }
     }
     fun filterExercisesByBodyPart(bodyPart: String) {
-        val allExercises = exercises?.value
-        if (allExercises != null) {
-            val filteredExercises = allExercises.filter { it.bodyPart == bodyPart }
-            _filteredExercises.value = filteredExercises
-        }
+        val allExercises = exercises?.value ?: emptyList()
+        val filteredExercises = allExercises.filter { it.bodyPart == bodyPart }
+        _filteredExercises.value = filteredExercises
     }
 
 }

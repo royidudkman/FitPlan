@@ -55,6 +55,8 @@ class PlanExerciseCardFragment : Fragment() {
                 val totalMilliseconds = ((minutes * 60) + seconds) * 1000L
                 exercise.time = totalMilliseconds
 
+                exercise.generateId()
+
                 sharedViewModel.addExerciseToPlan(exercise)
                 //exercisesToPlan.add(exercise)
                 Toast.makeText(requireContext(), "${exercise.name} added to your plan", Toast.LENGTH_SHORT).show()

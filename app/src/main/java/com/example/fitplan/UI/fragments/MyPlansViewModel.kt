@@ -37,6 +37,11 @@ class MyPlansViewModel(private val authRep:AuthRepository,val planRep : PlansRep
         }
     }
 
+    fun fetchPlans() {
+        viewModelScope.launch {
+            planRep.getPlansLiveData(_plansStatus)
+        }
+    }
 
     fun addPlan(title: String, description : String, image: Bitmap?, exercises: List<Exercise>){
         viewModelScope.launch {
@@ -59,6 +64,19 @@ class MyPlansViewModel(private val authRep:AuthRepository,val planRep : PlansRep
             }
         }
     }
+
+    fun deleteExerciseFromPlan(planId: String, exerciseId: String) {
+        viewModelScope.launch {
+            if (planId.isEmpty() || exerciseId.isEmpty()) {
+                _deletePlanStatus.postValue(Resource.Error("Empty plan or exercise id"))
+            } else {
+                _deletePlanStatus.postValue(Resource.Loading())
+                val result = planRep.deleteExerciseFromPlan(planId, exerciseId)
+                _deletePlanStatus.postValue(result)
+            }
+        }
+    }
+
 
     class MyPlansViewModelFactory(val authRepo: AuthRepository, val planRep: PlansRepository) : ViewModelProvider.NewInstanceFactory(){
         override fun <T : ViewModel> create(modelClass: Class<T>): T {

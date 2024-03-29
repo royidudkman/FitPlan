@@ -128,7 +128,7 @@ class PlanWorkoutFragment : Fragment() {
                         Toast.makeText(requireContext(), "Plan saved", Toast.LENGTH_SHORT).show()
                         alertDialog.dismiss()
                         sharedViewModel.cleanExerciseToPlan()
-                        findNavController().navigate(R.id.action_planWorkoutFragment2_to_myPlansFragment)
+                       // findNavController().navigate(R.id.action_planWorkoutFragment2_to_myPlansFragment)
                     }
                 }
             }

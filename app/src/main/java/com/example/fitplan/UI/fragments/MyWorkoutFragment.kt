@@ -1,21 +1,17 @@
 package com.example.fitplan.UI.fragments
 
-import android.media.MediaPlayer
 import android.os.Bundle
-import android.os.CountDownTimer
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.ImageView
-import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
-import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.fitplan.ExercisesViewModel
 import com.example.fitplan.R
@@ -23,13 +19,10 @@ import com.example.fitplan.SharedViewModel
 import com.example.fitplan.adapters.MyExerciseAdapter
 import com.example.fitplan.databinding.FragmentMyWorkoutBinding
 import com.example.fitplan.model.Exercise
-import com.example.fitplan.model.Plan
 import com.example.fitplan.repository.PlansRepositoryFirebase
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.tabs.TabLayout
-import com.google.firebase.auth.FirebaseAuth
 import il.co.syntax.firebasemvvm.repository.FirebaseImpl.AuthRepositoryFirebase
-import java.util.Locale
 
 class MyWorkoutFragment : Fragment() {
 
@@ -41,10 +34,16 @@ class MyWorkoutFragment : Fragment() {
     private lateinit var myExerciseAdapter: MyExerciseAdapter
 
     private var selectedTabIndex = 0
+    private val exercisesByBodyPart = mutableMapOf<String, List<Exercise>>()
 
+    private lateinit var planId : String
 
-
-
+    private val myPlansviewModel : MyPlansViewModel by viewModels{
+        MyPlansViewModel.MyPlansViewModelFactory(
+            AuthRepositoryFirebase(),
+            PlansRepositoryFirebase()
+        )
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -56,38 +55,54 @@ class MyWorkoutFragment : Fragment() {
             View.GONE
 
 
+
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        sharedViewModel.selectedPlan.observe(viewLifecycleOwner) { plan ->
-            val planTitle = plan.title
-            Toast.makeText(requireContext(), "Welcome to: $planTitle", Toast.LENGTH_SHORT).show()
+        myExerciseAdapter = MyExerciseAdapter(emptyList(), exerciseListener, viewModel)
 
-            // Update the RecyclerView with exercises from the selected plan
+
+
+
+
+        sharedViewModel.selectedPlan.observe(viewLifecycleOwner) { plan ->
+            planId = plan.id
+
             plan.exercises?.let { exercises ->
-                // Filter exercises based on the selected tab (body part)
-                filterExercises(exercises, getBodyPartForTabIndex(selectedTabIndex))
+                categorizeExercises(exercises)
+                viewModel.clearAndAddExercises(exercises ?: emptyList())
+                val bodyPart = "Back"
+                myExerciseAdapter.updateExercises(exercisesByBodyPart[bodyPart] ?: emptyList())
+                binding.recycler.apply {
+                    layoutManager = LinearLayoutManager(requireContext())
+                    adapter = myExerciseAdapter
+                }
             }
         }
 
-
-
-
-
+        viewModel.exercises?.observe(viewLifecycleOwner){exercises ->
+            categorizeExercises(exercises)
+            val bodyPart = "Back"
+            myExerciseAdapter.updateExercises(exercisesByBodyPart[bodyPart] ?: emptyList())
+            binding.recycler.apply {
+                layoutManager = LinearLayoutManager(requireContext())
+                adapter = myExerciseAdapter
+            }
+        }
 
 
         binding.tabs.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
             override fun onTabSelected(tab: TabLayout.Tab?) {
                 tab?.let {
-                    selectedTabIndex = it.position
-                    sharedViewModel.selectedPlan.value?.let { plan ->
-                        plan.exercises?.let { exercises ->
-                            // Filter exercises based on the selected tab (body part)
-                            filterExercises(exercises, getBodyPartForTabIndex(selectedTabIndex))
-                        }
+                    val bodyPart = getBodyPartForTabIndex(it.position)
+
+                    myExerciseAdapter.updateExercises(exercisesByBodyPart[bodyPart] ?: emptyList())
+                    binding.recycler.apply {
+                        layoutManager = LinearLayoutManager(requireContext())
+                        adapter = myExerciseAdapter
                     }
                 }
             }
@@ -100,6 +115,14 @@ class MyWorkoutFragment : Fragment() {
         })
     }
 
+    private fun categorizeExercises(exercises: List<Exercise>) {
+        exercisesByBodyPart.clear()
+        exercisesByBodyPart["Back"] = exercises.filter { it.bodyPart == "Back" }
+        exercisesByBodyPart["Chest"] = exercises.filter { it.bodyPart == "Chest" }
+        exercisesByBodyPart["Legs"] = exercises.filter { it.bodyPart == "Legs" }
+        exercisesByBodyPart["Abs"] = exercises.filter { it.bodyPart == "Abs" }
+        exercisesByBodyPart["Cardio"] = exercises.filter { it.bodyPart == "Cardio" }
+    }
     private fun getBodyPartForTabIndex(tabIndex: Int): String {
         return when (tabIndex) {
             1 -> "Chest"
@@ -110,14 +133,7 @@ class MyWorkoutFragment : Fragment() {
         }
     }
 
-    private fun filterExercises(exercises: List<Exercise>, bodyPart: String) {
-        val filteredExercises = exercises.filter { it.bodyPart.equals(bodyPart, ignoreCase = true) }
-        myExerciseAdapter = MyExerciseAdapter(filteredExercises, exerciseListener, viewModel)
-        binding.recycler.apply {
-            layoutManager = LinearLayoutManager(requireContext())
-            adapter = myExerciseAdapter
-        }
-    }
+
 
     private val exerciseListener = object : MyExerciseAdapter.ExerciseListener {
         override fun onExerciseClicked(index: Int) {
@@ -134,6 +150,7 @@ class MyWorkoutFragment : Fragment() {
                 .setMessage("Are you sure you want to delete the exercise?")
                 .setPositiveButton("Yes") { dialog, which ->
 
+                    myPlansviewModel.deleteExerciseFromPlan(planId,item.id)
                     viewModel.deleteExercise(item)
                     Toast.makeText(requireContext(), "Exercise deleted", Toast.LENGTH_SHORT).show()
                 }

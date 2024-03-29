@@ -6,6 +6,7 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 import kotlinx.parcelize.Parcelize
 import java.sql.Time
+import java.util.UUID
 
 @Parcelize
 @Entity(tableName = "exercises")
@@ -32,11 +33,10 @@ data class Exercise(
 
 
     : Parcelable {
-        @PrimaryKey(autoGenerate = true)
-        var id : Int = 0
+        @PrimaryKey
+        var id : String = ""
+
+        fun generateId(){
+            id = UUID.randomUUID().toString()
+        }
     }
-
-
-
-
-
