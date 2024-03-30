@@ -3,17 +3,25 @@ package com.example.fitplan.UI.run
 import android.Manifest
 import android.app.Activity
 import android.app.Application
-import android.content.Context
+import android.content.ContentValues.TAG
 import android.content.pm.PackageManager
+import android.graphics.Color
 import android.location.Location
-import android.location.LocationRequest
+import android.util.Log
+import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.core.app.ActivityCompat
+import androidx.core.app.ActivityCompat.shouldShowRequestPermissionRationale
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationCallback
 import com.google.android.gms.location.LocationResult
 import com.google.android.gms.location.LocationServices
+import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.MarkerOptions
+import com.google.android.gms.maps.model.PolylineOptions
 import com.google.android.gms.tasks.Task
 
 class RunViewModel(application: Application) : AndroidViewModel(application) {
@@ -25,6 +33,7 @@ class RunViewModel(application: Application) : AndroidViewModel(application) {
     private lateinit var locationCallback: LocationCallback
     var currentLocation = MutableLiveData<Location?>()
     private var kmPerMinute = MutableLiveData<String>()
+    private var pathPositions = mutableListOf<LatLng>()
 
 
     private var startTime: Long = 0
@@ -36,15 +45,35 @@ class RunViewModel(application: Application) : AndroidViewModel(application) {
     private var isRunning: Boolean = false
     private var pausedLocation: Location? = null
 
-    fun checkLocationPermissions(activity: Activity): Boolean {
-        return ActivityCompat.checkSelfPermission(
-            activity.baseContext, android.Manifest.permission.ACCESS_FINE_LOCATION
-        ) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
-            activity.baseContext, android.Manifest.permission.ACCESS_COARSE_LOCATION
-        ) != PackageManager.PERMISSION_GRANTED
+    var checkLocationPermissionListener : ICheckLocationPermissionListener? = null
+    var isPermissionDeniedBefore = false
+
+    interface ICheckLocationPermissionListener{
+        fun onPermissionGranted()
+        fun onPermissionDenied()
     }
 
-    private fun requestPermissions(activity: Activity) {
+    fun checkLocationPermissions(activity: Activity, checkLocationPermission: ICheckLocationPermissionListener) {
+        // Use ContextCompat.checkSelfPermission instead of ActivityCompat.checkSelfPermission
+        val userChoosePermission = ActivityCompat.checkSelfPermission(
+            activity,
+            android.Manifest.permission.ACCESS_FINE_LOCATION
+        ) == PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
+            activity,
+            android.Manifest.permission.ACCESS_COARSE_LOCATION
+        ) == PackageManager.PERMISSION_GRANTED
+
+        if (userChoosePermission) {
+            checkLocationPermission.onPermissionGranted()
+        } else {
+            isPermissionDeniedBefore = true
+            checkLocationPermission.onPermissionDenied()
+        }
+    }
+
+
+
+    fun requestPermissions(activity: Activity) {
         ActivityCompat.requestPermissions(
             activity, arrayOf(android.Manifest.permission.ACCESS_FINE_LOCATION), 101
         )
@@ -53,26 +82,28 @@ class RunViewModel(application: Application) : AndroidViewModel(application) {
     private fun startLocationUpdates(activity: Activity) {
         val task: Task<Location> = fusedLocationProviderClient.lastLocation
         val locationRequest = com.google.android.gms.location.LocationRequest.create().apply {
-            interval = 10000 // Update interval in milliseconds
-            fastestInterval = 3000 // Fastest update interval in milliseconds
-            priority = LocationRequest.QUALITY_HIGH_ACCURACY
+            interval = 3000 // Update interval in milliseconds
+            fastestInterval = 1000 // Fastest update interval in milliseconds
+            priority = com.google.android.gms.location.LocationRequest.PRIORITY_HIGH_ACCURACY
         }
 
         locationCallback = object : LocationCallback() {
             override fun onLocationResult(locationResult: LocationResult) {
-                locationResult?.lastLocation?.let { location ->
+                locationResult.lastLocation?.let { location ->
                     currentLocation.postValue(location)
+                    pathPositions.add(LatLng(location.latitude, location.longitude))
                 }
             }
         }
+
         if (ActivityCompat.checkSelfPermission(
-                activity.baseContext, Manifest.permission.ACCESS_FINE_LOCATION
+                activity, Manifest.permission.ACCESS_FINE_LOCATION
             ) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
-                activity.baseContext,
-                Manifest.permission.ACCESS_COARSE_LOCATION
+                activity, Manifest.permission.ACCESS_COARSE_LOCATION
             ) != PackageManager.PERMISSION_GRANTED
         ) {
-            requestPermissions(activity = activity)
+            // Request location permissions if not granted
+            return
         }
         task.addOnSuccessListener {
             if (startLocation != null) {
@@ -85,7 +116,17 @@ class RunViewModel(application: Application) : AndroidViewModel(application) {
                     locationRequest, locationCallback, null
                 )
             }
+        }.addOnFailureListener { exception ->
+            // Handle failure to retrieve last known location
+            Log.e(TAG, "Failed to retrieve last known location: $exception")
+            Toast.makeText(activity, "Failed to retrieve last known location", Toast.LENGTH_SHORT)
+                .show()
         }
+    }
+
+
+    fun getPointPath(): List<LatLng> {
+        return pathPositions
     }
 
     private fun startRun(startLocation: Location) {
@@ -113,7 +154,7 @@ class RunViewModel(application: Application) : AndroidViewModel(application) {
         return timeFormat
     }
 
-    fun getKmForMinute():MutableLiveData<String>{
+    fun getKmForMinute(): MutableLiveData<String> {
         return kmPerMinute
     }
 
@@ -160,8 +201,6 @@ class RunViewModel(application: Application) : AndroidViewModel(application) {
         }
         task.addOnSuccessListener {
             startLocation = it
-            pausedLocation = null
-            isRunning = true
         }
 
     }
@@ -178,13 +217,15 @@ class RunViewModel(application: Application) : AndroidViewModel(application) {
         startLocation = null
         totalDistance = 0f
         kmPerMinute.postValue("0.00")
+        pathPositions.removeAll(pathPositions)
         fusedLocationProviderClient.removeLocationUpdates(locationCallback)
         currentLocation.value = null
     }
 
     fun onStartRunning(activity: Activity) {
-        startTime()
-        startLocationUpdates(activity)
+            startTime()
+            startLocationUpdates(activity)
+            isRunning= true
     }
 
     fun onResumeRunning(activity: Activity) {
@@ -206,7 +247,7 @@ class RunViewModel(application: Application) : AndroidViewModel(application) {
         isRunning = false
     }
 
-     fun kmForMinute(){
+    fun kmForMinute() {
         val timeString = timeFormat.value
         if (timeString != null) {
             val timeParts = timeString.split(":")
@@ -217,7 +258,7 @@ class RunViewModel(application: Application) : AndroidViewModel(application) {
                 val totalTimeInMinutes = hour * 60 + minutes + seconds / 60
                 if (totalTimeInMinutes != 0f) {
                     val kmForMinutesFloat = totalDistance / totalTimeInMinutes
-                    kmPerMinute.postValue(String.format("%.2f",kmForMinutesFloat))
+                    kmPerMinute.postValue(String.format("%.2f", kmForMinutesFloat))
                 }
             }
         }
@@ -227,5 +268,17 @@ class RunViewModel(application: Application) : AndroidViewModel(application) {
         return isRunning
     }
 
+
+    fun drawPath(): PolylineOptions {
+        val polylineOptions = PolylineOptions()
+        polylineOptions.addAll(getPointPath())
+        polylineOptions.width(10f)
+        polylineOptions.color(Color.RED)
+        polylineOptions.geodesic(true)
+        for (point in pathPositions) {
+            Log.d("PathPoint", "Latitude: ${point.latitude}, Longitude: ${point.longitude}")
+        }
+        return polylineOptions
+    }
 
 }

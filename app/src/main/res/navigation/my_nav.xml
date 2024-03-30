@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/my_nav"
-    app:startDestination="@id/loginFragment">
+    app:startDestination="@id/runFragment">
 
     <fragment
         android:id="@+id/loginFragment"
@@ -103,4 +103,14 @@
             android:id="@+id/action_choosePlanToUploadFragment_to_socialFragment"
             app:destination="@id/socialFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/runSaveDetails"
+        android:name="com.example.fitplan.UI.run.RunSaveDetails"
+        android:label="fragment_run_save_details"
+        tools:layout="@layout/fragment_run_save_details" >
+        <action
+            android:id="@+id/action_runSaveDetails_to_planExerciseCardFragment"
+            app:destination="@id/planExerciseCardFragment" />
+    </fragment>
+
 </navigation>

@@ -53,6 +53,7 @@ dependencies {
     implementation ("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.3")
     implementation("androidx.room:room-runtime:2.6.1")
     implementation("com.google.firebase:firebase-database-ktx:20.3.1")
+    implementation("com.google.android.gms:play-services-maps:18.2.0")
     kapt("androidx.room:room-compiler:2.6.1")
     implementation("com.github.bumptech.glide:glide:4.16.0")
     annotationProcessor("com.github.bumptech.glide:compiler:4.16.0")

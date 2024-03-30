@@ -9,4 +9,9 @@
         <item name="bottomNavigationStyle">@style/bottomBar.style</item>
         
     </style>
+
+    <style name="FitPlan" parent="Theme.AppCompat.Light.DarkActionBar" >
+        <item name="bottomNavigationStyle">@style/bottomBar.style</item>
+
+    </style>
 </resources>
