@@ -2,10 +2,12 @@ package com.example.fitplan
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.fragment.app.FragmentManager
 import androidx.navigation.NavHost
 import androidx.navigation.Navigation
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
+import com.example.fitplan.UI.fragments.sign_out.SignOutFragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class MainActivity : AppCompatActivity() {
@@ -34,8 +36,9 @@ class MainActivity : AppCompatActivity() {
                     navController.navController.navigate(R.id.runFragment)
                     return@setOnItemSelectedListener true
                 }
-                R.id.profile_btn ->{
-                    navController.navController.navigate(R.id.profileFragment)
+                R.id.signOut_btn ->{
+                    val signOutDialog = SignOutFragment()
+                    signOutDialog.show(supportFragmentManager, "SignOutDialog")
                     return@setOnItemSelectedListener true
                 }
                 else -> {return@setOnItemSelectedListener false}

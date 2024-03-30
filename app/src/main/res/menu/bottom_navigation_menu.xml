@@ -22,8 +22,8 @@
         android:icon="@drawable/running_2_svgrepo_com"
         android:title="Run"/>
     <item
-        android:id="@+id/profile_btn"
+        android:id="@+id/signOut_btn"
         android:enabled="true"
         android:icon="@drawable/profile_circle_svgrepo_com"
-        android:title="Profile"/>
+        android:title="Sign-Out"/>
 </menu>

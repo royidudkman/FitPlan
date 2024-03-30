@@ -66,9 +66,9 @@
         tools:layout="@layout/fragment_run" />
     <fragment
         android:id="@+id/profileFragment"
-        android:name="com.example.fitplan.UI.fragments.ProfileFragment"
+        android:name="com.example.fitplan.UI.fragments.sign_out.SignOutFragment"
         android:label="fragment_profile"
-        tools:layout="@layout/fragment_profile" >
+        tools:layout="@layout/fragment_sign_out" >
         <action
             android:id="@+id/action_profileFragment_to_loginFragment"
             app:destination="@id/loginFragment"

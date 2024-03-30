@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.fitplan.ExercisesViewModel
 import com.example.fitplan.R
 import com.example.fitplan.SharedViewModel
+import com.example.fitplan.UI.fragments.sign_out.SignOutFragment
 import com.example.fitplan.adapters.MyExerciseAdapter
 import com.example.fitplan.databinding.FragmentMyWorkoutBinding
 import com.example.fitplan.model.Exercise
@@ -50,9 +51,11 @@ class MyWorkoutFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        val signOutDialog = SignOutFragment()
         _binding = FragmentMyWorkoutBinding.inflate(inflater, container, false)
-        requireActivity().findViewById<BottomNavigationView>(R.id.bottom_navigation).visibility =
-            View.GONE
+        val bottomMenu = requireActivity().findViewById<BottomNavigationView>(R.id.bottom_navigation)
+        bottomMenu.visibility = View.GONE
+        if (bottomMenu.selectedItemId == R.id.signOut_btn) signOutDialog.show(requireFragmentManager(), "SignOutDialog")
 
 
 
@@ -63,9 +66,6 @@ class MyWorkoutFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         myExerciseAdapter = MyExerciseAdapter(emptyList(), exerciseListener, viewModel)
-
-
-
 
 
         sharedViewModel.selectedPlan.observe(viewLifecycleOwner) { plan ->
@@ -103,6 +103,7 @@ class MyWorkoutFragment : Fragment() {
                     binding.recycler.apply {
                         layoutManager = LinearLayoutManager(requireContext())
                         adapter = myExerciseAdapter
+
                     }
                 }
             }
