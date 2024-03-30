@@ -39,7 +39,7 @@ class SocialViewModel (private val authRep: AuthRepository, val planRep : PlansR
                 _addPlanStatus.postValue(Resource.Error("Empty plan title"))
             else {
                 _addPlanStatus.postValue(Resource.Loading())
-                _addPlanStatus.postValue(planRep.addSocialPlan(planId,title,description,image,exercises))
+                _addPlanStatus.postValue(planRep.addSocialPlan(planId, title,description,image,exercises))
             }
         }
     }

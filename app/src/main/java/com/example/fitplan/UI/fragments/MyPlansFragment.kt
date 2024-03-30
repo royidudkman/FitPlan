@@ -107,6 +107,7 @@ class MyPlansFragment : Fragment() {
     override fun onResume() {
         super.onResume()
         viewModel.fetchPlans()
+        //requireActivity().findViewById<BottomNavigationView>(R.id.bottom_navigation).selectedItemId = R.id.myWorkout_btn
     }
 
     override fun onDestroyView() {
