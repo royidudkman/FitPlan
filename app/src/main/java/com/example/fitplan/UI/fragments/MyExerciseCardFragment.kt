@@ -53,6 +53,8 @@ class MyExerciseCardFragment : Fragment() , ExercisesViewModel.TimerCallback{
             }
 
             binding.startTimerBtn.setOnClickListener {
+                binding.startTimerBtn.alpha = 0.5f
+                binding.startTimerBtn.isEnabled = false
                 startTimer(exercise.time)
             }
 

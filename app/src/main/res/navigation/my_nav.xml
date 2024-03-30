@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/my_nav"
-    app:startDestination="@id/runFragment">
+    app:startDestination="@id/loginFragment">
 
     <fragment
         android:id="@+id/loginFragment"
@@ -53,11 +53,11 @@
         android:name="com.example.fitplan.UI.fragments.SocialFragment"
         android:label="SocialFragment" >
         <action
-            android:id="@+id/action_socialFragment_to_myWorkoutFragment"
-            app:destination="@id/myWorkoutFragment" />
-        <action
             android:id="@+id/action_socialFragment_to_choosePlanToUploadFragment"
             app:destination="@id/choosePlanToUploadFragment" />
+        <action
+            android:id="@+id/action_socialFragment_to_mySocialWorkoutFragment2"
+            app:destination="@id/mySocialWorkoutFragment2" />
     </fragment>
     <fragment
         android:id="@+id/runFragment"
@@ -111,6 +111,15 @@
         <action
             android:id="@+id/action_runSaveDetails_to_planExerciseCardFragment"
             app:destination="@id/planExerciseCardFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/mySocialWorkoutFragment2"
+        android:name="com.example.fitplan.UI.fragments.MySocialWorkoutFragment"
+        android:label="fragment_my_social_workout"
+        tools:layout="@layout/fragment_my_social_workout" >
+        <action
+            android:id="@+id/action_mySocialWorkoutFragment2_to_myExerciseCardFragment"
+            app:destination="@id/myExerciseCardFragment" />
     </fragment>
 
 </navigation>

@@ -88,7 +88,7 @@ class SocialFragment : Fragment() {
         override fun onPlanClicked(index: Int) {
             val clickedPlan = socialAdapter.planAt(index)
             sharedViewModel.setSelectedPlan(clickedPlan)
-            findNavController().navigate(R.id.action_socialFragment_to_myWorkoutFragment)
+            findNavController().navigate(R.id.action_socialFragment_to_mySocialWorkoutFragment2)
 
         }
 

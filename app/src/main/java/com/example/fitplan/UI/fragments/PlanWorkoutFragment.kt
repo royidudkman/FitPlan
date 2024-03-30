@@ -126,9 +126,10 @@ class PlanWorkoutFragment : Fragment() {
                             exercises
                         )
                         Toast.makeText(requireContext(), "Plan saved", Toast.LENGTH_SHORT).show()
+                        binding.savePlanBtn.isEnabled = false
+                        binding.savePlanBtn.alpha = 0.5f
                         alertDialog.dismiss()
                         sharedViewModel.cleanExerciseToPlan()
-                        findNavController().navigate(R.id.action_planWorkoutFragment2_to_myPlansFragment)
                     }
                 }
             }
