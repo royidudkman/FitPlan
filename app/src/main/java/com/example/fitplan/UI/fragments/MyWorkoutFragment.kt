@@ -33,7 +33,7 @@ class MyWorkoutFragment : Fragment() {
     private val viewModel: ExercisesViewModel by activityViewModels()
     private lateinit var myExerciseAdapter: MyExerciseAdapter
 
-    private var selectedTabIndex = 0
+    private var currentTab = "Back"
     private val exercisesByBodyPart = mutableMapOf<String, List<Exercise>>()
 
     private lateinit var planId : String
@@ -74,8 +74,8 @@ class MyWorkoutFragment : Fragment() {
             plan.exercises?.let { exercises ->
                 categorizeExercises(exercises)
                 viewModel.clearAndAddExercises(exercises ?: emptyList())
-                val bodyPart = "Back"
-                myExerciseAdapter.updateExercises(exercisesByBodyPart[bodyPart] ?: emptyList())
+                myExerciseAdapter.updateExercises(exercisesByBodyPart[currentTab] ?: emptyList())
+                binding.tabs.getTabAt(getTabIndexForBodyPart(currentTab))?.select()
                 binding.recycler.apply {
                     layoutManager = LinearLayoutManager(requireContext())
                     adapter = myExerciseAdapter
@@ -85,8 +85,8 @@ class MyWorkoutFragment : Fragment() {
 
         viewModel.exercises?.observe(viewLifecycleOwner){exercises ->
             categorizeExercises(exercises)
-            val bodyPart = "Back"
-            myExerciseAdapter.updateExercises(exercisesByBodyPart[bodyPart] ?: emptyList())
+            //myExerciseAdapter.updateExercises(exercisesByBodyPart[currentTab] ?: emptyList())
+           // binding.tabs.getTabAt(getTabIndexForBodyPart(currentTab))?.select()
             binding.recycler.apply {
                 layoutManager = LinearLayoutManager(requireContext())
                 adapter = myExerciseAdapter
@@ -133,11 +133,23 @@ class MyWorkoutFragment : Fragment() {
         }
     }
 
+    private fun getTabIndexForBodyPart(bodyPart: String): Int {
+        return when (bodyPart) {
+            "Chest" -> 1
+            "Abs" -> 2
+            "Legs" -> 3
+            "Cardio" -> 4
+            else -> 0 // Default to "Back"
+        }
+    }
+
+
 
 
     private val exerciseListener = object : MyExerciseAdapter.ExerciseListener {
         override fun onExerciseClicked(index: Int) {
             val item = (binding.recycler.adapter as MyExerciseAdapter).exerciseAt(index)
+            currentTab = item.bodyPart
             sharedViewModel.setSelectedExercise(item)
             findNavController().navigate(R.id.action_myWorkoutFragment_to_myExerciseCardFragment)
 
@@ -160,8 +172,6 @@ class MyWorkoutFragment : Fragment() {
                 .show()
         }
     }
-
-
 
 
     override fun onDestroyView() {

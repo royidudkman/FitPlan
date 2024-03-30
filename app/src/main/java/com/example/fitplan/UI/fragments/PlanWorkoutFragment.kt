@@ -52,7 +52,7 @@ class PlanWorkoutFragment : Fragment() {
             PlansRepositoryFirebase()
         )
     }
-
+    private var currentTab = "Back"
     private val pickImageViewModel : PickImageViewModel by viewModels()
     val pickImageLauncher = registerForActivityResult(ActivityResultContracts.GetContent()) { uri: Uri? ->
         uri?.let { pickedUri ->
@@ -156,6 +156,7 @@ class PlanWorkoutFragment : Fragment() {
         binding.recycler.layoutManager = LinearLayoutManager(requireContext())
         binding.recycler.adapter = planExerciseAdapter
 
+
         binding.muscleNavigation.selectedItemId = R.id.backMuscle_btn
         filterExercises("Back")
 
@@ -180,6 +181,7 @@ class PlanWorkoutFragment : Fragment() {
     private val exerciseListener = object : PlanExerciseAdapter.ExerciseListener {
         override fun onExerciseClicked(index: Int) {
             val exercise = planExerciseAdapter.exerciseAt(index)
+            currentTab = exercise.bodyPart
             sharedViewModel.setSelectedExercise(exercise)
             findNavController().navigate(R.id.action_planWorkoutFragment2_to_planExerciseCardFragment)
 
@@ -191,7 +193,16 @@ class PlanWorkoutFragment : Fragment() {
 
     }
 
-
+    override fun onResume() {
+        super.onResume()
+        when (currentTab) {
+            "Back" -> filterExercises("Back")
+            "Chest" -> filterExercises("Chest")
+            "Abs" -> filterExercises("Abs")
+            "Legs" -> filterExercises("Legs")
+            "Cardio" -> filterExercises("Cardio")
+        }
+    }
 
 
     override fun onDestroyView() {
