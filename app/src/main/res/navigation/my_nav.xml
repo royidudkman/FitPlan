@@ -50,7 +50,7 @@
     </fragment>
     <fragment
         android:id="@+id/socialFragment"
-        android:name="com.example.fitplan.UI.fragments.SocialFragment"
+        android:name="com.example.fitplan.UI.fragments.social.SocialFragment"
         android:label="SocialFragment" >
         <action
             android:id="@+id/action_socialFragment_to_choosePlanToUploadFragment"
@@ -76,7 +76,7 @@
     </fragment>
     <fragment
         android:id="@+id/myPlansFragment"
-        android:name="com.example.fitplan.UI.fragments.MyPlansFragment"
+        android:name="com.example.fitplan.UI.fragments.my_plans.MyPlansFragment"
         android:label="fragment_my_plans"
         tools:layout="@layout/fragment_my_plans" >
         <action
@@ -114,7 +114,7 @@
     </fragment>
     <fragment
         android:id="@+id/mySocialWorkoutFragment2"
-        android:name="com.example.fitplan.UI.fragments.MySocialWorkoutFragment"
+        android:name="com.example.fitplan.UI.fragments.social.MySocialWorkoutFragment"
         android:label="fragment_my_social_workout"
         tools:layout="@layout/fragment_my_social_workout" >
         <action

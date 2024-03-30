@@ -1,4 +1,4 @@
-package com.example.fitplan.UI.fragments
+package com.example.fitplan.UI.fragments.my_plans
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -7,22 +7,18 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
-import androidx.core.os.bundleOf
 import androidx.core.view.isVisible
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.fitplan.ExercisesViewModel
+import com.example.fitplan.view_models.ExercisesViewModel
 import com.example.fitplan.R
-import com.example.fitplan.SharedViewModel
-import com.example.fitplan.UI.login_register.LoginViewModel
+import com.example.fitplan.view_models.SharedViewModel
 import com.example.fitplan.adapters.MyPlansAdapter
 import com.example.fitplan.databinding.FragmentMyPlansBinding
-import com.example.fitplan.model.Plan
 import com.example.fitplan.repository.PlansRepositoryFirebase
 import com.google.android.material.bottomnavigation.BottomNavigationView
-import com.google.firebase.firestore.FirebaseFirestore
 import il.co.syntax.firebasemvvm.repository.FirebaseImpl.AuthRepositoryFirebase
 import il.co.syntax.myapplication.util.Resource
 
@@ -36,7 +32,10 @@ class MyPlansFragment : Fragment() {
     private val sharedViewModel : SharedViewModel by activityViewModels()
 
     private val viewModel : MyPlansViewModel by viewModels{
-        MyPlansViewModel.MyPlansViewModelFactory(AuthRepositoryFirebase(),PlansRepositoryFirebase())
+        MyPlansViewModel.MyPlansViewModelFactory(
+            AuthRepositoryFirebase(),
+            PlansRepositoryFirebase()
+        )
     }
     override fun onCreateView(
         inflater: LayoutInflater,

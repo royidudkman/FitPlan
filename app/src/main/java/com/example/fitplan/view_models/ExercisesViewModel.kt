@@ -1,22 +1,13 @@
-package com.example.fitplan
+package com.example.fitplan.view_models
 
-import android.app.ActivityManager
 import android.app.Application
-import android.content.ContentProvider
-import android.media.MediaPlayer
-import android.os.CountDownTimer
-import android.view.View
-import android.widget.TextView
-import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import androidx.navigation.Navigation
 import com.example.fitplan.model.Exercise
 import com.example.fitplan.repository.ExerciseRepository
 import kotlinx.coroutines.launch
-import java.util.Locale
 
 class ExercisesViewModel(application: Application) : AndroidViewModel(application) {
 

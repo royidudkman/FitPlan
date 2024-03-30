@@ -1,4 +1,4 @@
-package com.example.fitplan
+package com.example.fitplan.view_models
 
 import android.graphics.Bitmap
 import android.net.Uri

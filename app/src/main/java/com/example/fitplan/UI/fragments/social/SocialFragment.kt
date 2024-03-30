@@ -1,4 +1,4 @@
-package com.example.fitplan.UI.fragments
+package com.example.fitplan.UI.fragments.social
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -13,12 +13,10 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.fitplan.R
-import com.example.fitplan.SharedViewModel
-import com.example.fitplan.adapters.MyPlansAdapter
+import com.example.fitplan.view_models.SharedViewModel
 import com.example.fitplan.adapters.SocialAdapter
 import com.example.fitplan.databinding.FragmentSocialBinding
 import com.example.fitplan.repository.PlansRepositoryFirebase
-import com.google.android.material.bottomnavigation.BottomNavigationView
 import il.co.syntax.firebasemvvm.repository.FirebaseImpl.AuthRepositoryFirebase
 import il.co.syntax.myapplication.util.Resource
 
@@ -31,7 +29,8 @@ class SocialFragment : Fragment() {
     private val sharedViewModel : SharedViewModel by activityViewModels()
 
     private val viewModel : SocialViewModel by viewModels{
-        SocialViewModel.SocialViewModelFactory(AuthRepositoryFirebase(),
+        SocialViewModel.SocialViewModelFactory(
+            AuthRepositoryFirebase(),
             PlansRepositoryFirebase()
         )
     }

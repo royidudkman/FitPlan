@@ -50,5 +50,17 @@ class ExercisesData {
             Exercise("Seated Bench Leg Pull In", "Seated Bench Leg Pull Ins are an effective exercise for targeting the lower abdominals.", "Abs",R.drawable.seated_bench_leg_pull_in)
             // Add more abs exercises here
         ),
+        "Cardio" to listOf(
+            Exercise("Briskly Walking", "Strengthens core muscles with brisk walking.", "Cardio", R.drawable.briskly_walking),
+            Exercise("Burpees", "Targets abdominals and hip flexors with burpees.", "Cardio", R.drawable.burpees),
+            Exercise("High Knee Skips", "High knee skips are a cardiovascular exercise focusing on the rectus abdominis.", "Cardio", R.drawable.high_knee_skips),
+            Exercise("Jump Squat", "Jump squats target the entire core while engaging leg muscles.", "Cardio", R.drawable.jump_squat),
+            Exercise("Mountain Climber", "Mountain climbers engage the core and provide a cardio workout.", "Cardio", R.drawable.mountain_climber),
+            Exercise("Run", "Running engages the entire body including the core muscles.", "Cardio", R.drawable.run),
+            Exercise("Skater", "Skaters engage the core muscles while providing a cardio workout.", "Cardio", R.drawable.skater),
+            Exercise("Walking", "Walking is a low-impact exercise that strengthens core muscles.", "Cardio", R.drawable.walking)
+            // Add more abs exercises here
+        )
+
     )
 }

@@ -1,4 +1,4 @@
-package com.example.fitplan
+package com.example.fitplan.view_models
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData

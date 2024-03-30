@@ -9,13 +9,12 @@ import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.fitplan.ExercisesViewModel
+import com.example.fitplan.view_models.ExercisesViewModel
 import com.example.fitplan.R
-import com.example.fitplan.SharedViewModel
+import com.example.fitplan.UI.fragments.my_plans.MyPlansViewModel
+import com.example.fitplan.view_models.SharedViewModel
 import com.example.fitplan.UI.fragments.sign_out.SignOutFragment
 import com.example.fitplan.adapters.MyExerciseAdapter
 import com.example.fitplan.databinding.FragmentMyWorkoutBinding

@@ -5,20 +5,15 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.ImageView
-import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.activityViewModels
 import com.bumptech.glide.Glide
 import com.example.fitplan.R
-import com.example.fitplan.SharedViewModel
+import com.example.fitplan.view_models.SharedViewModel
 import com.example.fitplan.adapters.PlanExerciseAdapter
-import com.example.fitplan.databinding.FragmentSocialBinding
 import com.example.fitplan.databinding.PlanExerciseCardLayoutBinding
 import com.example.fitplan.model.Exercise
 import com.google.android.material.bottomnavigation.BottomNavigationView
-import com.google.android.material.textfield.TextInputEditText
 
 
 class PlanExerciseCardFragment : Fragment() {

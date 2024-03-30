@@ -5,8 +5,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.example.fitplan.UI.fragments.MyPlansViewModel
-import com.example.fitplan.model.Exercise
+import com.example.fitplan.UI.fragments.my_plans.MyPlansViewModel
 import com.example.fitplan.databinding.MyExerciseLayoutBinding
 import com.example.fitplan.model.Plan
 

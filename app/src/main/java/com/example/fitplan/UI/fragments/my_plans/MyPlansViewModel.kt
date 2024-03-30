@@ -1,7 +1,6 @@
-package com.example.fitplan.UI.fragments
+package com.example.fitplan.UI.fragments.my_plans
 
 import android.graphics.Bitmap
-import android.net.Uri
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -14,7 +13,7 @@ import com.example.fitplan.repository.PlansRepository
 import il.co.syntax.myapplication.util.Resource
 import kotlinx.coroutines.launch
 
-class SocialViewModel (private val authRep: AuthRepository, val planRep : PlansRepository) : ViewModel() {
+class MyPlansViewModel(private val authRep:AuthRepository,val planRep : PlansRepository) : ViewModel() {
 
 
     val _plansStatus : MutableLiveData<Resource<List<Plan>>> = MutableLiveData()
@@ -26,40 +25,59 @@ class SocialViewModel (private val authRep: AuthRepository, val planRep : PlansR
     private val _deletePlanStatus = MutableLiveData<Resource<Void>>()
     val deletePlanStatus: LiveData<Resource<Void>> = _deletePlanStatus
 
-    val planShare = MutableLiveData<Plan>()
+
+
+
     init{
         viewModelScope.launch {
-            planRep.getSocialPlansLiveData(_plansStatus)
+            planRep.getPlansLiveData(_plansStatus)
         }
     }
 
-    fun addSocialPlan(planId : String,title: String, description : String, image: Bitmap?, exercises: List<Exercise>){
+    fun fetchPlans() {
+        viewModelScope.launch {
+            planRep.getPlansLiveData(_plansStatus)
+        }
+    }
+
+    fun addPlan(title: String, description : String, image: Bitmap?, exercises: List<Exercise>){
         viewModelScope.launch {
             if(title.isEmpty())
                 _addPlanStatus.postValue(Resource.Error("Empty plan title"))
             else {
                 _addPlanStatus.postValue(Resource.Loading())
-                _addPlanStatus.postValue(planRep.addSocialPlan(planId, title,description,image,exercises))
+                _addPlanStatus.postValue(planRep.addPlan(title,description,image,exercises))
             }
         }
     }
 
-    fun deleteSocialPlan(id : String){
+    fun deletePlan(id : String){
         viewModelScope.launch {
             if(id.isEmpty())
                 _deletePlanStatus.postValue(Resource.Error("Empty plan id"))
             else {
                 _deletePlanStatus.postValue(Resource.Loading())
-                _deletePlanStatus.postValue(planRep.deleteSocialPlan(id))
+                _deletePlanStatus.postValue(planRep.deletePlan(id))
+            }
+        }
+    }
+
+    fun deleteExerciseFromPlan(planId: String, exerciseId: String) {
+        viewModelScope.launch {
+            if (planId.isEmpty() || exerciseId.isEmpty()) {
+                _deletePlanStatus.postValue(Resource.Error("Empty plan or exercise id"))
+            } else {
+                _deletePlanStatus.postValue(Resource.Loading())
+                val result = planRep.deleteExerciseFromPlan(planId, exerciseId)
+                _deletePlanStatus.postValue(result)
             }
         }
     }
 
 
-
-    class SocialViewModelFactory(val authRepo: AuthRepository, val planRep: PlansRepository) : ViewModelProvider.NewInstanceFactory(){
+    class MyPlansViewModelFactory(val authRepo: AuthRepository, val planRep: PlansRepository) : ViewModelProvider.NewInstanceFactory(){
         override fun <T : ViewModel> create(modelClass: Class<T>): T {
-            return SocialViewModel(authRepo, planRep) as T
+            return MyPlansViewModel(authRepo, planRep) as T
         }
     }
 }

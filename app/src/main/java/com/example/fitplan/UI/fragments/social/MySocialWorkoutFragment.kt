@@ -1,22 +1,20 @@
-package com.example.fitplan.UI.fragments
+package com.example.fitplan.UI.fragments.social
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
-import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.fitplan.ExercisesViewModel
+import com.example.fitplan.view_models.ExercisesViewModel
 import com.example.fitplan.R
-import com.example.fitplan.SharedViewModel
+import com.example.fitplan.UI.fragments.my_plans.MyPlansViewModel
+import com.example.fitplan.view_models.SharedViewModel
 import com.example.fitplan.adapters.MyExerciseAdapter
 import com.example.fitplan.databinding.FragmentMySocialWorkoutBinding
-import com.example.fitplan.databinding.FragmentMyWorkoutBinding
 import com.example.fitplan.model.Exercise
 import com.example.fitplan.repository.PlansRepositoryFirebase
 import com.google.android.material.bottomnavigation.BottomNavigationView

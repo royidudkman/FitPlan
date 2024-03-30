@@ -1,7 +1,6 @@
 package com.example.fitplan.UI.fragments
 
 import android.content.Intent
-import android.media.MediaPlayer
 import android.os.Bundle
 import android.os.CountDownTimer
 import android.view.LayoutInflater
@@ -10,9 +9,9 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import com.bumptech.glide.Glide
-import com.example.fitplan.ExercisesViewModel
+import com.example.fitplan.view_models.ExercisesViewModel
 import com.example.fitplan.R
-import com.example.fitplan.SharedViewModel
+import com.example.fitplan.view_models.SharedViewModel
 import com.example.fitplan.databinding.MyExerciseCardLayoutBinding
 import com.example.serviceapp.AlarmService
 import com.google.android.material.bottomnavigation.BottomNavigationView
