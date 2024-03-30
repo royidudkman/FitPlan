@@ -2,6 +2,7 @@ package com.example.fitplan.repository
 
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.graphics.Matrix
 import android.net.Uri
 import android.util.Base64
 import androidx.lifecycle.MutableLiveData
@@ -31,8 +32,9 @@ class PlansRepositoryFirebase : PlansRepository {
             userPlansCollection?.let { plansCollection ->
                 safeCall {
                     var base64Bitmap: String? = image?.let { bitmap ->
+                        val resizedBitmap = resizeBitmap(bitmap, 500, 500)
                         val byteArrayOutputStream = ByteArrayOutputStream()
-                        bitmap.compress(Bitmap.CompressFormat.PNG, 100, byteArrayOutputStream)
+                        resizedBitmap.compress(Bitmap.CompressFormat.PNG, 100, byteArrayOutputStream)
                         val byteArray: ByteArray = byteArrayOutputStream.toByteArray()
                         Base64.encodeToString(byteArray, Base64.DEFAULT)
                     }
@@ -60,8 +62,9 @@ class PlansRepositoryFirebase : PlansRepository {
     override suspend fun addSocialPlan(planId:String, title: String, description: String, image: Bitmap?, exercises: List<Exercise>): Resource<Void> = withContext(Dispatchers.IO) {
         safeCall {
             var base64Bitmap: String? = image?.let { bitmap ->
+                val resizedBitmap = resizeBitmap(bitmap, 500, 500)
                 val byteArrayOutputStream = ByteArrayOutputStream()
-                bitmap.compress(Bitmap.CompressFormat.PNG, 100, byteArrayOutputStream)
+                resizedBitmap.compress(Bitmap.CompressFormat.PNG, 100, byteArrayOutputStream)
                 val byteArray: ByteArray = byteArrayOutputStream.toByteArray()
                 Base64.encodeToString(byteArray, Base64.DEFAULT)
             }
@@ -271,6 +274,16 @@ class PlansRepositoryFirebase : PlansRepository {
         }
     }
 
+
+    private suspend fun resizeBitmap(bitmap: Bitmap, maxWidth: Int, maxHeight: Int): Bitmap {
+        val width = bitmap.width
+        val height = bitmap.height
+        val scaleWidth = maxWidth.toFloat() / width
+        val scaleHeight = maxHeight.toFloat() / height
+        val matrix = Matrix()
+        matrix.postScale(scaleWidth, scaleHeight)
+        return Bitmap.createBitmap(bitmap, 0, 0, width, height, matrix, true)
+    }
 
 
 }
