@@ -51,6 +51,7 @@ class RunSaveDetails : Fragment(), OnMapReadyCallback {
             MenuManager.menuEnable(findNavController(),bottomMenu,requireActivity().supportFragmentManager)
             viewModel.onStopRunning()
             findNavController().navigate(R.id.runFragment)
+
         }
 
         // Request location permissions

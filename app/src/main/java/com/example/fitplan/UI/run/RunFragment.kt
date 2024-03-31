@@ -150,6 +150,7 @@ class RunFragment : Fragment() {
                 // Handle cancelation
             }
             .show()
+
     }
 
     private fun requestPermissionAgain() {
@@ -164,6 +165,7 @@ class RunFragment : Fragment() {
                 // Handle cancelation
             }
             .show()
+
     }
 
 

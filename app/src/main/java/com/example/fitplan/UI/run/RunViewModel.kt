@@ -112,6 +112,7 @@ class RunViewModel(application: Application) : AndroidViewModel(application) {
         ) {
             // Request location permissions if not granted
             return
+
         }
         task.addOnSuccessListener {
             if (startLocation != null) {
