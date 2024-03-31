@@ -54,7 +54,7 @@ class PlanExerciseCardFragment : Fragment() {
 
                 sharedViewModel.addExerciseToPlan(exercise)
                 //exercisesToPlan.add(exercise)
-                Toast.makeText(requireContext(), "${exercise.name}" + getString(R.string.added_to_your_plan), Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(), " ${exercise.name} " + getString(R.string.added_to_your_plan), Toast.LENGTH_SHORT).show()
             }
         }
 

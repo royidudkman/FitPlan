@@ -13,9 +13,9 @@
     <string name="signing_out_don_t_forget">יציאה, אל תשכח: \n"</string>
     <string name="no_pain_no_gain">"אין כאב אין רווח!"</string>
     <string name="reps">"חזרות: "</string>
-    <string name="this_action_will_delete_the_exercise">פעולה זו תמחק את התרגול</string>
-    <string name="are_you_sure_you_want_to_delete_the_exercise">האם אתה בטוח שברצונך למחוק את התרגול?</string>
-    <string name="exercise_deleted">התרגול נמחק</string>
+    <string name="this_action_will_delete_the_exercise">פעולה זו תמחק את התרגיל</string>
+    <string name="are_you_sure_you_want_to_delete_the_exercise">האם אתה בטוח שברצונך למחוק את התרגיל?</string>
+    <string name="exercise_deleted">התרגיל נמחק</string>
     <string name="added_to_your_plan">נוסף לתוכנית שלך</string>
     <string name="minutes">דקות:</string>
     <string name="seconds">שניות:</string>
