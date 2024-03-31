@@ -26,10 +26,10 @@
         android:id="@+id/distance_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:padding="16dp"
-        android:text="Your Distance : 0"
-        android:textColor="@color/white"
+        android:text="@string/your_distance_0"
         android:textSize="20sp"
+        android:padding="16dp"
+        android:textColor="@color/white"
         android:textStyle="bold" />
 
     <TextView
@@ -37,8 +37,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:padding="16dp"
-        android:text="Km For Minute : 0"
-        android:textColor="@color/white"
+        android:text="@string/km_for_minute_0"
         android:textSize="20sp"
 
         android:textStyle="bold" />
@@ -48,9 +47,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:padding="16dp"
-        android:text="Your time : 00:00:00"
-        android:textColor="@color/white"
+        android:text="@string/your_time_00_00_00"
         android:textSize="20sp"
+        android:textColor="@color/white"
         android:textStyle="bold" />
 
 

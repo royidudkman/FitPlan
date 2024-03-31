@@ -15,7 +15,7 @@
         android:layout_gravity="center"
         android:textSize="25dp"
         android:textColor="@color/black"
-        android:text="Choose Plan"
+        android:text="@string/choose_plan"
         android:layout_weight="0.2"/>
 
     <androidx.recyclerview.widget.RecyclerView

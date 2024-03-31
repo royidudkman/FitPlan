@@ -97,18 +97,19 @@ class SocialFragment : Fragment() {
             sharedViewModel.sharedPlans.value?.let { plans ->
                 if(plans.any{it.id == item.id}){
                     val builder = AlertDialog.Builder(requireContext())
-                    builder.setTitle("This action will delete the plan from the Social")
-                        .setMessage("Are you sure you want to delete the plan?")
-                        .setPositiveButton("Yes") { dialog, which ->
+                    builder.setTitle(getString(R.string.this_action_will_delete_the_plan_from_the_social))
+                        .setMessage(getString(R.string.are_you_sure_you_want_to_delete_the_plan))
+                        .setPositiveButton(getString(R.string.yes)) { dialog, which ->
                             socialAdapter.deletePlanAt(index)
                             viewModel.deleteSocialPlan(item.id)
-                            Toast.makeText(requireContext(), "Plan deleted", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(requireContext(), getString(R.string.plan_deleted), Toast.LENGTH_SHORT).show()
                         }
-                        .setNegativeButton("No") { dialog, which ->
+                        .setNegativeButton(getString(R.string.no)) { dialog, which ->
                             dialog.dismiss()
                         }.show()
                 } else{
-                    Toast.makeText(requireContext(), "You can't delete other people's plans", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(requireContext(),
+                        getString(R.string.you_can_t_delete_other_people_s_plans), Toast.LENGTH_SHORT).show()
                 }
             }
 

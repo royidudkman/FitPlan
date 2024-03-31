@@ -24,7 +24,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:padding="16dp"
-                android:text="Are you sure you want sign-out?"
+                android:text="@string/are_you_sure_you_want_sign_out"
                 android:textColor="@color/white"
                 android:textSize="16sp"
                 android:textStyle="bold" />
@@ -47,7 +47,7 @@
                     android:layout_height="wrap_content"
                     android:layout_margin="10dp"
                     android:backgroundTint="@color/green"
-                    android:text="Yes" />
+                    android:text="@string/yes" />
 
                 <Space
                     android:layout_width="wrap_content"
@@ -60,7 +60,7 @@
                     android:layout_height="wrap_content"
                     android:layout_margin="10dp"
                     android:backgroundTint="@color/red"
-                    android:text="No" />
+                    android:text="@string/no" />
 
 
             </LinearLayout>

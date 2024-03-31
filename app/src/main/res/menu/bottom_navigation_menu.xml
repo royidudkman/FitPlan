@@ -5,25 +5,25 @@
         android:id="@+id/myWorkout_btn"
         android:enabled="true"
         android:icon="@drawable/gym_fitness_svgrepo_com"
-        android:title="My workout"/>
+        android:title="@string/my_workout"/>
     <item
         android:id="@+id/planWorkout_btn"
         android:enabled="true"
         android:icon="@drawable/plan_svgrepo_com"
-        android:title="Plan workout"/>
+        android:title="@string/plan_workout"/>
     <item
         android:id="@+id/social_btn"
         android:enabled="true"
         android:icon="@drawable/my_workout"
-        android:title="Social"/>
+        android:title="@string/social"/>
     <item
         android:id="@+id/run_btn"
         android:enabled="true"
         android:icon="@drawable/running_2_svgrepo_com"
-        android:title="Run"/>
+        android:title="@string/run"/>
     <item
         android:id="@+id/signOut_btn"
         android:enabled="true"
         android:icon="@drawable/profile_circle_svgrepo_com"
-        android:title="Sign-Out"/>
+        android:title="@string/sign_out"/>
 </menu>

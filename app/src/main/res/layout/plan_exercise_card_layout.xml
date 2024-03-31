@@ -59,7 +59,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="16dp"
-                android:hint="Enter Amount Of Reps"
+                android:hint="@string/enter_amount_of_reps"
                 android:textColorHint="@color/white"
                 app:hintTextColor="@color/white">
 
@@ -169,7 +169,7 @@
                 android:layout_marginTop="15dp"
                 android:layout_marginBottom="15dp"
                 android:backgroundTint="@color/green"
-                android:text="Add Exercise To Plan"
+                android:text="@string/add_exercise_to_plan"
                 app:icon="@drawable/add_circle_filled_svgrepo_com"
                 app:iconGravity="end" />
 

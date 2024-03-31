@@ -38,7 +38,7 @@ class MyExerciseCardFragment : Fragment() , ExercisesViewModel.TimerCallback{
             Glide.with(requireContext()).asGif().load(exercise.image).into(binding.exerciseImage)
             binding.titleTv.setText(exercise.name)
             binding.descriptionTv.setText(exercise.description)
-            binding.repsTv.setText("Reps: " + exercise.reps.toString())
+            binding.repsTv.setText(getString(R.string.reps) + exercise.reps.toString())
 
             val totalSeconds = exercise.time / 1000
             val minutes = totalSeconds / 60

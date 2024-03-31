@@ -42,9 +42,9 @@ class RunSaveDetails : Fragment(), OnMapReadyCallback {
             requireActivity().findViewById<BottomNavigationView>(R.id.bottom_navigation)
 
         _binding = FragmentRunSaveDetailsBinding.inflate(inflater,container,false)
-        binding.distanceTv.text = "You Run : ${viewModel.getTotalDistance()} KM"
-        binding.kmMTv.text = "Your Km For Minute : ${viewModel.getKmForMinute().value} km/m "
-        binding.timeTv.text = "Total Time : ${viewModel.getTime().value}"
+        binding.distanceTv.text = "You Run : " + "${viewModel.getTotalDistance()}" + "KM"
+        binding.kmMTv.text = "Your Km For Minute : "+ "${viewModel.getKmForMinute().value}" + "km/m "
+        binding.timeTv.text = "Total Time : " + "${viewModel.getTime().value}"
 
 
         binding.cancelRunBtn.setOnClickListener {

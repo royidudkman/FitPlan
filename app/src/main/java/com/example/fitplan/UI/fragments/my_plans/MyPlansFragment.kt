@@ -89,14 +89,15 @@ class MyPlansFragment : Fragment() {
         override fun onPlanLongClicked(index: Int) {
             val item = myPlansAdapter.planAt(index)
             val builder = AlertDialog.Builder(requireContext())
-            builder.setTitle("This action will delete the plan")
-                .setMessage("Are you sure you want to delete the exercise?")
-                .setPositiveButton("Yes") { dialog, which ->
+            builder.setTitle(getString(R.string.this_action_will_delete_the_plan))
+                .setMessage(getString(R.string.are_you_sure_you_want_to_delete_the_plan))
+                .setPositiveButton(getString(R.string.yes)) { dialog, which ->
                     myPlansAdapter.deletePlanAt(index)
                     viewModel.deletePlan(item.id)
-                    Toast.makeText(requireContext(), "Plan deleted", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(requireContext(),
+                        getString(R.string.plan_deleted), Toast.LENGTH_SHORT).show()
                 }
-                .setNegativeButton("No") { dialog, which ->
+                .setNegativeButton(R.string.no) { dialog, which ->
                     dialog.dismiss()
                 }
                 .show()

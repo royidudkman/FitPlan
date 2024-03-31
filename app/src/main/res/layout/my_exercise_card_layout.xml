@@ -101,7 +101,7 @@
                     android:layout_marginRight="100dp"
                     android:layout_marginTop="16dp"
                     android:layout_marginBottom="16dp"
-                    android:text="Start"
+                    android:text="@string/start"
                     app:icon="@drawable/play_svgrepo_com"
                     android:backgroundTint="@color/green"
                     app:iconGravity="end"/>

@@ -54,7 +54,7 @@ class PlanExerciseCardFragment : Fragment() {
 
                 sharedViewModel.addExerciseToPlan(exercise)
                 //exercisesToPlan.add(exercise)
-                Toast.makeText(requireContext(), "${exercise.name} added to your plan", Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(), "${exercise.name}" + getString(R.string.added_to_your_plan), Toast.LENGTH_SHORT).show()
             }
         }
 
@@ -80,25 +80,25 @@ class PlanExerciseCardFragment : Fragment() {
         var totalMinutes = 0
         var totalSeconds = 0
 
-        binding.minutesTv.text = "Minutes: ${totalMinutes}"
-        binding.secondsTv.text = "Seconds: ${totalSeconds}"
+        binding.minutesTv.text = getString(R.string.minutes)+" ${totalMinutes}"
+        binding.secondsTv.text = getString(R.string.seconds)+" ${totalSeconds}"
 
         binding.increaseMinutesBtn.setOnClickListener {
-            binding.minutesTv.text = "Minutes: ${++totalMinutes}"
+            binding.minutesTv.text = getString(R.string.minutes)+" ${++totalMinutes}"
         }
 
         binding.decreaseMinutesBtn.setOnClickListener {
             if (totalMinutes == 0) totalMinutes = 1
-            binding.minutesTv.text = "Minutes: ${--totalMinutes}"
+            binding.minutesTv.text = getString(R.string.minutes)+" ${--totalMinutes}"
         }
 
         binding.increaseSecondBtn.setOnClickListener {
-            binding.secondsTv.text = "Seconds: ${++totalSeconds}"
+            binding.secondsTv.text = getString(R.string.seconds)+" ${++totalSeconds}"
         }
 
         binding.decreaseSecondBtn.setOnClickListener {
             if (totalSeconds == 0) totalSeconds = 1
-            binding.secondsTv.text = "Seconds: ${--totalSeconds}"
+            binding.secondsTv.text = getString(R.string.seconds)+" ${--totalSeconds}"
         }
 
     }

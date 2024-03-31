@@ -12,7 +12,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Register To FitPlan"
+        android:text="@string/register_to_fitplan"
         android:textColor="@color/white"
         android:textSize="34sp"
         android:padding="30dp"
@@ -36,7 +36,7 @@
             android:layout_height="match_parent"
             android:maxLines="1"
             android:textColor="@color/white"
-            android:hint="Enter user name" />
+            android:hint="@string/enter_user_name" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
@@ -57,7 +57,7 @@
             android:layout_height="match_parent"
             android:maxLines="1"
             android:textColor="@color/white"
-            android:hint="Enter email" />
+            android:hint="@string/enter_email" />
     </com.google.android.material.textfield.TextInputLayout>
 
 
@@ -83,7 +83,7 @@
             android:maxLines="1"
             android:inputType="textPassword"
             android:textColor="@color/white"
-            android:hint="Enter password" />
+            android:hint="@string/enter_password" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.button.MaterialButton
@@ -92,7 +92,7 @@
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
         android:backgroundTint="@color/green"
-        android:text="Register"/>
+        android:text="@string/register"/>
 
     <ProgressBar
         android:id="@+id/registerProgress"

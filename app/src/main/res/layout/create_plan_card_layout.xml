@@ -9,7 +9,7 @@
         android:layout_height="wrap_content"
         android:layout_margin="5dp"
         android:layout_gravity="center"
-        android:text="Create new plan!"
+        android:text="@string/create_new_plan"
         android:textStyle="bold"
         android:textSize="20dp"/>
 
@@ -18,7 +18,7 @@
         android:layout_marginRight="10dp"
         android:layout_marginLeft="10dp"
         android:layout_height="wrap_content"
-        android:hint="Enter title"
+        android:hint="@string/enter_title"
         android:id="@+id/title_text"/>
 
     <com.google.android.material.textfield.TextInputEditText
@@ -26,14 +26,14 @@
         android:layout_marginRight="10dp"
         android:layout_marginLeft="10dp"
         android:layout_height="wrap_content"
-        android:hint="Enter descreption"
+        android:hint="@string/enter_descreption"
         android:id="@+id/description_text"/>
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:text="Choose image"
+        android:text="@string/choose_image"
         android:id="@+id/chooseImage_btn"/>
 
     <ImageView
@@ -55,7 +55,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="5dp"
-            android:text="Cancel"/>
+            android:text="@string/cancel"/>
 
         <Button
             style="@style/Widget.Material3.Button.TextButton"
@@ -63,7 +63,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="5dp"
-            android:text="Save"/>
+            android:text="@string/save"/>
 
 
     </LinearLayout>

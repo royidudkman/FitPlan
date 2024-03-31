@@ -57,7 +57,6 @@ class RegisterFragment : Fragment() {
                     binding.registerBtn.isEnabled = false
                 }
                 is Resource.Success -> {
-                    Toast.makeText(requireContext(),"Registered Successfuly", Toast.LENGTH_LONG).show()
                     findNavController().navigate(R.id.action_registerFragment_to_myPlansFragment)
                 }
 

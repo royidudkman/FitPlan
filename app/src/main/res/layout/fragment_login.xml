@@ -15,7 +15,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Login To FitPlan"
+        android:text="@string/login_to_fitplan"
         android:textColor="@color/white"
         android:textSize="34sp"
         android:padding="30dp"
@@ -39,7 +39,7 @@
             android:layout_height="match_parent"
             android:maxLines="1"
             android:textColor="@color/white"
-            android:hint="Enter email" />
+            android:hint="@string/enter_email" />
     </com.google.android.material.textfield.TextInputLayout>
 
 
@@ -65,7 +65,7 @@
             android:textColor="@color/white"
             android:maxLines="1"
             android:inputType="textPassword"
-            android:hint="Enter password" />
+            android:hint="@string/enter_password" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <LinearLayout
@@ -79,7 +79,7 @@
             android:layout_height="0dp"
             android:layout_weight="1"
             android:backgroundTint="@color/gray"
-            android:text="Login"/>
+            android:text="@string/login"/>
         <Space
             android:layout_width="match_parent"
             android:layout_height="0dp"
@@ -91,7 +91,7 @@
             android:layout_height="0dp"
             android:layout_weight="1"
             android:backgroundTint="@color/green"
-            android:text="Register"/>
+            android:text="@string/register"/>
 
 
 

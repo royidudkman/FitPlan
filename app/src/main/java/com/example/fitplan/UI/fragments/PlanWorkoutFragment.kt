@@ -110,7 +110,8 @@ class PlanWorkoutFragment : Fragment() {
 
                 saveBtn.setOnClickListener {
                     if (titleText.text.isNullOrEmpty())
-                        Toast.makeText(requireContext(),"Plan must have a title",Toast.LENGTH_SHORT).show()
+                        Toast.makeText(requireContext(),
+                            getString(R.string.plan_must_have_a_title),Toast.LENGTH_SHORT).show()
                     else {
                         viewModel.addPlan(
                             titleText.text.toString(),
@@ -118,7 +119,8 @@ class PlanWorkoutFragment : Fragment() {
                             chosenImage,//TODO get image from phone
                             exercises
                         )
-                        Toast.makeText(requireContext(), "Plan saved", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(requireContext(),
+                            getString(R.string.plan_saved), Toast.LENGTH_SHORT).show()
                         binding.savePlanBtn.isEnabled = false
                         binding.savePlanBtn.alpha = 0.5f
                         alertDialog.dismiss()
@@ -142,7 +144,7 @@ class PlanWorkoutFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
 
-        val exerciseData = ExercisesData()
+        val exerciseData = ExercisesData(requireContext())
         val allExercises = exerciseData.exercisesByBodyPart.values.flatten()
         planExerciseAdapter = PlanExerciseAdapter(allExercises, exerciseListener, exerciseViewModel)
 
@@ -176,7 +178,7 @@ class PlanWorkoutFragment : Fragment() {
 
 
     private fun filterExercises(bodyPart: String) {
-        val exercisesData = ExercisesData()
+        val exercisesData = ExercisesData(requireContext())
         val exercisesForBodyPart = exercisesData.exercisesByBodyPart[bodyPart] ?: emptyList()
         (binding.recycler.adapter as? PlanExerciseAdapter)?.setExercises(exercisesForBodyPart)
     }

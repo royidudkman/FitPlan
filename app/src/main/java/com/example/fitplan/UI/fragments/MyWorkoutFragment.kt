@@ -85,8 +85,8 @@ class MyWorkoutFragment : Fragment() {
 
         viewModel.exercises?.observe(viewLifecycleOwner){exercises ->
             categorizeExercises(exercises)
-            //myExerciseAdapter.updateExercises(exercisesByBodyPart[currentTab] ?: emptyList())
-            // binding.tabs.getTabAt(getTabIndexForBodyPart(currentTab))?.select()
+            myExerciseAdapter.updateExercises(exercisesByBodyPart[currentTab] ?: emptyList())
+            //binding.tabs.getTabAt(getTabIndexForBodyPart(currentTab))?.select()
             binding.recycler.apply {
                 layoutManager = LinearLayoutManager(requireContext())
                 adapter = myExerciseAdapter
@@ -159,15 +159,16 @@ class MyWorkoutFragment : Fragment() {
         override fun onExerciseLongClicked(index: Int) {
             val item = (binding.recycler.adapter as MyExerciseAdapter).exerciseAt(index)
             val builder = AlertDialog.Builder(requireContext())
-            builder.setTitle("This action will delete the exercise")
-                .setMessage("Are you sure you want to delete the exercise?")
-                .setPositiveButton("Yes") { dialog, which ->
+            builder.setTitle(getString(R.string.this_action_will_delete_the_exercise))
+                .setMessage(getString(R.string.are_you_sure_you_want_to_delete_the_exercise))
+                .setPositiveButton(R.string.yes) { dialog, which ->
 
                     myPlansviewModel.deleteExerciseFromPlan(planId,item.id)
                     viewModel.deleteExercise(item)
-                    Toast.makeText(requireContext(), "Exercise deleted", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(requireContext(),
+                        getString(R.string.exercise_deleted), Toast.LENGTH_SHORT).show()
                 }
-                .setNegativeButton("No") { dialog, which ->
+                .setNegativeButton(R.string.no) { dialog, which ->
                     dialog.dismiss()
                 }
                 .show()
