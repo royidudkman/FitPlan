@@ -54,7 +54,7 @@ class MyWorkoutFragment : Fragment() {
         _binding = FragmentMyWorkoutBinding.inflate(inflater, container, false)
         val bottomMenu = requireActivity().findViewById<BottomNavigationView>(R.id.bottom_navigation)
         bottomMenu.visibility = View.GONE
-        if (bottomMenu.selectedItemId == R.id.signOut_btn) signOutDialog.show(requireFragmentManager(), "SignOutDialog")
+        //if (bottomMenu.selectedItemId == R.id.signOut_btn) signOutDialog.show(requireFragmentManager(), "SignOutDialog")
 
 
 
@@ -82,10 +82,11 @@ class MyWorkoutFragment : Fragment() {
             }
         }
 
+
         viewModel.exercises?.observe(viewLifecycleOwner){exercises ->
             categorizeExercises(exercises)
             //myExerciseAdapter.updateExercises(exercisesByBodyPart[currentTab] ?: emptyList())
-           // binding.tabs.getTabAt(getTabIndexForBodyPart(currentTab))?.select()
+            // binding.tabs.getTabAt(getTabIndexForBodyPart(currentTab))?.select()
             binding.recycler.apply {
                 layoutManager = LinearLayoutManager(requireContext())
                 adapter = myExerciseAdapter

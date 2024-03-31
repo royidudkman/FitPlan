@@ -7,26 +7,43 @@
     tools:context=".UI.fragments.PlanWorkoutFragment"
     android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/title_MyWorkout"
-        android:layout_margin="10dp"
-        android:layout_gravity="center"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Plan your workout!" />
-
-    <com.google.android.material.bottomnavigation.BottomNavigationView
-        android:layout_margin="10dp"
-        android:id="@+id/muscle_navigation"
-        style="bottomBar.style"
+    <com.google.android.material.tabs.TabLayout
+        android:id="@+id/tabs"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:visibility="visible"
-        app:labelVisibilityMode="labeled"
-        app:menu="@menu/muscle_navigation_menu" />
+        app:tabIndicatorColor="@color/green"
+        android:backgroundTint="@color/gray_black"
+        app:tabTextColor="@color/white">
+
+        <com.google.android.material.tabs.TabItem
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Back" />
+
+        <com.google.android.material.tabs.TabItem
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Chest" />
+        <com.google.android.material.tabs.TabItem
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="ABS"/>
+
+        <com.google.android.material.tabs.TabItem
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Legs"/>
+        <com.google.android.material.tabs.TabItem
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Cardio"/>
+
+
+
+    </com.google.android.material.tabs.TabLayout>
 
     <androidx.recyclerview.widget.RecyclerView
-        android:layout_margin="50dp"
+        android:layout_margin="10dp"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/recycler"

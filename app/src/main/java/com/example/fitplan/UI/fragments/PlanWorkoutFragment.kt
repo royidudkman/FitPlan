@@ -28,6 +28,7 @@ import com.example.fitplan.databinding.FragmentPlanWorkoutBinding
 import com.example.fitplan.model.Exercise
 import com.example.fitplan.repository.PlansRepositoryFirebase
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.android.material.tabs.TabLayout
 import com.google.android.material.textfield.TextInputEditText
 import il.co.syntax.firebasemvvm.repository.FirebaseImpl.AuthRepositoryFirebase
 
@@ -148,21 +149,31 @@ class PlanWorkoutFragment : Fragment() {
         binding.recycler.layoutManager = LinearLayoutManager(requireContext())
         binding.recycler.adapter = planExerciseAdapter
 
+        binding.tabs.getTabAt(getTabIndexForBodyPart(currentTab))?.select()
 
-        binding.muscleNavigation.selectedItemId = R.id.backMuscle_btn
-        filterExercises("Back")
 
-        binding.muscleNavigation.setOnItemSelectedListener { menuItem ->
-            when (menuItem.itemId) {
-                R.id.backMuscle_btn -> filterExercises("Back")
-                R.id.chestMuscle_btn -> filterExercises("Chest")
-                R.id.absMuscle_btn -> filterExercises("Abs")
-                R.id.LegsMuscle_btn -> filterExercises("Legs")
-                R.id.cardio_Btn -> filterExercises("Cardio")
+        binding.tabs.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
+            override fun onTabSelected(tab: TabLayout.Tab?) {
+                tab?.let {
+                    val bodyPart = getBodyPartForTabIndex(it.position)
+                    when (bodyPart) {
+                        "Back" -> filterExercises("Back")
+                        "Chest" -> filterExercises("Chest")
+                        "Abs" -> filterExercises("Abs")
+                        "Legs" -> filterExercises("Legs")
+                        "Cardio" -> filterExercises("Cardio")
+                    }
+                }
             }
-            true
-        }
+
+            override fun onTabUnselected(tab: TabLayout.Tab?) {
+            }
+
+            override fun onTabReselected(tab: TabLayout.Tab?) {
+            }
+        })
     }
+
 
     private fun filterExercises(bodyPart: String) {
         val exercisesData = ExercisesData()
@@ -183,6 +194,26 @@ class PlanWorkoutFragment : Fragment() {
             TODO("Not yet implemented")
         }
 
+    }
+
+    private fun getBodyPartForTabIndex(tabIndex: Int): String {
+        return when (tabIndex) {
+            1 -> "Chest"
+            2 -> "Abs"
+            3 -> "Legs"
+            4 -> "Cardio"
+            else -> "Back"
+        }
+    }
+
+    private fun getTabIndexForBodyPart(bodyPart: String): Int {
+        return when (bodyPart) {
+            "Chest" -> 1
+            "Abs" -> 2
+            "Legs" -> 3
+            "Cardio" -> 4
+            else -> 0 // Default to "Back"
+        }
     }
 
     override fun onResume() {

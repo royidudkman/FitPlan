@@ -42,7 +42,7 @@ class SignOutFragment : DialogFragment() {
         val buttonNavigation =  requireActivity().findViewById<BottomNavigationView>(R.id.bottom_navigation)
         buttonNavigation.visibility = View.VISIBLE
         binding.yesBtn.setOnClickListener {
-            binding.messageTv.text = "Signing Out , Don't Forget : \"NO PAIN NO GAIN!\""
+            binding.messageTv.text = "Signing Out , Don't Forget :\n \"NO PAIN NO GAIN!\""
             binding.noBtn.visibility  = View.GONE
             binding.yesBtn.visibility = View.GONE
 
