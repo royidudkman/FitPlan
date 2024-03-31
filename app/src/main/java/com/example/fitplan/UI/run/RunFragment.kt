@@ -98,11 +98,7 @@ class RunFragment : Fragment() {
                     }
 
                     override fun onPermissionDenied() {
-                        if (!viewModel.isPermissionDeniedBefore) {
-                            showPermissionRationaleDialog()
-                        } else {
-                            requestPermissionAgain()
-                        }
+                        showPermissionRationaleDialog()
                     }
 
                     override fun onLocationOrNetworkDisable() {
@@ -140,33 +136,17 @@ class RunFragment : Fragment() {
 
     private fun showPermissionRationaleDialog() {
         AlertDialog.Builder(requireContext())
-            .setTitle("Permission Required")
-            .setMessage("Location permission is required to continue.")
-            .setPositiveButton("OK") { dialog, which ->
-                // Request permissions again
+            .setTitle(getString(R.string.permission_required))
+            .setMessage(getString(R.string.location_permission_is_required_to_continue))
+            .setPositiveButton(getString(R.string.ok)) { dialog, which ->
                 viewModel.requestPermissions(requireActivity())
             }
-            .setNegativeButton("Cancel") { dialog, which ->
-                // Handle cancelation
+            .setNegativeButton(getString(R.string.cancel)) { dialog, which ->
             }
             .show()
 
     }
 
-    private fun requestPermissionAgain() {
-        AlertDialog.Builder(requireContext())
-            .setTitle("Permission Required")
-            .setMessage("Location permission is required to continue.")
-            .setPositiveButton("OK") { dialog, which ->
-                // Request permissions again
-                viewModel.requestPermissions(requireActivity())
-            }
-            .setNegativeButton("Cancel") { dialog, which ->
-                // Handle cancelation
-            }
-            .show()
-
-    }
 
 
     override fun onDestroyView() {

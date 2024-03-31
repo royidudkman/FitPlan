@@ -25,6 +25,7 @@ import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import com.google.android.gms.maps.model.PolylineOptions
 import com.google.android.gms.tasks.Task
+import kotlinx.coroutines.delay
 
 class RunViewModel(application: Application) : AndroidViewModel(application) {
 
@@ -41,6 +42,7 @@ class RunViewModel(application: Application) : AndroidViewModel(application) {
     private var startTime: Long = 0
     private var elapsedTime: Long = 0
     private var handler: android.os.Handler = android.os.Handler()
+    private var locationHandler: android.os.Handler = android.os.Handler()
     private var runnable: Runnable = Runnable {}
     private var timeFormat = MutableLiveData<String>()
 
@@ -90,8 +92,8 @@ class RunViewModel(application: Application) : AndroidViewModel(application) {
     private fun startLocationUpdates(activity: Activity) {
         val task: Task<Location> = fusedLocationProviderClient.lastLocation
         val locationRequest = com.google.android.gms.location.LocationRequest.create().apply {
-            interval = 3000 // Update interval in milliseconds
-            fastestInterval = 1000 // Fastest update interval in milliseconds
+            interval = 5000 // Update interval in milliseconds
+            fastestInterval = 2000 // Fastest update interval in milliseconds
             priority = com.google.android.gms.location.LocationRequest.PRIORITY_HIGH_ACCURACY
         }
 
@@ -234,9 +236,12 @@ class RunViewModel(application: Application) : AndroidViewModel(application) {
     }
 
     fun onStartRunning(activity: Activity) {
-            startTime()
+        isRunning= true
+        startTime()
+        locationHandler.postDelayed({
             startLocationUpdates(activity)
-            isRunning= true
+        },4000)
+
     }
 
     fun onResumeRunning(activity: Activity) {
