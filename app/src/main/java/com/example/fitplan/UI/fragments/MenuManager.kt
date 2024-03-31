@@ -38,4 +38,11 @@ object MenuManager {
         }
     }
 
+    fun menuInRunNotEnable(bottomNavigationView: BottomNavigationView, dialog: androidx.appcompat.app.AlertDialog.Builder?){
+        bottomNavigationView.setOnItemSelectedListener {
+            dialog?.show()
+            false
+        }
+    }
+
 }

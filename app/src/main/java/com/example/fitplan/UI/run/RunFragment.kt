@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.example.fitplan.R
+import com.example.fitplan.UI.fragments.MenuManager
 import com.example.fitplan.databinding.FragmentRunBinding
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
@@ -60,7 +61,7 @@ class RunFragment : Fragment() {
         binding.stopPauseBtn.isEnabled = false
 
         binding.startBtn.setOnClickListener {
-            bottomMenu.setOnItemSelectedListener { false }
+            MenuManager.menuInRunNotEnable(bottomMenu,ShowCantMoveToOtherMenuItem())
             viewModel.checkLocationPermissions(requireActivity(),
                 object : RunViewModel.ICheckLocationPermissionListener {
                     override fun onPermissionGranted() {
@@ -110,6 +111,17 @@ class RunFragment : Fragment() {
                 })
         }
     }
+
+    private  fun ShowCantMoveToOtherMenuItem() : AlertDialog.Builder? {
+       return AlertDialog.Builder(requireContext())
+            .setTitle("Finish Run")
+            .setMessage("Please finish your run first.")
+            .setPositiveButton("OK") { dialog, which ->
+                // Request permissions again
+                dialog.dismiss()
+            }
+    }
+
 
     private fun showOpenLocationServiceDialog() {
         AlertDialog.Builder(requireContext())

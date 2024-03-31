@@ -94,11 +94,8 @@ class RunSaveDetails : Fragment(), OnMapReadyCallback {
         googleMap = map
 
 
-
-        // Customize the map as needed
     }
 
-    // Handle permission request result
     override fun onRequestPermissionsResult(
         requestCode: Int,
         permissions: Array<out String>,
