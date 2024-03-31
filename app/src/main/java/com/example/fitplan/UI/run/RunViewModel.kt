@@ -32,7 +32,7 @@ class RunViewModel(application: Application) : AndroidViewModel(application) {
         LocationServices.getFusedLocationProviderClient(application)
     private var startLocation: Location? = null
     private var totalDistance: Float = 0f
-    private lateinit var locationCallback: LocationCallback
+    private var locationCallback: LocationCallback? = null
     var currentLocation = MutableLiveData<Location?>()
     private var kmPerMinute = MutableLiveData<String>()
     private var pathPositions = mutableListOf<LatLng>()
@@ -116,13 +116,13 @@ class RunViewModel(application: Application) : AndroidViewModel(application) {
         task.addOnSuccessListener {
             if (startLocation != null) {
                 fusedLocationProviderClient.requestLocationUpdates(
-                    locationRequest, locationCallback, null
+                    locationRequest, locationCallback as LocationCallback, null
                 )
             } else {
                 startRun(it)
                 startLocation?.let {
                     fusedLocationProviderClient.requestLocationUpdates(
-                        locationRequest, locationCallback, null
+                        locationRequest, locationCallback as LocationCallback, null
                     )
                 }
             }
@@ -194,7 +194,7 @@ class RunViewModel(application: Application) : AndroidViewModel(application) {
 
     private fun pauseRun() {
         startLocation = null
-        fusedLocationProviderClient.removeLocationUpdates(locationCallback)
+        locationCallback?.let { fusedLocationProviderClient.removeLocationUpdates(it) }
         isRunning = false
     }
 
@@ -228,7 +228,7 @@ class RunViewModel(application: Application) : AndroidViewModel(application) {
         totalDistance = 0f
         kmPerMinute.postValue("0.00")
         pathPositions.removeAll(pathPositions)
-        fusedLocationProviderClient.removeLocationUpdates(locationCallback)
+        locationCallback?.let { fusedLocationProviderClient.removeLocationUpdates(it) }
         currentLocation.value = null
     }
 

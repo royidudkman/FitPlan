@@ -7,6 +7,7 @@ import com.example.fitplan.UI.fragments.sign_out.SignOutFragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
 object MenuManager {
+
     fun menuEnable(
         navController: NavController, bottomNavigationView: BottomNavigationView,
         supportFragmentManager:FragmentManager) {

@@ -106,6 +106,10 @@ class RunFragment : Fragment() {
                     }
 
                     override fun onLocationOrNetworkDisable() {
+                        MenuManager.menuEnable(findNavController(),bottomMenu,requireActivity().supportFragmentManager)
+                        viewModel.onStopRunning()
+                        binding.startBtn.icon = resources.getDrawable(R.drawable.play_svgrepo_com_full)
+                        binding.stopPauseBtn.isEnabled = false
                         showOpenLocationServiceDialog()
                     }
                 })
