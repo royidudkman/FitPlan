@@ -4,9 +4,11 @@ import android.Manifest
 import android.app.Activity
 import android.app.Application
 import android.content.ContentValues.TAG
+import android.content.Context
 import android.content.pm.PackageManager
 import android.graphics.Color
 import android.location.Location
+import android.location.LocationManager
 import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
@@ -43,14 +45,14 @@ class RunViewModel(application: Application) : AndroidViewModel(application) {
     private var timeFormat = MutableLiveData<String>()
 
     private var isRunning: Boolean = false
-    private var pausedLocation: Location? = null
 
-    var checkLocationPermissionListener : ICheckLocationPermissionListener? = null
     var isPermissionDeniedBefore = false
 
     interface ICheckLocationPermissionListener{
         fun onPermissionGranted()
         fun onPermissionDenied()
+
+        fun onLocationOrNetworkDisable()
     }
 
     fun checkLocationPermissions(activity: Activity, checkLocationPermission: ICheckLocationPermissionListener) {
@@ -63,11 +65,17 @@ class RunViewModel(application: Application) : AndroidViewModel(application) {
             android.Manifest.permission.ACCESS_COARSE_LOCATION
         ) == PackageManager.PERMISSION_GRANTED
 
-        if (userChoosePermission) {
-            checkLocationPermission.onPermissionGranted()
-        } else {
-            isPermissionDeniedBefore = true
-            checkLocationPermission.onPermissionDenied()
+        if (!checkLocationServiceEnabled(activity.baseContext)) {
+            checkLocationPermission.onLocationOrNetworkDisable()
+        }
+        else{
+            if (userChoosePermission) {
+                checkLocationPermission.onPermissionGranted()
+            }
+            else {
+                isPermissionDeniedBefore = true
+                checkLocationPermission.onPermissionDenied()
+            }
         }
     }
 
@@ -112,13 +120,15 @@ class RunViewModel(application: Application) : AndroidViewModel(application) {
                 )
             } else {
                 startRun(it)
-                fusedLocationProviderClient.requestLocationUpdates(
-                    locationRequest, locationCallback, null
-                )
+                startLocation?.let {
+                    fusedLocationProviderClient.requestLocationUpdates(
+                        locationRequest, locationCallback, null
+                    )
+                }
             }
         }.addOnFailureListener { exception ->
             // Handle failure to retrieve last known location
-            Log.e(TAG, "Failed to retrieve last known location: $exception")
+            Log.e("eror", "Failed to retrieve last known location: $exception")
             Toast.makeText(activity, "Failed to retrieve last known location", Toast.LENGTH_SHORT)
                 .show()
         }
@@ -262,6 +272,13 @@ class RunViewModel(application: Application) : AndroidViewModel(application) {
                 }
             }
         }
+    }
+
+    fun checkLocationServiceEnabled(context: Context): Boolean {
+        val locationManager = context.getSystemService(Context.LOCATION_SERVICE) as LocationManager
+        val isGPSEnabled = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)
+        val isNetworkEnabled = locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)
+        return isGPSEnabled || isNetworkEnabled
     }
 
     fun isRunning(): Boolean {

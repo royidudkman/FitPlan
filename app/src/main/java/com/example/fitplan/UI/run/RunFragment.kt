@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -33,8 +32,9 @@ class RunFragment : Fragment() {
         var isRunningHappend = false
 
 
-        requireActivity().findViewById<BottomNavigationView>(R.id.bottom_navigation).visibility =
-            View.VISIBLE
+        val bottomMenu =
+            requireActivity().findViewById<BottomNavigationView>(R.id.bottom_navigation)
+        bottomMenu.visibility = View.VISIBLE
 
 
         // observe of distance
@@ -60,10 +60,10 @@ class RunFragment : Fragment() {
         binding.stopPauseBtn.isEnabled = false
 
         binding.startBtn.setOnClickListener {
+            bottomMenu.setOnItemSelectedListener { false }
             viewModel.checkLocationPermissions(requireActivity(),
                 object : RunViewModel.ICheckLocationPermissionListener {
                     override fun onPermissionGranted() {
-                        Toast.makeText(requireContext(), "granted", Toast.LENGTH_LONG).show()
                         when (viewModel.isRunning()) {
                             false -> {
                                 if (!isRunningHappend) {
@@ -71,7 +71,6 @@ class RunFragment : Fragment() {
                                     binding.startBtn.icon =
                                         resources.getDrawable(R.drawable.pause_svgrepo_com_full)
                                     binding.startBtn.icon.setTint(resources.getColor(R.color.black))
-                                    isRunningHappend = true
                                 } else {
                                     viewModel.onResumeRunning(requireActivity())
                                     binding.startBtn.icon =
@@ -90,7 +89,6 @@ class RunFragment : Fragment() {
 
 
                         binding.stopPauseBtn.setOnClickListener {
-                            //viewModel.onStopRunning()
                             binding.startBtn.icon =
                                 resources.getDrawable(R.drawable.play_svgrepo_com_full)
                             binding.startBtn.icon.setTint(resources.getColor(R.color.black))
@@ -99,19 +97,29 @@ class RunFragment : Fragment() {
                     }
 
                     override fun onPermissionDenied() {
-                        // Permission denied, handle it accordingly
                         if (!viewModel.isPermissionDeniedBefore) {
-                            // First time denied, show rationale and request permission again
                             showPermissionRationaleDialog()
                         } else {
-                            // Permission denied previously, show rationale and ask again
                             requestPermissionAgain()
                         }
-//                        Toast.makeText(requireContext(), "not granted", Toast.LENGTH_LONG).show()
-//                        return
+                    }
+
+                    override fun onLocationOrNetworkDisable() {
+                        showOpenLocationServiceDialog()
                     }
                 })
         }
+    }
+
+    private fun showOpenLocationServiceDialog() {
+        AlertDialog.Builder(requireContext())
+            .setTitle("Location Service Required")
+            .setMessage("Location Service is required to continue , please open location service in setting.")
+            .setPositiveButton("OK") { dialog, which ->
+                // Request permissions again
+                dialog.dismiss()
+            }
+            .show()
     }
 
     private fun showPermissionRationaleDialog() {
@@ -147,8 +155,6 @@ class RunFragment : Fragment() {
         super.onDestroyView()
         _binding = null
     }
-
-
 
 
 }

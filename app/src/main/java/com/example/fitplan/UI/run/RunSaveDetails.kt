@@ -13,6 +13,7 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.example.fitplan.R
+import com.example.fitplan.UI.fragments.MenuManager
 import com.example.fitplan.databinding.FragmentRunBinding
 import com.example.fitplan.databinding.FragmentRunSaveDetailsBinding
 import com.google.android.gms.maps.CameraUpdateFactory
@@ -22,6 +23,7 @@ import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import com.google.android.gms.maps.model.PolylineOptions
+import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class RunSaveDetails : Fragment(), OnMapReadyCallback {
 
@@ -36,22 +38,17 @@ class RunSaveDetails : Fragment(), OnMapReadyCallback {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        val bottomMenu =
+            requireActivity().findViewById<BottomNavigationView>(R.id.bottom_navigation)
+
         _binding = FragmentRunSaveDetailsBinding.inflate(inflater,container,false)
         binding.distanceTv.text = "You Run : ${viewModel.getTotalDistance()} KM"
         binding.kmMTv.text = "Your Km For Minute : ${viewModel.getKmForMinute().value} km/m "
         binding.timeTv.text = "Total Time : ${viewModel.getTime().value}"
 
-        binding.saveRunBtn.setOnClickListener {
-            //TODO SAVE THE DETAILS AND RESET DETAILS
-            // save distance
-            // save km for minute
-            // save time
-
-            viewModel.onStopRunning()
-            findNavController().navigate(R.id.runFragment)
-        }
 
         binding.cancelRunBtn.setOnClickListener {
+            MenuManager.menuEnable(findNavController(),bottomMenu,requireActivity().supportFragmentManager)
             viewModel.onStopRunning()
             findNavController().navigate(R.id.runFragment)
         }
@@ -82,11 +79,20 @@ class RunSaveDetails : Fragment(), OnMapReadyCallback {
             googleMap.addPolyline(viewModel.drawPath())
             val camera = CameraUpdateFactory.newLatLngZoom(viewModel.getPointPath().last(),15f)
             googleMap.moveCamera(camera)
+            mapView.visibility = View.GONE
+
+        }
+        mapView.getMapAsync {googleMap ->
+            googleMap.setOnMapLoadedCallback {
+                mapView.visibility = View.VISIBLE
+                binding.progressBar.visibility  = View.GONE
+            }
         }
     }
 
     override fun onMapReady(map: GoogleMap) {
         googleMap = map
+
 
 
         // Customize the map as needed
