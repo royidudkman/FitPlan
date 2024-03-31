@@ -12,10 +12,12 @@
         tools:layout="@layout/fragment_login" >
         <action
             android:id="@+id/action_loginFragment_to_registerFragment"
-            app:destination="@id/registerFragment" />
+            app:destination="@id/registerFragment"
+            app:popUpTo="@id/my_nav" />
         <action
             android:id="@+id/action_loginFragment_to_myPlansFragment"
-            app:destination="@id/myPlansFragment" />
+            app:destination="@id/myPlansFragment"
+            app:popUpTo="@id/my_nav" />
     </fragment>
     <fragment
         android:id="@+id/registerFragment"
@@ -24,7 +26,8 @@
         tools:layout="@layout/fragment_register" >
         <action
             android:id="@+id/action_registerFragment_to_myPlansFragment"
-            app:destination="@id/myPlansFragment" />
+            app:destination="@id/myPlansFragment"
+            app:popUpTo="@id/my_nav" />
     </fragment>
     <fragment
         android:id="@+id/myWorkoutFragment"
@@ -34,6 +37,7 @@
         <action
             android:id="@+id/action_myWorkoutFragment_to_myExerciseCardFragment"
             app:destination="@id/myExerciseCardFragment"
+            app:popUpTo="@id/my_nav"
             app:popUpToInclusive="true" />
     </fragment>
     <fragment
@@ -43,10 +47,12 @@
         <action
             android:id="@+id/action_planWorkoutFragment2_to_planExerciseCardFragment"
             app:destination="@id/planExerciseCardFragment"
+            app:popUpTo="@id/my_nav"
             app:popUpToInclusive="true" />
         <action
             android:id="@+id/action_planWorkoutFragment2_to_myPlansFragment"
-            app:destination="@id/myPlansFragment" />
+            app:destination="@id/myPlansFragment"
+            app:popUpTo="@id/my_nav" />
     </fragment>
     <fragment
         android:id="@+id/socialFragment"
@@ -54,10 +60,12 @@
         android:label="SocialFragment" >
         <action
             android:id="@+id/action_socialFragment_to_choosePlanToUploadFragment"
-            app:destination="@id/choosePlanToUploadFragment" />
+            app:destination="@id/choosePlanToUploadFragment"
+            app:popUpTo="@id/my_nav" />
         <action
             android:id="@+id/action_socialFragment_to_mySocialWorkoutFragment2"
-            app:destination="@id/mySocialWorkoutFragment2" />
+            app:destination="@id/mySocialWorkoutFragment2"
+            app:popUpTo="@id/my_nav" />
     </fragment>
     <fragment
         android:id="@+id/runFragment"
@@ -82,6 +90,7 @@
         <action
             android:id="@+id/action_myPlansFragment_to_myWorkoutFragment"
             app:destination="@id/myWorkoutFragment"
+            app:popUpTo="@id/my_nav"
             app:popUpToInclusive="true" />
     </fragment>
     <fragment
@@ -101,7 +110,8 @@
         tools:layout="@layout/fragment_choose_plan_to_upload" >
         <action
             android:id="@+id/action_choosePlanToUploadFragment_to_socialFragment"
-            app:destination="@id/socialFragment" />
+            app:destination="@id/socialFragment"
+            app:popUpTo="@id/my_nav" />
     </fragment>
     <fragment
         android:id="@+id/runSaveDetails"
@@ -110,7 +120,8 @@
         tools:layout="@layout/fragment_run_save_details" >
         <action
             android:id="@+id/action_runSaveDetails_to_planExerciseCardFragment"
-            app:destination="@id/planExerciseCardFragment" />
+            app:destination="@id/planExerciseCardFragment"
+            app:popUpTo="@id/my_nav" />
     </fragment>
     <fragment
         android:id="@+id/mySocialWorkoutFragment2"
@@ -119,7 +130,8 @@
         tools:layout="@layout/fragment_my_social_workout" >
         <action
             android:id="@+id/action_mySocialWorkoutFragment2_to_myExerciseCardFragment"
-            app:destination="@id/myExerciseCardFragment" />
+            app:destination="@id/myExerciseCardFragment"
+            app:popUpTo="@id/my_nav" />
     </fragment>
 
 </navigation>
