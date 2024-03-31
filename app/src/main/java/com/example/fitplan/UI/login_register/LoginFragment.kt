@@ -67,7 +67,7 @@ class LoginFragment : Fragment() {
                     binding.registerBtn.isEnabled = false
                 }
                 is Resource.Success -> {
-                    Toast.makeText(requireContext(),"Logged-in Successfuly", Toast.LENGTH_LONG).show()
+                    Toast.makeText(requireContext(),"Logged-in Successfully", Toast.LENGTH_LONG).show()
                     findNavController().navigate(R.id.action_loginFragment_to_myPlansFragment)
                 }
 
