@@ -59,7 +59,7 @@
         <action
             android:id="@+id/action_socialFragment_to_choosePlanToUploadFragment"
             app:destination="@id/choosePlanToUploadFragment"
-            app:popUpTo="@id/my_nav" />
+            app:popUpToInclusive="true" />
         <action
             android:id="@+id/action_socialFragment_to_mySocialWorkoutFragment2"
             app:destination="@id/mySocialWorkoutFragment2" />
@@ -107,7 +107,7 @@
         <action
             android:id="@+id/action_choosePlanToUploadFragment_to_socialFragment"
             app:destination="@id/socialFragment"
-            app:popUpTo="@id/my_nav" />
+            app:popUpToInclusive="true" />
     </fragment>
     <fragment
         android:id="@+id/runSaveDetails"

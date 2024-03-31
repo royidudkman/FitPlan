@@ -1,6 +1,7 @@
 package com.example.fitplan.UI.fragments
 
 import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
@@ -113,10 +114,15 @@ class PlanWorkoutFragment : Fragment() {
                         Toast.makeText(requireContext(),
                             getString(R.string.plan_must_have_a_title),Toast.LENGTH_SHORT).show()
                     else {
+                        val imageBitmap = if (chosenImage != null){
+                            chosenImage
+                        } else {
+                            BitmapFactory.decodeResource(resources, R.drawable.default_plan_image)
+                        }
                         viewModel.addPlan(
                             titleText.text.toString(),
                             descriptionText.text.toString(),
-                            chosenImage,//TODO get image from phone
+                            imageBitmap,
                             exercises
                         )
                         Toast.makeText(requireContext(),
