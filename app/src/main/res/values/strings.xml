@@ -143,4 +143,6 @@
     <string name="enter_amount_of_reps">Enter Amount Of Reps</string>
     <string name="location_service_required">Location Service Required</string>
     <string name="location_service_is_required_to_continue_please_open_location_service_in_setting">Location Service is required to continue , please open location service in setting.</string>
+    <string name="finish_run">Finish Run</string>
+    <string name="please_finish_your_run_first">Please finish your run first.</string>
 </resources>

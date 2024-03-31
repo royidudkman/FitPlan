@@ -114,9 +114,9 @@ class RunFragment : Fragment() {
 
     private  fun ShowCantMoveToOtherMenuItem() : AlertDialog.Builder? {
        return AlertDialog.Builder(requireContext())
-            .setTitle("Finish Run")
-            .setMessage("Please finish your run first.")
-            .setPositiveButton("OK") { dialog, which ->
+            .setTitle(getString(R.string.finish_run))
+            .setMessage(getString(R.string.please_finish_your_run_first))
+            .setPositiveButton(getString(R.string.ok)) { dialog, which ->
                 // Request permissions again
                 dialog.dismiss()
             }
@@ -125,9 +125,9 @@ class RunFragment : Fragment() {
 
     private fun showOpenLocationServiceDialog() {
         AlertDialog.Builder(requireContext())
-            .setTitle("Location Service Required")
-            .setMessage("Location Service is required to continue , please open location service in setting.")
-            .setPositiveButton("OK") { dialog, which ->
+            .setTitle(getString(R.string.location_service_required))
+            .setMessage(getString(R.string.location_service_is_required_to_continue_please_open_location_service_in_setting))
+            .setPositiveButton(getString(R.string.ok)) { dialog, which ->
                 // Request permissions again
                 dialog.dismiss()
             }

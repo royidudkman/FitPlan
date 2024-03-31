@@ -144,4 +144,6 @@
     <string name="enter_amount_of_reps">הזן מספר חזרות</string>
     <string name="location_service_required">נדרש להפעיל שירותי מיקום</string>
     <string name="location_service_is_required_to_continue_please_open_location_service_in_setting">"הפעל בבקשה את שירותי המיקום בהגדרות המכשיר "</string>
+    <string name="finish_run">סיים ריצה</string>
+    <string name="please_finish_your_run_first">בבקשה סיים את הריצה</string>
 </resources>
