@@ -29,7 +29,7 @@ class MyExerciseAdapter(private var exercises: List<Exercise>, private val callb
         fun bind(exercise: Exercise) {
             binding.exerciseTitle.text = exercise.name
             binding.exerciseDescription.text = exercise.description
-            Glide.with(binding.root).load(exercise.image).circleCrop().into(binding.exerciseImage)
+            Glide.with(binding.root).load(exercise.image).into(binding.exerciseImage)
         }
 
         override fun onClick(v: View?) {

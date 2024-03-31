@@ -36,7 +36,7 @@ class PlanExerciseAdapter(private var exercises: List<Exercise>, private val cal
             binding.exerciseDescription.text = exercise.description
             //binding.exerciseDescription.text = exercise.description
             // Load image using Glide (example)
-            Glide.with(binding.root).load(exercise.image).circleCrop().into(binding.exerciseImage)
+            Glide.with(binding.root).load(exercise.image).into(binding.exerciseImage)
         }
 
         override fun onClick(v: View?) {
