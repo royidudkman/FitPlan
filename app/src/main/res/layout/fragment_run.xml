@@ -132,12 +132,22 @@
         android:layout_height="1dp"
         android:background="@color/white" />
 
+    <ProgressBar
+        android:id="@+id/loadingProgressbar"
+        style="?android:attr/progressBarStyle"
+        android:layout_gravity="center"
+        android:layout_marginTop="40dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"/>
+
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="center"
         android:orientation="horizontal">
+
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/start_btn"
@@ -170,6 +180,8 @@
 
 
     </LinearLayout>
+
+
 
 
     <!--    <TextView-->

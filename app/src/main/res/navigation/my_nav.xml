@@ -49,8 +49,7 @@
             app:popUpToInclusive="true" />
         <action
             android:id="@+id/action_planWorkoutFragment2_to_myPlansFragment"
-            app:destination="@id/myPlansFragment"
-            app:popUpTo="@id/my_nav" />
+            app:destination="@id/myPlansFragment" />
     </fragment>
     <fragment
         android:id="@+id/socialFragment"
@@ -59,7 +58,7 @@
         <action
             android:id="@+id/action_socialFragment_to_choosePlanToUploadFragment"
             app:destination="@id/choosePlanToUploadFragment"
-            app:popUpToInclusive="true" />
+            app:popUpToInclusive="false" />
         <action
             android:id="@+id/action_socialFragment_to_mySocialWorkoutFragment2"
             app:destination="@id/mySocialWorkoutFragment2" />
@@ -68,7 +67,11 @@
         android:id="@+id/runFragment"
         android:name="com.example.fitplan.UI.run.RunFragment"
         android:label="fragment_run"
-        tools:layout="@layout/fragment_run" />
+        tools:layout="@layout/fragment_run" >
+        <action
+            android:id="@+id/action_runFragment_to_runSaveDetails"
+            app:destination="@id/runSaveDetails" />
+    </fragment>
     <fragment
         android:id="@+id/profileFragment"
         android:name="com.example.fitplan.UI.fragments.sign_out.SignOutFragment"
@@ -93,7 +96,12 @@
         android:id="@+id/planExerciseCardFragment"
         android:name="com.example.fitplan.UI.fragments.PlanExerciseCardFragment"
         android:label="plan_exercise_card_layout"
-        tools:layout="@layout/plan_exercise_card_layout" />
+        tools:layout="@layout/plan_exercise_card_layout" >
+        <action
+            android:id="@+id/action_planExerciseCardFragment_to_planWorkoutFragment2"
+            app:destination="@id/planWorkoutFragment2"
+            app:popUpTo="@id/my_nav" />
+    </fragment>
     <fragment
         android:id="@+id/myExerciseCardFragment"
         android:name="com.example.fitplan.UI.fragments.MyExerciseCardFragment"
@@ -107,7 +115,8 @@
         <action
             android:id="@+id/action_choosePlanToUploadFragment_to_socialFragment"
             app:destination="@id/socialFragment"
-            app:popUpToInclusive="true" />
+            app:popUpTo="@id/my_nav"
+            app:popUpToInclusive="false" />
     </fragment>
     <fragment
         android:id="@+id/runSaveDetails"

@@ -43,7 +43,7 @@ class RunSaveDetails : Fragment(), OnMapReadyCallback {
 
         _binding = FragmentRunSaveDetailsBinding.inflate(inflater,container,false)
         binding.distanceTv.text = "You Run : " + "${viewModel.getTotalDistance()}" + "KM"
-        binding.kmMTv.text = "Your Km For Minute : "+ "${viewModel.getKmForMinute().value}" + "km/m "
+        binding.kmMTv.text = "Your Km For Minute : "+ "${viewModel.getKmForMinute().value?: 0}" + "km/m "
         binding.timeTv.text = "Total Time : " + "${viewModel.getTime().value}"
 
 
@@ -77,16 +77,22 @@ class RunSaveDetails : Fragment(), OnMapReadyCallback {
         mapView = rootView.findViewById(R.id.mapView)
         mapView.onCreate(savedInstanceState)
         mapView.getMapAsync { googleMap ->
-            googleMap.addPolyline(viewModel.drawPath())
-            val camera = CameraUpdateFactory.newLatLngZoom(viewModel.getPointPath().last(),15f)
-            googleMap.moveCamera(camera)
+            if (viewModel.getPointPath().isNotEmpty()) {
+                googleMap.addPolyline(viewModel.drawPath())
+                val camera = CameraUpdateFactory.newLatLngZoom(viewModel.getPointPath().last(), 15f)
+                googleMap.moveCamera(camera)
+            } else {
+                // Handle the case when pathPositions is empty
+                // For example, show a default location
+                val defaultLocation = LatLng(0.0, 0.0)
+                googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(defaultLocation, 15f))
+            }
             mapView.visibility = View.GONE
-
         }
-        mapView.getMapAsync {googleMap ->
+        mapView.getMapAsync { googleMap ->
             googleMap.setOnMapLoadedCallback {
                 mapView.visibility = View.VISIBLE
-                binding.progressBar.visibility  = View.GONE
+                binding.progressBar.visibility = View.GONE
             }
         }
     }

@@ -50,14 +50,17 @@ class RunViewModel(application: Application) : AndroidViewModel(application) {
 
     var isPermissionDeniedBefore = false
 
-    interface ICheckLocationPermissionListener{
+    interface ICheckLocationPermissionListener {
         fun onPermissionGranted()
         fun onPermissionDenied()
 
         fun onLocationOrNetworkDisable()
     }
 
-    fun checkLocationPermissions(activity: Activity, checkLocationPermission: ICheckLocationPermissionListener) {
+    fun checkLocationPermissions(
+        activity: Activity,
+        checkLocationPermission: ICheckLocationPermissionListener
+    ) {
         // Use ContextCompat.checkSelfPermission instead of ActivityCompat.checkSelfPermission
         val userChoosePermission = ActivityCompat.checkSelfPermission(
             activity,
@@ -69,18 +72,15 @@ class RunViewModel(application: Application) : AndroidViewModel(application) {
 
         if (!checkLocationServiceEnabled(activity.baseContext)) {
             checkLocationPermission.onLocationOrNetworkDisable()
-        }
-        else{
+        } else {
             if (userChoosePermission) {
                 checkLocationPermission.onPermissionGranted()
-            }
-            else {
+            } else {
                 isPermissionDeniedBefore = true
                 checkLocationPermission.onPermissionDenied()
             }
         }
     }
-
 
 
     fun requestPermissions(activity: Activity) {
@@ -106,6 +106,11 @@ class RunViewModel(application: Application) : AndroidViewModel(application) {
             }
         }
 
+        if (startLocation == null) {
+            // If startLocation is null, wait for it to be non-null before starting updates
+            return
+        }
+
         if (ActivityCompat.checkSelfPermission(
                 activity, Manifest.permission.ACCESS_FINE_LOCATION
             ) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
@@ -114,28 +119,18 @@ class RunViewModel(application: Application) : AndroidViewModel(application) {
         ) {
             // Request location permissions if not granted
             return
-
         }
-        task.addOnSuccessListener {
-            if (startLocation != null) {
-                fusedLocationProviderClient.requestLocationUpdates(
-                    locationRequest, locationCallback as LocationCallback, null
-                )
-            } else {
-                startRun(it)
-                startLocation?.let {
-                    fusedLocationProviderClient.requestLocationUpdates(
-                        locationRequest, locationCallback as LocationCallback, null
-                    )
-                }
-            }
-        }.addOnFailureListener { exception ->
+
+        fusedLocationProviderClient.requestLocationUpdates(
+            locationRequest, locationCallback as LocationCallback, null
+        ).addOnFailureListener { exception ->
             // Handle failure to retrieve last known location
-            Log.e("eror", "Failed to retrieve last known location: $exception")
+            Log.e("error", "Failed to retrieve last known location: $exception")
             Toast.makeText(activity, "Failed to retrieve last known location", Toast.LENGTH_SHORT)
                 .show()
         }
     }
+
 
 
     fun getPointPath(): List<LatLng> {
@@ -236,12 +231,12 @@ class RunViewModel(application: Application) : AndroidViewModel(application) {
     }
 
     fun onStartRunning(activity: Activity) {
-        isRunning= true
+        isRunning = true
         startTime()
-        locationHandler.postDelayed({
-            startLocationUpdates(activity)
-        },4000)
 
+        activity?.let {
+            startLocationUpdates(activity)
+        }
     }
 
     fun onResumeRunning(activity: Activity) {

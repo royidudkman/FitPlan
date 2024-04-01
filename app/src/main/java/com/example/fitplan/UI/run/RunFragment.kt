@@ -59,6 +59,7 @@ class RunFragment : Fragment() {
             binding.kmMTv.text = kmForMinute
         }
         binding.stopPauseBtn.isEnabled = false
+        binding.stopPauseBtn.alpha = 0.5f
 
         binding.startBtn.setOnClickListener {
             MenuManager.menuInRunNotEnable(bottomMenu,ShowCantMoveToOtherMenuItem())
@@ -87,7 +88,7 @@ class RunFragment : Fragment() {
                             }
                         }
                         binding.stopPauseBtn.isEnabled = true
-
+                        binding.stopPauseBtn.alpha = 1f
 
                         binding.stopPauseBtn.setOnClickListener {
                             binding.startBtn.icon =
@@ -106,6 +107,7 @@ class RunFragment : Fragment() {
                         viewModel.onStopRunning()
                         binding.startBtn.icon = resources.getDrawable(R.drawable.play_svgrepo_com_full)
                         binding.stopPauseBtn.isEnabled = false
+                        binding.stopPauseBtn.alpha = 0.5f
                         showOpenLocationServiceDialog()
                     }
                 })
