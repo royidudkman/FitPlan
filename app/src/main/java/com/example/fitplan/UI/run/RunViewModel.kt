@@ -42,7 +42,6 @@ class RunViewModel(application: Application) : AndroidViewModel(application) {
     private var startTime: Long = 0
     private var elapsedTime: Long = 0
     private var handler: android.os.Handler = android.os.Handler()
-    private var locationHandler: android.os.Handler = android.os.Handler()
     private var runnable: Runnable = Runnable {}
     private var timeFormat = MutableLiveData<String>()
 
@@ -61,7 +60,6 @@ class RunViewModel(application: Application) : AndroidViewModel(application) {
         activity: Activity,
         checkLocationPermission: ICheckLocationPermissionListener
     ) {
-        // Use ContextCompat.checkSelfPermission instead of ActivityCompat.checkSelfPermission
         val userChoosePermission = ActivityCompat.checkSelfPermission(
             activity,
             android.Manifest.permission.ACCESS_FINE_LOCATION
@@ -92,8 +90,8 @@ class RunViewModel(application: Application) : AndroidViewModel(application) {
     private fun startLocationUpdates(activity: Activity) {
         val task: Task<Location> = fusedLocationProviderClient.lastLocation
         val locationRequest = com.google.android.gms.location.LocationRequest.create().apply {
-            interval = 5000 // Update interval in milliseconds
-            fastestInterval = 2000 // Fastest update interval in milliseconds
+            interval = 5000
+            fastestInterval = 2000
             priority = com.google.android.gms.location.LocationRequest.PRIORITY_HIGH_ACCURACY
         }
 
@@ -112,7 +110,7 @@ class RunViewModel(application: Application) : AndroidViewModel(application) {
                 activity, Manifest.permission.ACCESS_COARSE_LOCATION
             ) != PackageManager.PERMISSION_GRANTED
         ) {
-            // Request location permissions if not granted
+
             return
 
         }
@@ -130,7 +128,6 @@ class RunViewModel(application: Application) : AndroidViewModel(application) {
                 }
             }
         }.addOnFailureListener { exception ->
-            // Handle failure to retrieve last known location
             Log.e("eror", "Failed to retrieve last known location: $exception")
             Toast.makeText(activity, "Failed to retrieve last known location", Toast.LENGTH_SHORT)
                 .show()
@@ -146,11 +143,10 @@ class RunViewModel(application: Application) : AndroidViewModel(application) {
         this.startLocation = startLocation
         totalDistance = 0f
         isRunning = true
-    } //define the start location of the device , and the total distance to 0
+    }
 
     fun updateDistance(currentLocation: Location) {
         startLocation?.let { start ->
-            // Calculate distance from start location to current location
             val distance = start.distanceTo(currentLocation) / 1000f
             if (totalDistance - distance != totalDistance) {
                 totalDistance += distance

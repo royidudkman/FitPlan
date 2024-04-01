@@ -34,8 +34,6 @@ class PlanExerciseAdapter(private var exercises: List<Exercise>, private val cal
         fun bind(exercise: Exercise) {
             binding.exerciseTitle.text = exercise.name
             binding.exerciseDescription.text = exercise.description
-            //binding.exerciseDescription.text = exercise.description
-            // Load image using Glide (example)
             Glide.with(binding.root).load(exercise.image).into(binding.exerciseImage)
         }
 

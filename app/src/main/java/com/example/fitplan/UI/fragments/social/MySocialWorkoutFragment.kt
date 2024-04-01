@@ -35,12 +35,6 @@ class MySocialWorkoutFragment : Fragment() {
 
     private lateinit var planId : String
 
-    private val myPlansviewModel : MyPlansViewModel by viewModels{
-        MyPlansViewModel.MyPlansViewModelFactory(
-            AuthRepositoryFirebase(),
-            PlansRepositoryFirebase()
-        )
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -62,9 +56,6 @@ class MySocialWorkoutFragment : Fragment() {
         myExerciseAdapter = MyExerciseAdapter(emptyList(), exerciseListener, viewModel)
 
 
-
-
-
         sharedViewModel.selectedPlan.observe(viewLifecycleOwner) { plan ->
             planId = plan.id
 
@@ -82,8 +73,6 @@ class MySocialWorkoutFragment : Fragment() {
 
         viewModel.exercises?.observe(viewLifecycleOwner){exercises ->
             categorizeExercises(exercises)
-            //myExerciseAdapter.updateExercises(exercisesByBodyPart[currentTab] ?: emptyList())
-            //binding.tabs.getTabAt(getTabIndexForBodyPart(currentTab))?.select()
             binding.recycler.apply {
                 layoutManager = LinearLayoutManager(requireContext())
                 adapter = myExerciseAdapter
@@ -136,7 +125,7 @@ class MySocialWorkoutFragment : Fragment() {
             "Abs" -> 2
             "Legs" -> 3
             "Cardio" -> 4
-            else -> 0 // Default to "Back"
+            else -> 0
         }
     }
 
@@ -154,8 +143,6 @@ class MySocialWorkoutFragment : Fragment() {
 
         }
     }
-
-
 
 
     override fun onDestroyView() {

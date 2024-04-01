@@ -12,7 +12,6 @@ import com.example.fitplan.databinding.MyExerciseLayoutBinding
 class MyExerciseAdapter(private var exercises: List<Exercise>, private val callback: ExerciseListener, private val viewModel: ExercisesViewModel) :
     RecyclerView.Adapter<MyExerciseAdapter.ExerciseViewHolder>() {
 
-
     interface ExerciseListener {
         fun onExerciseClicked(index: Int)
         fun onExerciseLongClicked(index: Int)

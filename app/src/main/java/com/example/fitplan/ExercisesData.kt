@@ -14,7 +14,7 @@ class ExercisesData(private val context: Context) {
             Exercise(context.getString(R.string.bench_press), context.getString(R.string.strengthens_chest_muscles_using_a_barbell_on_a_bench), "Chest",R.drawable.standing_medicine_ball_chest_pass),
             Exercise(context.getString(R.string.smith_machine_behind_neck_press), context.getString(R.string.smith_machine_behind_neck_presses_target_the_deltoids_and_upper_chest), "Chest",R.drawable.smith_machine_behind_neck_press),
             Exercise(context.getString(R.string.standing_dumbbell_overhead_press), context.getString(R.string.standing_dumbbell_overhead_presses_target_the_deltoids_and_triceps), "Chest",R.drawable.standing_dumbbell_overhead_press)
-            // Add more chest exercises here
+
         ),
         "Back" to listOf(
             Exercise(context.getString(R.string.cable_rear_pulldown), context.getString(R.string.strengthens_back_muscles_using_cable_equipment), "Back", R.drawable.cable_rear_pulldown),
@@ -34,14 +34,14 @@ class ExercisesData(private val context: Context) {
             Exercise(context.getString(R.string.one_arm_triceps_pushdown), context.getString(R.string.one_arm_triceps_pushdowns_are_a_unilateral_exercise_that_isolates_the_triceps), "Back",R.drawable.one_arm_triceps_pushdown),
             Exercise(context.getString(R.string.dumbbell_lateral_raise), context.getString(R.string.dumbbell_lateral_raises_target_the_lateral_deltoid_and_help_build_shoulder_width), "Back",R.drawable.dumbbell_lateral_raise),
             Exercise(context.getString(R.string.dumbbell_shoulder_press), context.getString(R.string.dumbbell_shoulder_presses_are_a_compound_exercise_that_primarily_targets_the_deltoids), "Back",R.drawable.dumbbell_shoulder_press),
-            // Add more back exercises here
+
         ),
         "Legs" to listOf(
             Exercise(context.getString(R.string.depth_jump_to_hurdle_hop), context.getString(R.string.engages_leg_muscles_with_a_dynamic_plyometric_exercise), "Legs", R.drawable.depth_jump_to_hurdle_hop),
             Exercise(context.getString(R.string.dumbbell_lunges), context.getString(R.string.dumbbell_lunges_are_a_unilateral_leg_exercise_that_targets_the_quadriceps_hamstrings_and_glutes), "Legs",R.drawable.dumbbell_lunges),
             Exercise(context.getString(R.string.high_knee_lunge_on_bosu_ball), context.getString(R.string.high_knee_lunges_on_a_bosu_ball_challenge_balance_and_engage_leg_muscles), "Legs",R.drawable.high_knee_lunge_on_bosu_ball),
             Exercise(context.getString(R.string.standing_leg_circles), context.getString(R.string.standing_leg_circles_are_a_dynamic_stretching_exercise_for_the_lower_body), "Legs",R.drawable.standing_leg_circles)
-            // Add more leg exercises here
+
         ),
         "Abs" to listOf(
             Exercise(context.getString(R.string.ab_coaster_machine), context.getString(R.string.strengthens_core_muscles_with_the_ab_coaster_machine_exercise), "Abs", R.drawable.ab_coaster_machine),
@@ -49,7 +49,7 @@ class ExercisesData(private val context: Context) {
             Exercise(context.getString(R.string.crunch), context.getString(R.string.crunches_are_a_fundamental_abdominal_exercise_that_focuses_on_the_rectus_abdominis), "Abs",R.drawable.crunch),
             Exercise(context.getString(R.string.leg_raise_dragon_flag), context.getString(R.string.the_leg_raise_also_known_as_the_dragon_flag_is_an_advanced_abdominal_exercise_that_targets_the_entire_core), "Abs",R.drawable.leg_raise_dragon_flag),
             Exercise(context.getString(R.string.seated_bench_leg_pull_in), context.getString(R.string.seated_bench_leg_pull_ins_are_an_effective_exercise_for_targeting_the_lower_abdominals), "Abs",R.drawable.seated_bench_leg_pull_in)
-            // Add more abs exercises here
+
         ),
         "Cardio" to listOf(
             Exercise(context.getString(R.string.briskly_walking), context.getString(R.string.strengthens_core_muscles_with_brisk_walking), "Cardio", R.drawable.briskly_walking),
@@ -60,7 +60,7 @@ class ExercisesData(private val context: Context) {
             Exercise(context.getString(R.string.run), context.getString(R.string.running_engages_the_entire_body_including_the_core_muscles), "Cardio", R.drawable.run),
             Exercise(context.getString(R.string.skater), context.getString(R.string.skaters_engage_the_core_muscles_while_providing_a_cardio_workout), "Cardio", R.drawable.skater),
             Exercise(context.getString(R.string.walking), context.getString(R.string.walking_is_a_low_impact_exercise_that_strengthens_core_muscles), "Cardio", R.drawable.walking)
-            // Add more abs exercises here
+
         )
 
     )

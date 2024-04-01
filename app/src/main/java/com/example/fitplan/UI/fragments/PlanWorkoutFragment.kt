@@ -57,9 +57,8 @@ class PlanWorkoutFragment : Fragment() {
         }
     }
 
-
     private lateinit var planExerciseAdapter: PlanExerciseAdapter
-    private var exercisesToPlan: MutableList<Exercise> = mutableListOf()
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -199,7 +198,7 @@ class PlanWorkoutFragment : Fragment() {
         }
 
         override fun onExerciseLongClicked(index: Int) {
-            TODO("Not yet implemented")
+
         }
 
     }
@@ -220,7 +219,7 @@ class PlanWorkoutFragment : Fragment() {
             "Abs" -> 2
             "Legs" -> 3
             "Cardio" -> 4
-            else -> 0 // Default to "Back"
+            else -> 0
         }
     }
 

@@ -43,10 +43,8 @@ class PlansRepositoryFirebase : PlansRepository {
                     val planId = plansCollection.document().id
                     val plan = Plan(planId, title, description, base64Bitmap, null, emptyList())
 
-                    // Save the plan document under user's collection
-                    val addition = plansCollection.document(planId).set(plan).await()
 
-                    // Save exercises as subcollection under the plan
+                    val addition = plansCollection.document(planId).set(plan).await()
                     val exercisesCollectionRef = plansCollection.document(planId).collection("exercises")
                     exercises.forEachIndexed { index, exercise ->
                         exercisesCollectionRef.document("exercise_${index + 1}").set(exercise).await()
@@ -73,7 +71,6 @@ class PlansRepositoryFirebase : PlansRepository {
             val planId = planId
             val plan = Plan(planId, title, description, base64Bitmap, null, emptyList())
 
-            // Save the plan document under SocialPlans collection
             val addition = socialPlansCollection.document(planId).set(plan).await()
 
             val exercisesCollectionRef = socialPlansCollection.document(planId).collection("exercises")
@@ -91,7 +88,6 @@ class PlansRepositoryFirebase : PlansRepository {
         currentUser?.let { user ->
             userPlansCollection?.let { plansCollection ->
                 safeCall {
-                    // Delete the plan document from user's collection
                     val result = plansCollection.document(planId).delete().await()
                     Resource.Success(result)
                 }
@@ -105,8 +101,6 @@ class PlansRepositoryFirebase : PlansRepository {
                 safeCall {
                     val planRef = plansCollection.document(planId)
                     val exercisesCollectionRef = planRef.collection("exercises")
-
-                    // Delete the exercise document from the exercises subcollection
                     val delete = exercisesCollectionRef.document(exerciseId).delete().await()
 
                     Resource.Success(delete)
@@ -119,7 +113,6 @@ class PlansRepositoryFirebase : PlansRepository {
 
     override suspend fun deleteSocialPlan(planId: String): Resource<Void> = withContext(Dispatchers.IO) {
         safeCall {
-            // Delete the plan document from the SocialPlans collection
             val result = socialPlansCollection.document(planId).delete().await()
             Resource.Success(result)
         }
@@ -151,9 +144,6 @@ class PlansRepositoryFirebase : PlansRepository {
         } ?: Resource.Error("Current user is null")
     }
 
-    override fun getPlansFlow(): Flow<Resource<List<Plan>>> {
-        TODO("Not yet implemented")
-    }
 
     override suspend fun getPlansLiveData(data: MutableLiveData<Resource<List<Plan>>>) = withContext(Dispatchers.IO) {
         data.postValue(Resource.Loading())
@@ -176,7 +166,7 @@ class PlansRepositoryFirebase : PlansRepository {
                         val decodedBytes: ByteArray = Base64.decode(base64Bitmap, Base64.DEFAULT)
                         BitmapFactory.decodeByteArray(decodedBytes, 0, decodedBytes.size)
                     } catch (e: IllegalArgumentException) {
-                        null // Handle decoding error
+                        null
                     }
                 } else {
                     null
@@ -193,7 +183,7 @@ class PlansRepositoryFirebase : PlansRepository {
                     val image = exerciseDocument.getLong("image")?.toInt() ?: 0
                     val reps = exerciseDocument.getLong("reps")?.toInt() ?: 0
                     val time = exerciseDocument.getLong("time") ?: 0
-                    val id = exerciseDocument.id // Get the document ID as exercise ID
+                    val id = exerciseDocument.id
 
                     val exercise = Exercise(name, description, bodyPart, image, reps, time)
                     exercise.id = id
@@ -236,7 +226,7 @@ class PlansRepositoryFirebase : PlansRepository {
                         val decodedBytes: ByteArray = Base64.decode(base64Bitmap, Base64.DEFAULT)
                         BitmapFactory.decodeByteArray(decodedBytes, 0, decodedBytes.size)
                     } catch (e: IllegalArgumentException) {
-                        null // Handle decoding error
+                        null
                     }
                 } else {
                     null
@@ -252,7 +242,7 @@ class PlansRepositoryFirebase : PlansRepository {
                     val image = exerciseDocument.getLong("image")?.toInt() ?: 0
                     val reps = exerciseDocument.getLong("reps")?.toInt() ?: 0
                     val time = exerciseDocument.getLong("time") ?: 0
-                    val id = exerciseDocument.id // Get the document ID as exercise ID
+                    val id = exerciseDocument.id
 
                     val exercise = Exercise(name, description, bodyPart, image, reps, time)
                     exercise.id = id
@@ -283,6 +273,5 @@ class PlansRepositoryFirebase : PlansRepository {
         matrix.postScale(scaleWidth, scaleHeight)
         return Bitmap.createBitmap(bitmap, 0, 0, width, height, matrix, true)
     }
-
 
 }

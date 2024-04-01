@@ -17,6 +17,7 @@ import com.example.fitplan.view_models.SharedViewModel
 import com.example.fitplan.adapters.SocialAdapter
 import com.example.fitplan.databinding.FragmentSocialBinding
 import com.example.fitplan.repository.PlansRepositoryFirebase
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import il.co.syntax.firebasemvvm.repository.FirebaseImpl.AuthRepositoryFirebase
 import il.co.syntax.myapplication.util.Resource
 
@@ -35,9 +36,6 @@ class SocialFragment : Fragment() {
         )
     }
 
-
-
-
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -55,6 +53,7 @@ class SocialFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        requireActivity().findViewById<BottomNavigationView>(R.id.bottom_navigation).visibility = View.VISIBLE
 
         socialAdapter = SocialAdapter(emptyList(), socialPlanListener, viewModel)
         binding.recycler.apply {

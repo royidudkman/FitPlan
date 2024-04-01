@@ -58,10 +58,6 @@ class SignOutFragment : DialogFragment() {
             buttonNavigation.selectedItemId = R.id.myWorkout_btn
             dismiss()
         }
-
-
-
-
     }
 
 

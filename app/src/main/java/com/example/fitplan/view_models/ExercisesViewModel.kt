@@ -26,12 +26,7 @@ class ExercisesViewModel(application: Application) : AndroidViewModel(applicatio
     fun setSelectedBodyPart(bodyPart: String) {
         _selectedBodyPart.value = bodyPart
     }
-//    init {
-//        // Observe LiveData in ViewModel
-//        exercises?.observeForever {
-//
-//        }
-//    }
+
     interface TimerCallback {
         fun startTimer(milliseconds: Long)
     }

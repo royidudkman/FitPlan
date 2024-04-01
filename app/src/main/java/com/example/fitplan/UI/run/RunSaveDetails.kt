@@ -54,7 +54,6 @@ class RunSaveDetails : Fragment(), OnMapReadyCallback {
 
         }
 
-        // Request location permissions
         if (ContextCompat.checkSelfPermission(
                 requireContext(),
                 Manifest.permission.ACCESS_FINE_LOCATION
@@ -66,7 +65,6 @@ class RunSaveDetails : Fragment(), OnMapReadyCallback {
                 PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION
             )
         } else {
-            // Permissions already granted, proceed with map initialization
             initializeMap(binding.root, savedInstanceState)
         }
 
@@ -105,15 +103,12 @@ class RunSaveDetails : Fragment(), OnMapReadyCallback {
         when (requestCode) {
             PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION -> {
                 if ((grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED)) {
-                    // Permission granted, initialize the map
                     initializeMap(requireView(), null)
-                } else {
-                    // Permission denied, handle accordingly (e.g., show a message)
                 }
                 return
             }
             else -> {
-                // Handle other permission requests if any
+
             }
         }
     }

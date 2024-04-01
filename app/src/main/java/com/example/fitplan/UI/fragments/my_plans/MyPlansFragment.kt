@@ -26,8 +26,6 @@ class MyPlansFragment : Fragment() {
     private var _binding: FragmentMyPlansBinding? = null
     private val binding get() = _binding!!
 
-    private val exerciseViewModel: ExercisesViewModel by activityViewModels()
-
     private lateinit var myPlansAdapter: MyPlansAdapter
     private val sharedViewModel : SharedViewModel by activityViewModels()
 

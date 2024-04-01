@@ -38,7 +38,6 @@ class RunFragment : Fragment() {
         bottomMenu.visibility = View.VISIBLE
 
 
-        // observe of distance
         viewModel.currentLocation.observe(viewLifecycleOwner) { location ->
             if (location != null) {
                 viewModel.kmForMinute()
@@ -47,14 +46,12 @@ class RunFragment : Fragment() {
             binding.kmTv.text = viewModel.getTotalDistance().toString()
         }
 
-        //observe of time
         viewModel.getTime().observe(viewLifecycleOwner) { time ->
             viewModel.kmForMinute()
             binding.timeTv.text = time
 
         }
 
-        //observe of km for minute
         viewModel.getKmForMinute().observe(viewLifecycleOwner) { kmForMinute ->
             binding.kmMTv.text = kmForMinute
         }
@@ -81,7 +78,7 @@ class RunFragment : Fragment() {
 
                             }
 
-                            true -> { // If already started, pause the run
+                            true -> {
                                 viewModel.onPauseRunning()
                                 binding.startBtn.icon =
                                     resources.getDrawable(R.drawable.play_svgrepo_com_full)
@@ -99,6 +96,7 @@ class RunFragment : Fragment() {
                     }
 
                     override fun onPermissionDenied() {
+                        MenuManager.menuEnable(findNavController(),bottomMenu,requireActivity().supportFragmentManager)
                         showPermissionRationaleDialog()
                     }
 
@@ -119,7 +117,6 @@ class RunFragment : Fragment() {
             .setTitle(getString(R.string.finish_run))
             .setMessage(getString(R.string.please_finish_your_run_first))
             .setPositiveButton(getString(R.string.ok)) { dialog, which ->
-                // Request permissions again
                 dialog.dismiss()
             }
     }
@@ -130,7 +127,6 @@ class RunFragment : Fragment() {
             .setTitle(getString(R.string.location_service_required))
             .setMessage(getString(R.string.location_service_is_required_to_continue_please_open_location_service_in_setting))
             .setPositiveButton(getString(R.string.ok)) { dialog, which ->
-                // Request permissions again
                 dialog.dismiss()
             }
             .show()
