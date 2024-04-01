@@ -1,188 +1,194 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".UI.fragments.PlanExerciseCardFragment"
-    android:orientation="vertical">
+    android:background="@color/black">
 
-    <com.google.android.material.card.MaterialCardView
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:cardBackgroundColor="@color/black"
-        app:strokeColor="@color/white">
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
 
-        <LinearLayout
+        <com.google.android.material.card.MaterialCardView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical">
-
-            <ImageView
-                android:id="@+id/exercise_image"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:scaleType="fitXY"
-                android:src="@drawable/pull_up" />
-
-            <TextView
-                android:id="@+id/title_tv"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:inputType="time"
-                android:padding="15dp"
-                android:text="Pull Ups"
-                android:textColor="@color/white"
-                android:textSize="34sp"
-                android:textStyle="bold" />
-
-            <TextView
-                android:id="@+id/description_tv"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:padding="15dp"
-                android:text="Strengthens back muscles with a bodyweight movement."
-                android:textColor="@color/white"
-                android:textSize="16sp"
-                android:textStyle="bold" />
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_marginBottom="16dp"
-                android:background="@color/white" />
-
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/reps_amount_ti"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="16dp"
-                android:hint="@string/enter_amount_of_reps"
-                android:textColorHint="@color/white"
-                app:hintTextColor="@color/white">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/reps_text"
-                    android:layout_marginBottom="15dp"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:inputType="number" />
-
-            </com.google.android.material.textfield.TextInputLayout>
-
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="@color/white" />
-
+            app:cardBackgroundColor="@color/black"
+            app:strokeColor="@color/white">
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:layout_height="match_parent"
+                android:orientation="vertical">
 
-                <Button
-                    android:id="@+id/increase_minutes_btn"
-                    style="?attr/materialIconButtonStyle"
-                    android:layout_width="wrap_content"
+                <ImageView
+                    android:id="@+id/exercise_image"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    app:icon="@drawable/add_circle_filled_svgrepo_com"
-                    app:iconTint="@color/green" />
+                    android:scaleType="fitXY"
+                    android:src="@drawable/pull_up" />
 
                 <TextView
-                    android:id="@+id/minutes_tv"
+                    android:id="@+id/title_tv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:gravity="start"
-                    android:text="minutes : 0"
+                    android:layout_gravity="center"
+                    android:inputType="time"
+                    android:padding="15dp"
+                    android:text="Pull Ups"
+                    android:textColor="@color/white"
+                    android:textSize="34sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/description_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="15dp"
+                    android:text="Strengthens back muscles with a bodyweight movement."
                     android:textColor="@color/white"
                     android:textSize="16sp"
                     android:textStyle="bold" />
-
-                <Button
-                    android:id="@+id/decrease_minutes_btn"
-                    style="?attr/materialIconButtonStyle"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    app:icon="@drawable/remove_svgrepo_com_ccc"
-                    app:iconTint="@color/green"
-
-                    />
 
                 <View
-                    android:id="@+id/divider3"
-                    android:layout_width="1dp"
-                    android:layout_height="match_parent"
-                    android:layout_gravity="center"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginBottom="16dp"
                     android:background="@color/white" />
 
-                <Button
-                    android:id="@+id/increase_second_btn"
-                    style="?attr/materialIconButtonStyle"
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/reps_amount_ti"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="16dp"
+                    android:hint="@string/enter_amount_of_reps"
+                    android:textColorHint="@color/white"
+                    app:hintTextColor="@color/white">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/reps_text"
+                        android:layout_marginBottom="15dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="number" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/white" />
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <Button
+                        android:id="@+id/increase_minutes_btn"
+                        style="?attr/materialIconButtonStyle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        app:icon="@drawable/add_circle_filled_svgrepo_com"
+                        app:iconTint="@color/green" />
+
+                    <TextView
+                        android:id="@+id/minutes_tv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="start"
+                        android:text="minutes : 0"
+                        android:textColor="@color/white"
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
+
+                    <Button
+                        android:id="@+id/decrease_minutes_btn"
+                        style="?attr/materialIconButtonStyle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        app:icon="@drawable/remove_svgrepo_com_ccc"
+                        app:iconTint="@color/green"
+
+                        />
+
+                    <View
+                        android:id="@+id/divider3"
+                        android:layout_width="1dp"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center"
+                        android:background="@color/white" />
+
+                    <Button
+                        android:id="@+id/increase_second_btn"
+                        style="?attr/materialIconButtonStyle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        app:icon="@drawable/add_circle_filled_svgrepo_com"
+                        app:iconTint="@color/green" />
+
+                    <TextView
+                        android:id="@+id/seconds_tv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="start"
+                        android:text="Seconds : 0"
+                        android:textColor="@color/white"
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
+
+                    <Button
+                        android:id="@+id/decrease_second_btn"
+                        style="?attr/materialIconButtonStyle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        app:icon="@drawable/remove_svgrepo_com_ccc"
+                        app:iconTint="@color/green" />
+
+
+                </LinearLayout>
+
+
+                <View
+                    android:id="@+id/divider4"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/white" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/add_exercise_btn"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="15dp"
+                    android:layout_marginBottom="15dp"
+                    android:backgroundTint="@color/green"
+                    android:text="@string/add_exercise_to_plan"
                     app:icon="@drawable/add_circle_filled_svgrepo_com"
-                    app:iconTint="@color/green" />
+                    app:iconGravity="end" />
 
-                <TextView
-                    android:id="@+id/seconds_tv"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:gravity="start"
-                    android:text="Seconds : 0"
-                    android:textColor="@color/white"
-                    android:textSize="16sp"
-                    android:textStyle="bold" />
-
-                <Button
-                    android:id="@+id/decrease_second_btn"
-                    style="?attr/materialIconButtonStyle"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    app:icon="@drawable/remove_svgrepo_com_ccc"
-                    app:iconTint="@color/green" />
+                <Space
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="0.1" />
 
 
             </LinearLayout>
 
 
-            <View
-                android:id="@+id/divider4"
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="@color/white" />
-
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/add_exercise_btn"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginTop="15dp"
-                android:layout_marginBottom="15dp"
-                android:backgroundTint="@color/green"
-                android:text="@string/add_exercise_to_plan"
-                app:icon="@drawable/add_circle_filled_svgrepo_com"
-                app:iconGravity="end" />
-
-            <Space
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="0.1" />
+        </com.google.android.material.card.MaterialCardView>
 
 
-        </LinearLayout>
-
-
-    </com.google.android.material.card.MaterialCardView>
-
-
-</LinearLayout>
+    </LinearLayout>
+</ScrollView>

@@ -1,193 +1,192 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/gray_black"
     android:orientation="vertical"
+    android:fillViewport="true"
     tools:context=".UI.run.RunFragment">
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:padding="16dp"
-        android:text="@string/welcome_to_fitrun"
-        android:textColor="@color/white"
-        android:textSize="25sp"
-        android:textStyle="bold" />
-
-    <View
-        android:id="@+id/divider6"
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@color/white" />
-
-    <TextView
-        android:id="@+id/time_tv"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginTop="10dp"
-        android:text="00:00:00"
-        android:textColor="@color/white"
-        android:textSize="70dp"
-        android:textStyle="bold" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginBottom="16dp"
-        android:text="@string/time"
-        android:textColor="@color/white"
-        android:textSize="30dp"
-        android:textStyle="bold" />
-
-    <View
-        android:id="@+id/divider5"
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@color/white" />
-
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:orientation="vertical">
 
-        <LinearLayout
+        <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp"
-            android:layout_weight="1"
-            android:orientation="vertical">
+            android:layout_gravity="center"
+            android:padding="16dp"
+            android:text="@string/welcome_to_fitrun"
+            android:textColor="@color/white"
+            android:textSize="25sp"
+            android:textStyle="bold" />
 
-            <TextView
-                android:id="@+id/km_tv"
-                android:layout_width="match_parent"
+        <View
+            android:id="@+id/divider6"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/white" />
+
+        <TextView
+            android:id="@+id/time_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="10dp"
+            android:text="00:00:00"
+            android:textColor="@color/white"
+            android:textSize="70dp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginBottom="16dp"
+            android:text="@string/time"
+            android:textColor="@color/white"
+            android:textSize="30dp"
+            android:textStyle="bold" />
+
+        <View
+            android:id="@+id/divider5"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/white" />
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/km_tv"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="0.00"
+                    android:textColor="@color/white"
+                    android:textSize="70sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="@string/km"
+                    android:textColor="@color/white"
+                    android:textSize="40sp"
+                    android:textStyle="bold" />
+
+            </LinearLayout>
+
+            <View
+                android:id="@+id/divider9"
+                android:layout_width="1dp"
+                android:layout_height="match_parent"
+                android:background="@color/white" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:gravity="center"
-                android:text="0.00"
-                android:textColor="@color/white"
-                android:textSize="70sp"
-                android:textStyle="bold" />
+                android:orientation="vertical">
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:text="@string/km"
-                android:textColor="@color/white"
-                android:textSize="40sp"
-                android:textStyle="bold" />
+                <TextView
+                    android:id="@+id/km_m_tv"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="0.00"
+                    android:textColor="@color/white"
+                    android:textSize="70sp"
+                    android:textStyle="bold" />
+
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="@string/km_m"
+                    android:textColor="@color/white"
+                    android:textSize="40sp"
+                    android:textStyle="bold" />
+
+            </LinearLayout>
+
 
         </LinearLayout>
 
         <View
-            android:id="@+id/divider9"
-            android:layout_width="1dp"
-            android:layout_height="match_parent"
+            android:id="@+id/divider8"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
             android:background="@color/white" />
 
-        <LinearLayout
+        <ProgressBar
+            android:id="@+id/loadingProgressbar"
+            style="?android:attr/progressBarStyle"
+            android:layout_gravity="center"
+            android:layout_marginTop="40dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:orientation="vertical">
+            android:visibility="gone"/>
 
-            <TextView
-                android:id="@+id/km_m_tv"
-                android:layout_width="match_parent"
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/start_btn"
+                style="@style/Widget.Material3.Button.IconButton"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:text="0.00"
-                android:textColor="@color/white"
-                android:textSize="70sp"
-                android:textStyle="bold" />
+                android:layout_gravity="bottom"
+                android:layout_margin="16dp"
+                android:backgroundTint="@color/green"
+                android:padding="30dp"
+                app:icon="@drawable/play_svgrepo_com_full"
+                app:iconSize="35dp"
+                app:iconTint="@color/black" />
 
 
-            <TextView
-                android:layout_width="match_parent"
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/stop_pause_btn"
+                style="@style/Widget.Material3.Button.IconButton"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:text="@string/km_m"
-                android:textColor="@color/white"
-                android:textSize="40sp"
-                android:textStyle="bold" />
+                android:layout_gravity="bottom"
+                android:layout_margin="16dp"
+                android:backgroundTint="@color/red"
+                android:padding="32dp"
+                app:icon="@drawable/stop_svgrepo_com_big"
+                app:iconSize="30dp"
+                app:iconTint="@color/black" />
+
 
         </LinearLayout>
 
 
     </LinearLayout>
 
-    <View
-        android:id="@+id/divider8"
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@color/white" />
 
-    <ProgressBar
-        android:id="@+id/loadingProgressbar"
-        style="?android:attr/progressBarStyle"
-        android:layout_gravity="center"
-        android:layout_marginTop="40dp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:visibility="gone"/>
-
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="center"
-        android:orientation="horizontal">
-
-
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/start_btn"
-            style="@style/Widget.Material3.Button.IconButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom"
-            android:layout_margin="16dp"
-            android:padding="30dp"
-            app:iconSize="35dp"
-            android:backgroundTint="@color/green"
-            app:icon="@drawable/play_svgrepo_com_full"
-            app:iconTint="@color/black"/>
-
-
-
-
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/stop_pause_btn"
-            style="@style/Widget.Material3.Button.IconButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom"
-            android:layout_margin="16dp"
-            app:iconSize="30dp"
-            android:padding="32dp"
-            android:backgroundTint="@color/red"
-            app:icon="@drawable/stop_svgrepo_com_big"
-            app:iconTint="@color/black"/>
-
-
-    </LinearLayout>
-
-
-
-
-    <!--    <TextView-->
-    <!--        android:id="@+id/text"-->
-    <!--        android:layout_width="wrap_content"-->
-    <!--        android:layout_height="wrap_content"-->
-    <!--        android:text="____"/>-->
-
-</LinearLayout>
+</ScrollView>

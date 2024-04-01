@@ -1,128 +1,125 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".UI.fragments.MyExerciseCardFragment"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical">
+    android:background="@color/black"
+    android:fillViewport="true"
+    android:scrollbarAlwaysDrawVerticalTrack="true"
+    tools:context=".UI.fragments.MyExerciseCardFragment">
 
-    <com.google.android.material.card.MaterialCardView
-        style="@style/Widget.Material3.CardView.Outlined"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:cardPreventCornerOverlap="false"
-        app:cardBackgroundColor="@color/gray_black"
-        app:strokeColor="@color/white">
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
 
-        <LinearLayout
+        <com.google.android.material.card.MaterialCardView
+            style="@style/Widget.Material3.CardView.Outlined"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
-
-            <ImageView
-                android:id="@+id/exercise_image"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="0.5"
-                android:scaleType="fitXY"
-                android:src="@drawable/pull_up"/>
-
-            <TextView
-                android:id="@+id/title_tv"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:padding="15dp"
-                android:layout_gravity="center"
-                android:text="Pull Ups"
-                android:textColor="@color/white"
-                android:textSize="34sp"
-                android:textStyle="bold" />
-
-
-            <TextView
-                android:id="@+id/description_tv"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:padding="15dp"
-                android:text="Strengthens back muscles with a bodyweight movement."
-                android:textColor="@color/white"
-                android:textSize="16sp"
-                android:textStyle="bold" />
-
-            <View
-                android:id="@+id/divider2"
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_marginBottom="16dp"
-                android:background="@color/white" />
-
-            <TextView
-                android:id="@+id/reps_tv"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:padding="16dp"
-                android:text="Reps : 10"
-                android:textColor="@color/white"
-                android:textSize="16sp"
-                android:textStyle="bold" />
-
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_marginBottom="16dp"
-                android:background="@color/white" />
-
-            <TextView
-                android:id="@+id/timer_tv"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="00:00:00"
-                android:textColor="@color/white"
-                android:gravity="center"
-                android:textStyle="bold"
-                android:padding="10dp"
-                android:textSize="24dp"/>
+            android:layout_height="wrap_content"
+            app:cardBackgroundColor="@color/gray_black"
+            app:cardPreventCornerOverlap="false"
+            app:strokeColor="@color/white">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:gravity="center">
+                android:orientation="vertical">
 
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/start_timer_btn"
-                    android:layout_width="wrap_content"
+                <ImageView
+                    android:id="@+id/exercise_image"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="0.5"
-                    android:layout_marginLeft="100dp"
-                    android:layout_marginRight="100dp"
-                    android:layout_marginTop="16dp"
-                    android:layout_marginBottom="16dp"
-                    android:text="@string/start"
-                    app:icon="@drawable/play_svgrepo_com"
-                    android:backgroundTint="@color/green"
-                    app:iconGravity="end"/>
+                    android:scaleType="fitXY"
+                    android:src="@drawable/pull_up" />
 
+                <TextView
+                    android:id="@+id/title_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:padding="15dp"
+                    android:text="Pull Ups"
+                    android:textColor="@color/white"
+                    android:textSize="34sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/description_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="15dp"
+                    android:text="Strengthens back muscles with a bodyweight movement."
+                    android:textColor="@color/white"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+
+                <View
+                    android:id="@+id/divider2"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginBottom="16dp"
+                    android:background="@color/white" />
+
+                <TextView
+                    android:id="@+id/reps_tv"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:padding="16dp"
+                    android:text="Reps : 10"
+                    android:textColor="@color/white"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginBottom="16dp"
+                    android:background="@color/white" />
+
+                <TextView
+                    android:id="@+id/timer_tv"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:padding="10dp"
+                    android:text="00:00:00"
+                    android:textColor="@color/white"
+                    android:textSize="24dp"
+                    android:textStyle="bold" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/start_timer_btn"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="100dp"
+                        android:layout_marginTop="16dp"
+                        android:layout_marginRight="100dp"
+                        android:layout_marginBottom="16dp"
+                        android:layout_weight="0.5"
+                        android:backgroundTint="@color/green"
+                        android:text="@string/start"
+                        app:icon="@drawable/play_svgrepo_com"
+                        app:iconGravity="end" />
+
+
+                </LinearLayout>
 
 
             </LinearLayout>
 
 
-        </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
 
 
-
-
-
-
-    </com.google.android.material.card.MaterialCardView>
-
-
-
-
-
-
-</LinearLayout>
+    </LinearLayout>
+</ScrollView>
