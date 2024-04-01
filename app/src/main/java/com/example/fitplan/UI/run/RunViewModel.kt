@@ -106,11 +106,6 @@ class RunViewModel(application: Application) : AndroidViewModel(application) {
             }
         }
 
-        if (startLocation == null) {
-            // If startLocation is null, wait for it to be non-null before starting updates
-            return
-        }
-
         if (ActivityCompat.checkSelfPermission(
                 activity, Manifest.permission.ACCESS_FINE_LOCATION
             ) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
@@ -119,18 +114,28 @@ class RunViewModel(application: Application) : AndroidViewModel(application) {
         ) {
             // Request location permissions if not granted
             return
-        }
 
-        fusedLocationProviderClient.requestLocationUpdates(
-            locationRequest, locationCallback as LocationCallback, null
-        ).addOnFailureListener { exception ->
+        }
+        task.addOnSuccessListener {
+            if (startLocation != null) {
+                fusedLocationProviderClient.requestLocationUpdates(
+                    locationRequest, locationCallback as LocationCallback, null
+                )
+            } else {
+                startRun(it)
+                startLocation?.let {
+                    fusedLocationProviderClient.requestLocationUpdates(
+                        locationRequest, locationCallback as LocationCallback, null
+                    )
+                }
+            }
+        }.addOnFailureListener { exception ->
             // Handle failure to retrieve last known location
-            Log.e("error", "Failed to retrieve last known location: $exception")
+            Log.e("eror", "Failed to retrieve last known location: $exception")
             Toast.makeText(activity, "Failed to retrieve last known location", Toast.LENGTH_SHORT)
                 .show()
         }
     }
-
 
 
     fun getPointPath(): List<LatLng> {
@@ -234,9 +239,8 @@ class RunViewModel(application: Application) : AndroidViewModel(application) {
         isRunning = true
         startTime()
 
-        activity?.let {
-            startLocationUpdates(activity)
-        }
+        startLocationUpdates(activity)
+
     }
 
     fun onResumeRunning(activity: Activity) {
