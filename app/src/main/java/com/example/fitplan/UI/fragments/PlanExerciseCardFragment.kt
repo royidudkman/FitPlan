@@ -37,14 +37,14 @@ class PlanExerciseCardFragment : Fragment() {
             binding.titleTv.text = exercise.name
             binding.descriptionTv.text = exercise.description
 
-            IncreaseDecreaseUI(exercise)
+
 
             binding.addExerciseBtn.setOnClickListener {
 
                 exercise.reps = binding.repsText.text.toString().toIntOrNull() ?: 0
 
-                val minutes = binding.minutesTv.text.toString().split(":").last().trim().toIntOrNull() ?: 0
-                val seconds = binding.secondsTv.text.toString().split(":").last().trim().toIntOrNull() ?: 0
+                var minutes = sharedViewModel.totalMinutes
+                var seconds = sharedViewModel.totalSeconds
                 val totalMilliseconds = ((minutes * 60) + seconds) * 1000L
                 exercise.time = totalMilliseconds
 
@@ -52,6 +52,7 @@ class PlanExerciseCardFragment : Fragment() {
 
                 sharedViewModel.addExerciseToPlan(exercise)
                 Toast.makeText(requireContext(), " ${exercise.name} " + getString(R.string.added_to_your_plan), Toast.LENGTH_SHORT).show()
+
             }
         }
 
@@ -64,6 +65,33 @@ class PlanExerciseCardFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         requireActivity().findViewById<BottomNavigationView>(R.id.bottom_navigation).visibility = View.GONE
 
+        binding.minutesTv.text = getString(R.string.minutes) + " ${sharedViewModel.totalMinutes}"
+        binding.secondsTv.text = getString(R.string.seconds) + " ${sharedViewModel.totalSeconds}"
+
+
+        binding.increaseMinutesBtn.setOnClickListener {
+            sharedViewModel.totalMinutes++
+            updateUIText()
+        }
+
+        binding.decreaseMinutesBtn.setOnClickListener {
+            if (sharedViewModel.totalMinutes > 0) {
+                sharedViewModel.totalMinutes--
+                updateUIText()
+            }
+        }
+
+        binding.increaseSecondBtn.setOnClickListener {
+            sharedViewModel.totalSeconds++
+            updateUIText()
+        }
+
+        binding.decreaseSecondBtn.setOnClickListener {
+            if (sharedViewModel.totalSeconds > 0) {
+                sharedViewModel.totalSeconds--
+                updateUIText()
+            }
+        }
     }
 
 
@@ -72,32 +100,11 @@ class PlanExerciseCardFragment : Fragment() {
         _binding = null
     }
 
-    fun IncreaseDecreaseUI(exercise: Exercise) {
 
-        var totalMinutes = 0
-        var totalSeconds = 0
-
-        binding.minutesTv.text = getString(R.string.minutes)+" ${totalMinutes}"
-        binding.secondsTv.text = getString(R.string.seconds)+" ${totalSeconds}"
-
-        binding.increaseMinutesBtn.setOnClickListener {
-            binding.minutesTv.text = getString(R.string.minutes)+" ${++totalMinutes}"
-        }
-
-        binding.decreaseMinutesBtn.setOnClickListener {
-            if (totalMinutes == 0) totalMinutes = 1
-            binding.minutesTv.text = getString(R.string.minutes)+" ${--totalMinutes}"
-        }
-
-        binding.increaseSecondBtn.setOnClickListener {
-            binding.secondsTv.text = getString(R.string.seconds)+" ${++totalSeconds}"
-        }
-
-        binding.decreaseSecondBtn.setOnClickListener {
-            if (totalSeconds == 0) totalSeconds = 1
-            binding.secondsTv.text = getString(R.string.seconds)+" ${--totalSeconds}"
-        }
-
+    private fun updateUIText() {
+        binding.minutesTv.text = getString(R.string.minutes) + " ${sharedViewModel.totalMinutes}"
+        binding.secondsTv.text = getString(R.string.seconds) + " ${sharedViewModel.totalSeconds}"
     }
+
 
 }

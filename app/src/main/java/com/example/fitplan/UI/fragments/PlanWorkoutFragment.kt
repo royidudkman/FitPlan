@@ -193,6 +193,8 @@ class PlanWorkoutFragment : Fragment() {
             val exercise = planExerciseAdapter.exerciseAt(index)
             currentTab = exercise.bodyPart
             sharedViewModel.setSelectedExercise(exercise)
+            sharedViewModel.totalMinutes = 0
+            sharedViewModel.totalSeconds = 0
             findNavController().navigate(R.id.action_planWorkoutFragment2_to_planExerciseCardFragment)
 
         }

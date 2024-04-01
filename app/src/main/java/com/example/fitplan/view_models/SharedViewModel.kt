@@ -19,6 +19,10 @@ class SharedViewModel : ViewModel() {
     private val _sharedPlans: MutableLiveData<List<Plan>> = MutableLiveData()
     val sharedPlans: LiveData<List<Plan>> get() = _sharedPlans
 
+    var totalMinutes : Int = 0
+    var totalSeconds : Int = 0
+    var totalReps : Int = 0
+
     fun setSelectedPlan(plan: Plan) {
         _selectedPlan.value = plan
     }
