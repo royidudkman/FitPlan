@@ -54,6 +54,12 @@ class SocialViewModel (private val authRep: AuthRepository, val planRep : PlansR
         }
     }
 
+    fun fetchPlans() {
+        viewModelScope.launch {
+            planRep.getSocialPlansLiveData(_plansStatus)
+        }
+    }
+
 
 
     class SocialViewModelFactory(val authRepo: AuthRepository, val planRep: PlansRepository) : ViewModelProvider.NewInstanceFactory(){

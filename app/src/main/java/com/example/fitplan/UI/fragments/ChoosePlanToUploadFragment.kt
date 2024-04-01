@@ -85,19 +85,23 @@ class ChoosePlanToUploadFragment : Fragment() {
             }
         }
 
+
     }
 
     private val planListener = object : MyPlansAdapter.ExerciseListener {
         override fun onPlanClicked(index: Int) {
             val clickedPlan = myPlansAdapter.planAt(index)
+
             socialViewModel.addSocialPlan(clickedPlan.id, clickedPlan.title,clickedPlan.description,clickedPlan.bitmap,clickedPlan.exercises)
-            findNavController().navigate(R.id.action_choosePlanToUploadFragment_to_socialFragment)
+            Toast.makeText(requireContext(), getString(R.string.plan_uploaded), Toast.LENGTH_SHORT).show()
 
         }
 
         override fun onPlanLongClicked(index: Int) {
         }
     }
+
+
 
     override fun onDestroyView() {
         super.onDestroyView()

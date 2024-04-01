@@ -116,7 +116,10 @@ class SocialFragment : Fragment() {
         }
     }
 
-
+    override fun onResume() {
+        super.onResume()
+        viewModel.fetchPlans()
+    }
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
