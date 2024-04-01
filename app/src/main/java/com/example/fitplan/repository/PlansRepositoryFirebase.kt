@@ -76,7 +76,6 @@ class PlansRepositoryFirebase : PlansRepository {
             // Save the plan document under SocialPlans collection
             val addition = socialPlansCollection.document(planId).set(plan).await()
 
-            // Save exercises as subcollection under the plan
             val exercisesCollectionRef = socialPlansCollection.document(planId).collection("exercises")
             exercises.forEachIndexed { index, exercise ->
                 exercisesCollectionRef.document("exercise_${index + 1}").set(exercise).await()

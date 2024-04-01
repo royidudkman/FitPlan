@@ -115,8 +115,7 @@
         <action
             android:id="@+id/action_choosePlanToUploadFragment_to_socialFragment"
             app:destination="@id/socialFragment"
-            app:popUpTo="@id/socialFragment"
-            app:popUpToInclusive="false" />
+            app:popUpTo="@id/socialFragment" />
     </fragment>
     <fragment
         android:id="@+id/runSaveDetails"
