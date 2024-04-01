@@ -5,6 +5,7 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".UI.fragments.PlanWorkoutFragment"
+    android:background="@drawable/background"
     android:orientation="vertical">
 
     <com.google.android.material.tabs.TabLayout
